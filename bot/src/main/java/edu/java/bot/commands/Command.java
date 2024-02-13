@@ -3,13 +3,13 @@ package edu.java.bot.commands;
 import com.pengrad.telegrambot.model.BotCommand;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-
 import java.util.List;
 
 public sealed interface Command {
     SendMessage handle(Update update);
 
     String getTextOfCommand();
+
     String getDescription();
 
     default BotCommand toBotCommand() {
@@ -20,7 +20,7 @@ public sealed interface Command {
         @Override
         public SendMessage handle(Update update) {
             String message = "Приветствую! Данный бот позволяет собрать в одном месте уведомления с различных сайтов\n"
-                    + "Введите /help, чтобы увидеть доступные команды";
+                + "Введите /help, чтобы увидеть доступные команды";
             return new SendMessage(update.message().chat().id(), message);
         }
 
@@ -39,12 +39,11 @@ public sealed interface Command {
         @Override
         public SendMessage handle(Update update) {
             String message = """
-                    /start - зарегистрировать пользователя
-                    /help - вывести окно с командами
-                    /track - начать отслеживание ссылки
-                    /untrack - прекратить отслеживание ссылки
-                    /list - показать список отслеживаемых ссылок
-                        """;
+                /start - зарегистрировать пользователя
+                /help - вывести окно с командами
+                /track - начать отслеживание ссылки
+                /untrack - прекратить отслеживание ссылки
+                /list - показать список отслеживаемых ссылок""";
             return new SendMessage(update.message().chat().id(), message);
         }
 
@@ -63,12 +62,11 @@ public sealed interface Command {
         @Override
         public SendMessage handle(Update update) {
             String message = """
-                    Введите сообщение с ссылкой или ссылками для отслеживания в таком формате:
-                    +
-                    https://github.com/sanyarnd/tinkoff-java-course-2023/
-                    https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c
-                    https://stackoverflow.com/search?q=unsupported%20link
-                    """;
+                Введите сообщение с ссылкой или ссылками для отслеживания в таком формате:
+                +
+                https://github.com/sanyarnd/tinkoff-java-course-2023/
+                https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c
+                https://stackoverflow.com/search?q=unsupported%20link""";
             return new SendMessage(update.message().chat().id(), message).disableWebPagePreview(true);
         }
 
@@ -87,12 +85,11 @@ public sealed interface Command {
         @Override
         public SendMessage handle(Update update) {
             String message = """
-                    Введите сообщение с ссылкой или ссылками, которые перестанете отслеживать, в таком формате:
-                    -
-                    https://github.com/sanyarnd/tinkoff-java-course-2023/
-                    https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c
-                    https://stackoverflow.com/search?q=unsupported%20link
-                    """;
+                Введите сообщение с ссылкой или ссылками, которые перестанете отслеживать, в таком формате:
+                -
+                https://github.com/sanyarnd/tinkoff-java-course-2023/
+                https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c
+                https://stackoverflow.com/search?q=unsupported%20link""";
             return new SendMessage(update.message().chat().id(), message).disableWebPagePreview(true);
         }
 
@@ -130,6 +127,8 @@ public sealed interface Command {
     }
 
     record UnknownCommand() implements Command {
+        static String commandText = "Неизвестная команда";
+
         @Override
         public SendMessage handle(Update update) {
             return new SendMessage(update.message().chat().id(), "Неизвестная комманда");
@@ -137,12 +136,12 @@ public sealed interface Command {
 
         @Override
         public String getTextOfCommand() {
-            return "Неизвестная команда";
+            return commandText;
         }
 
         @Override
         public String getDescription() {
-            return "Неизвестная команда";
+            return commandText;
         }
     }
 

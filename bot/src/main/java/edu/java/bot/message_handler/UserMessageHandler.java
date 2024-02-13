@@ -35,6 +35,7 @@ public class UserMessageHandler implements MessageHandler {
         return new SendMessage(chatId, botText);
     }
 
+    @Override
     public Command getCommand(String command) {
         String trimmedCommand = command.trim();
 

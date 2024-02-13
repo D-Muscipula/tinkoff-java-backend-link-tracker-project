@@ -8,9 +8,9 @@ import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.SendResponse;
 import edu.java.bot.commands.Command;
 import edu.java.bot.message_handler.MessageHandler;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.List;
 
 public class MyTgBot {
     private final Logger logger = LoggerFactory.getLogger(MyTgBot.class);
@@ -27,8 +27,8 @@ public class MyTgBot {
     public void serve() {
         //Добавление команд в меню
         BotCommand[] botCommandList = commandList.stream()
-                .map(Command::toBotCommand)
-                .toArray(BotCommand[]::new);
+            .map(Command::toBotCommand)
+            .toArray(BotCommand[]::new);
         telegramBot.execute(new SetMyCommands(botCommandList));
 
         telegramBot.setUpdatesListener(updates -> {
@@ -46,8 +46,6 @@ public class MyTgBot {
             if (e.response() != null) {
                 e.response().errorCode();
                 e.response().description();
-            } else {
-                e.printStackTrace();
             }
         });
     }
