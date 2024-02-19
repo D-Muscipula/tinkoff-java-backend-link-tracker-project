@@ -3,8 +3,13 @@ package edu.java.bot.configuration;
 import com.pengrad.telegrambot.TelegramBot;
 import edu.java.bot.MyTgBot;
 import edu.java.bot.commands.Command;
-import edu.java.bot.db_plug.DataBase;
-import edu.java.bot.db_plug.Db;
+import edu.java.bot.commands.Help;
+import edu.java.bot.commands.ListCommand;
+import edu.java.bot.commands.Start;
+import edu.java.bot.commands.Track;
+import edu.java.bot.commands.Untrack;
+import edu.java.bot.repository.LinkRepository;
+import edu.java.bot.repository.LinkRepositoryImpl;
 import edu.java.bot.message_handler.MessageHandler;
 import edu.java.bot.message_handler.UserMessageHandler;
 import jakarta.validation.constraints.NotEmpty;
@@ -26,18 +31,18 @@ public record ApplicationConfig(
     }
 
     @Bean
-    public DataBase dB() {
-        return new Db();
+    public LinkRepository dB() {
+        return new LinkRepositoryImpl();
     }
 
     @Bean
     public List<Command> commandList() {
         return new ArrayList<>() {{
-            add(new Command.Start());
-            add(new Command.Help());
-            add(new Command.Track());
-            add(new Command.Untrack());
-            add(new Command.ListCommand(new ArrayList<>()));
+            add(new Start(null));
+            add(new Help());
+            add(new Track());
+            add(new Untrack());
+            add(new ListCommand(new ArrayList<>()));
         }};
     }
 
