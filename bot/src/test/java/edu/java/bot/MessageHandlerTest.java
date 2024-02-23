@@ -99,7 +99,6 @@ class MessageHandlerTest {
             /track - начать отслеживание ссылки
             /untrack - прекратить отслеживание ссылки
             /list - показать список отслеживаемых ссылок""";
-        ;
         long id = 125L;
         Mockito.when(chat.id()).thenReturn(id);
         Mockito.when(message.text()).thenReturn("/help");

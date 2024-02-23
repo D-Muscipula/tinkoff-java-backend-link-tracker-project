@@ -1,6 +1,5 @@
 package edu.java.bot.repository;
 
-import java.util.Arrays;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;

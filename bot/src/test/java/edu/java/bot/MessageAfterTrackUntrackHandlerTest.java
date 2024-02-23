@@ -4,20 +4,15 @@ import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.commands.Command;
-import edu.java.bot.commands.Help;
-import edu.java.bot.commands.ListCommand;
-import edu.java.bot.commands.Start;
-import edu.java.bot.commands.Track;
-import edu.java.bot.commands.Untrack;
-import edu.java.bot.message_handler.CommandMessageHandler;
 import edu.java.bot.message_handler.MessageAfterTrackUntrackHandler;
 import edu.java.bot.message_handler.MessageHandler;
-import edu.java.bot.message_handler.UserMessageHandler;
 import edu.java.bot.repository.User;
 import edu.java.bot.repository.UserRepository;
 import edu.java.bot.repository.UserRepositoryImpl;
 import edu.java.bot.repository.UserState;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,9 +20,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @ExtendWith(MockitoExtension.class)
 public class MessageAfterTrackUntrackHandlerTest {
