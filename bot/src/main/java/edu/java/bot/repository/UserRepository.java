@@ -1,6 +1,6 @@
 package edu.java.bot.repository;
 
-public interface LinkRepository {
+public interface UserRepository {
 
     User get(Long id);
 

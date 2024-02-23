@@ -15,8 +15,8 @@ public class User {
 
     public User(Long id, UserState userState, List<String> links) {
         this.id = id;
-        this.userState = UserState.REGISTERED;
-        this.links = new ArrayList<>();
+        this.userState = userState;
+        this.links = links;
     }
 
     public void addLinks(String... linksToAdd) {

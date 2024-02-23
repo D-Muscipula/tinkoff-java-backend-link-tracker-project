@@ -9,10 +9,9 @@ import edu.java.bot.commands.Help;
 import edu.java.bot.commands.ListCommand;
 import edu.java.bot.commands.Start;
 import edu.java.bot.commands.Track;
-import edu.java.bot.commands.UnknownCommand;
 import edu.java.bot.commands.Untrack;
-import edu.java.bot.repository.LinkRepositoryImpl;
-import edu.java.bot.repository.LinkRepository;
+import edu.java.bot.repository.UserRepositoryImpl;
+import edu.java.bot.repository.UserRepository;
 import edu.java.bot.message_handler.MessageHandler;
 import edu.java.bot.message_handler.UserMessageHandler;
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ class MessageHandlerTest {
 
     @BeforeEach
     void setUp() {
-        LinkRepository linkRepository = new LinkRepositoryImpl();
+        UserRepository userRepository = new UserRepositoryImpl();
         List<Command> commandList = new ArrayList<>() {
             {
                 add(new Start(null));
@@ -48,7 +47,7 @@ class MessageHandlerTest {
                 add(new ListCommand(new ArrayList<>()));
             }
         };
-        messageHandler = new UserMessageHandler(linkRepository, commandList);
+        //messageHandler = new UserMessageHandler(userRepository, commandList);
     }
 
     @Test

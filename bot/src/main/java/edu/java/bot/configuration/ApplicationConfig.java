@@ -8,10 +8,12 @@ import edu.java.bot.commands.ListCommand;
 import edu.java.bot.commands.Start;
 import edu.java.bot.commands.Track;
 import edu.java.bot.commands.Untrack;
-import edu.java.bot.repository.LinkRepository;
-import edu.java.bot.repository.LinkRepositoryImpl;
+import edu.java.bot.message_handler.CommandMessageHandler;
+import edu.java.bot.message_handler.MessageAfterTrackUntrackHandler;
 import edu.java.bot.message_handler.MessageHandler;
 import edu.java.bot.message_handler.UserMessageHandler;
+import edu.java.bot.repository.UserRepository;
+import edu.java.bot.repository.UserRepositoryImpl;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +33,18 @@ public record ApplicationConfig(
     }
 
     @Bean
-    public LinkRepository dB() {
-        return new LinkRepositoryImpl();
+    public UserRepository dB() {
+        return new UserRepositoryImpl();
+    }
+
+    @Bean
+    public MessageAfterTrackUntrackHandler messageAfterTrackUntrackHandler() {
+        return new MessageAfterTrackUntrackHandler(dB());
+    }
+
+    @Bean
+    public CommandMessageHandler commandMessageHandler() {
+        return new CommandMessageHandler(dB(), commandList());
     }
 
     @Bean
@@ -48,7 +60,7 @@ public record ApplicationConfig(
 
     @Bean
     public MessageHandler messageHandler() {
-        return new UserMessageHandler(dB(), commandList());
+        return new UserMessageHandler(dB(), messageAfterTrackUntrackHandler(), commandMessageHandler());
     }
 
     @Bean

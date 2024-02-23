@@ -8,7 +8,6 @@ public record Track() implements Command {
     public SendMessage handle(Update update) {
         String message = """
             Введите сообщение с ссылкой или ссылками для отслеживания в таком формате:
-            +
             https://github.com/sanyarnd/tinkoff-java-course-2023/
             https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c
             https://stackoverflow.com/search?q=unsupported%20link""";
