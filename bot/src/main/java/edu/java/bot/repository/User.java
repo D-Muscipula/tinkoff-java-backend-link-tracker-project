@@ -17,13 +17,4 @@ public class User {
         this.userState = userState;
         this.links = links;
     }
-
-    public void addLinks(String... linksToAdd) {
-        links.addAll(Arrays.asList(linksToAdd));
-    }
-
-    public void removeLinks(String... linksToRemove) {
-        links.removeAll(List.of(linksToRemove));
-    }
-
 }

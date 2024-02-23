@@ -8,7 +8,7 @@ public record UnknownCommand() implements Command {
 
     @Override
     public SendMessage handle(Update update) {
-        return new SendMessage(update.message().chat().id(), "Неизвестная комманда");
+        return new SendMessage(update.message().chat().id(), COMMAND_TEXT);
     }
 
     @Override

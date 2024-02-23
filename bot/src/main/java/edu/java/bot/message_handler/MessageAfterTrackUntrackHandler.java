@@ -37,6 +37,7 @@ public class MessageAfterTrackUntrackHandler implements MessageHandler {
     private String handleMessageAfterTrack(String userText, User user) {
         StringBuilder botAnswer;
         List<String> links = List.of(userText.split("\n"));
+        int countOfLinks = user.getLinks().size();
         botAnswer = new StringBuilder("Ссылки добавлены");
         for (var link : links) {
             if (link != null && validator.isValid(link)) {
@@ -45,7 +46,7 @@ public class MessageAfterTrackUntrackHandler implements MessageHandler {
                     String host = uri.getHost();
                     //пока так
                     if (!host.equals("github.com") && !host.equals("stackoverflow.com")) {
-                        botAnswer.append(host).append(" не поддерживается");
+                        botAnswer.append("\n").append(host).append(" не поддерживается");
                     }
                 } catch (URISyntaxException e) {
                     botAnswer.append("\n" + "Ссылка ").append(link).append(" " + "некорректна");
@@ -54,6 +55,10 @@ public class MessageAfterTrackUntrackHandler implements MessageHandler {
             } else {
                 botAnswer.append("\nСсылка ").append(link).append(" некорректна");
             }
+        }
+        //Если нет корректных ссылок, то "Ссылки добавлены" не выводится
+        if (user.getLinks().size() == countOfLinks) {
+            botAnswer.delete(0, "Ссылки добавлены\n".length());
         }
         userRepository.update(new User(user.getId(), UserState.REGISTERED, user.getLinks()));
         return botAnswer.toString();

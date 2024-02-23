@@ -1,4 +1,4 @@
-package edu;
+package edu.java.bot;
 
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
@@ -10,6 +10,8 @@ import edu.java.bot.commands.ListCommand;
 import edu.java.bot.commands.Start;
 import edu.java.bot.commands.Track;
 import edu.java.bot.commands.Untrack;
+import edu.java.bot.repository.User;
+import edu.java.bot.repository.UserState;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,40 +41,68 @@ public class CommandTest {
         Mockito.when(chat.id()).thenReturn(id);
     }
 
-//    @Test
-//    void StartTest() {
-//        Command command = new Start();
-//        SendMessage sendMessage = command.handle(update);
-//        Map<String, Object> map = sendMessage.getParameters();
-//        Assertions.assertEquals(id, map.get("chat_id"));
-//        Assertions.assertNotEquals("", map.get("text"));
-//    }
+    @Test
+    void StartTestWithNullUser() {
+        Command command = new Start(null);
+        String message = "Приветствую! Данный бот позволяет собрать в одном месте уведомления с различных сайтов\n"
+            + "Введите /help, чтобы увидеть доступные команды";
+        SendMessage sendMessage = command.handle(update);
+        Map<String, Object> map = sendMessage.getParameters();
+        Assertions.assertEquals(id, map.get("chat_id"));
+        Assertions.assertEquals(message, map.get("text"));
+    }
+
+    @Test
+    void StartTestWithRegisteredUser() {
+        Command command = new Start(new User(1L, UserState.REGISTERED, null));
+        String message = "Вы уже зарегистрированы";
+        SendMessage sendMessage = command.handle(update);
+        Map<String, Object> map = sendMessage.getParameters();
+        Assertions.assertEquals(id, map.get("chat_id"));
+        Assertions.assertEquals(message, map.get("text"));
+    }
 
     @Test
     void HelpTest() {
         Command command = new Help();
+        String message = """
+            /start - зарегистрировать пользователя
+            /help - вывести окно с командами
+            /track - начать отслеживание ссылки
+            /untrack - прекратить отслеживание ссылки
+            /list - показать список отслеживаемых ссылок""";
         SendMessage sendMessage = command.handle(update);
         Map<String, Object> map = sendMessage.getParameters();
         Assertions.assertEquals(id, map.get("chat_id"));
-        Assertions.assertNotEquals("", map.get("text"));
+        Assertions.assertEquals(message, map.get("text"));
     }
 
     @Test
     void TrackTest() {
         Command command = new Track();
+        String message = """
+            Введите сообщение с ссылкой или ссылками для отслеживания в таком формате:
+            https://github.com/sanyarnd/tinkoff-java-course-2023/
+            https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c
+            https://stackoverflow.com/search?q=unsupported%20link""";
         SendMessage sendMessage = command.handle(update);
         Map<String, Object> map = sendMessage.getParameters();
         Assertions.assertEquals(id, map.get("chat_id"));
-        Assertions.assertNotEquals("", map.get("text"));
+        Assertions.assertEquals(message, map.get("text"));
     }
 
     @Test
     void UntrackTest() {
         Command command = new Untrack();
+        String message = """
+            Введите сообщение с ссылкой или ссылками, которые перестанете отслеживать, в таком формате:
+            https://github.com/sanyarnd/tinkoff-java-course-2023/
+            https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c
+            https://stackoverflow.com/search?q=unsupported%20link""";
         SendMessage sendMessage = command.handle(update);
         Map<String, Object> map = sendMessage.getParameters();
         Assertions.assertEquals(id, map.get("chat_id"));
-        Assertions.assertNotEquals("", map.get("text"));
+        Assertions.assertEquals(message, map.get("text"));
     }
 
     //Пустой лист
