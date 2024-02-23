@@ -18,8 +18,7 @@ public class UserMessageHandler implements MessageHandler {
 
     public UserMessageHandler(
         UserRepository userRepository,
-        MessageAfterTrackUntrackHandler messageAfterTrackUntrackHandler, CommandMessageHandler commandMessageHandler,
-
+        MessageAfterTrackUntrackHandler messageAfterTrackUntrackHandler, CommandMessageHandler commandMessageHandler
         ) {
         this.userRepository = userRepository;
         this.messageAfterTrackUntrackHandler = messageAfterTrackUntrackHandler;

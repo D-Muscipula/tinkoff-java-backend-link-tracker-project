@@ -6,12 +6,12 @@ import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.repository.User;
 import edu.java.bot.repository.UserRepository;
 import edu.java.bot.repository.UserState;
-import org.apache.commons.validator.routines.UrlValidator;
-import org.jetbrains.annotations.NotNull;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.List;
+import org.apache.commons.validator.routines.UrlValidator;
+import org.jetbrains.annotations.NotNull;
 
 public class MessageAfterTrackUntrackHandler implements MessageHandler {
     private final UserRepository userRepository;
