@@ -4,7 +4,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 
 public record UnregisteredCommand() implements Command {
-    private static final String TEXT = "Не зарегистрирован";
+    private static final String COMMAND_TEXT = "Не зарегистрирован";
 
     @Override
     public SendMessage handle(Update update) {
@@ -14,11 +14,11 @@ public record UnregisteredCommand() implements Command {
 
     @Override
     public String getTextOfCommand() {
-        return TEXT;
+        return COMMAND_TEXT;
     }
 
     @Override
     public String getDescription() {
-        return TEXT;
+        return COMMAND_TEXT;
     }
 }

@@ -6,9 +6,8 @@ import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.repository.User;
 import edu.java.bot.repository.UserRepository;
 import edu.java.bot.repository.UserState;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Paths;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.jetbrains.annotations.NotNull;
@@ -42,13 +41,13 @@ public class MessageAfterTrackUntrackHandler implements MessageHandler {
         for (var link : links) {
             if (link != null && validator.isValid(link)) {
                 try {
-                    URL url = Paths.get(link).toUri().toURL();
-                    String host = url.getHost();
+                    URI uri = new URI(link);
+                    String host = uri.getHost();
                     //пока так
                     if (!host.equals("github.com") && !host.equals("stackoverflow.com")) {
                         botAnswer.append(host).append(" не поддерживается");
                     }
-                } catch (MalformedURLException e) {
+                } catch (URISyntaxException e) {
                     botAnswer.append("\n" + "Ссылка ").append(link).append(" " + "некорректна");
                 }
                 user.getLinks().add(link);

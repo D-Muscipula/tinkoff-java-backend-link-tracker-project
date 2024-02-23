@@ -4,7 +4,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 
 public record UnknownCommand() implements Command {
-    static String commandText = "Неизвестная команда";
+    private final static String COMMAND_TEXT = "Неизвестная команда";
 
     @Override
     public SendMessage handle(Update update) {
@@ -13,11 +13,11 @@ public record UnknownCommand() implements Command {
 
     @Override
     public String getTextOfCommand() {
-        return commandText;
+        return COMMAND_TEXT;
     }
 
     @Override
     public String getDescription() {
-        return commandText;
+        return COMMAND_TEXT;
     }
 }

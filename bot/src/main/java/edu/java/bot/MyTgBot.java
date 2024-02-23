@@ -8,6 +8,7 @@ import com.pengrad.telegrambot.request.SetMyCommands;
 import com.pengrad.telegrambot.response.SendResponse;
 import edu.java.bot.commands.Command;
 import edu.java.bot.message_handler.MessageHandler;
+import edu.java.bot.message_handler.UserMessageHandler;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,11 +27,8 @@ public class MyTgBot {
 
     public void serve() {
         //Добавление команд в меню
-        BotCommand[] botCommandList = commandList.stream()
-            .map(Command::toBotCommand)
-            .toArray(BotCommand[]::new);
-        telegramBot.execute(new SetMyCommands(botCommandList));
-
+        addBotCommands();
+        //Listener of updates
         telegramBot.setUpdatesListener(updates -> {
             updates.forEach((update) -> {
                 logger.info("Update: " + update);
@@ -39,6 +37,13 @@ public class MyTgBot {
                 if (botAnswer != null) {
                     SendResponse response = telegramBot.execute(botAnswer);
                     logger.info("response: " + response);
+                } else if (update.message() != null) {
+                    SendResponse response = telegramBot
+                        .execute(new SendMessage(
+                            update.message().chat().id(),
+                            UserMessageHandler.UNKNOWN_MESSAGE_ANSWER
+                        ));
+                    logger.info("response:" + response);
                 }
             });
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
@@ -48,5 +53,12 @@ public class MyTgBot {
                 e.response().description();
             }
         });
+    }
+
+    public void addBotCommands() {
+        BotCommand[] botCommandList = commandList.stream()
+            .map(Command::toBotCommand)
+            .toArray(BotCommand[]::new);
+        telegramBot.execute(new SetMyCommands(botCommandList));
     }
 }

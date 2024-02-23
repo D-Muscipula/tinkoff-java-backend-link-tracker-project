@@ -14,12 +14,12 @@ public class UserMessageHandler implements MessageHandler {
     private final MessageAfterTrackUntrackHandler messageAfterTrackUntrackHandler;
     private final CommandMessageHandler commandMessageHandler;
     private final Logger logger = LoggerFactory.getLogger(UserMessageHandler.class);
-    private static final String UNKNOWN_MESSAGE_ANSWER = "Не могу понять, что Вы написали, попробуйте еще раз";
+    public static final String UNKNOWN_MESSAGE_ANSWER = "Не могу понять, что Вы написали, попробуйте еще раз";
 
     public UserMessageHandler(
-        UserRepository userRepository,
-        MessageAfterTrackUntrackHandler messageAfterTrackUntrackHandler, CommandMessageHandler commandMessageHandler
-        ) {
+        MessageAfterTrackUntrackHandler messageAfterTrackUntrackHandler,
+        CommandMessageHandler commandMessageHandler, UserRepository userRepository
+    ) {
         this.userRepository = userRepository;
         this.messageAfterTrackUntrackHandler = messageAfterTrackUntrackHandler;
         this.commandMessageHandler = commandMessageHandler;
@@ -28,22 +28,25 @@ public class UserMessageHandler implements MessageHandler {
     @Override
     public SendMessage handleMessage(Update update) {
         Message message = update.message();
-        if (message == null) {
+        if (message == null || message.text() == null) {
             return null;
         }
 
         long chatId = message.chat().id();
         User user = userRepository.get(chatId);
         String userText = message.text();
-
+        logger.info("Текст " + userText);
         if (user != null) {
-            logger.info(String.valueOf(user.getUserState()));
+            logger.info("User: " + user.getUserState());
+        } else {
+            logger.info("Пользователь еще не зарегистирован");
         }
         //Прошлая команда была /track или /untrack и бот ожидает ссылки
         if (user != null
             && (user.getUserState() == UserState.TRACK_STATE
             || user.getUserState() == UserState.UNTRACK_STATE)) {
             return messageAfterTrackUntrackHandler.handleMessage(update);
+
             //Если введена команда
         } else if (userText.trim().charAt(0) == '/') {
             return commandMessageHandler.handleMessage(update);
