@@ -218,7 +218,7 @@ class MessageHandlerTest {
         Assertions.assertEquals(id, map.get("chat_id"));
         Assertions.assertEquals(expected, map.get("text"));
 
-        List<String> linksListFromDb = userRepository.get(id).getLinks();
+        List<String> linksListFromDb = userRepository.get(id).links();
         List<String> links = new ArrayList<>(){{
             add("https://github.com/sanyarnd/tinkoff-java-course-2023/");
             add("https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c");
@@ -246,7 +246,7 @@ class MessageHandlerTest {
         Assertions.assertEquals(id, map.get("chat_id"));
         Assertions.assertEquals(expected, map.get("text"));
 
-        List<String> linksListFromDb = userRepository.get(id).getLinks();
+        List<String> linksListFromDb = userRepository.get(id).links();
         List<String> links = new ArrayList<>(){{
             add("https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c");
             add("https://stackoverflow.com/search?q=unsupported%20link");
@@ -273,7 +273,7 @@ class MessageHandlerTest {
         Assertions.assertEquals(id, map.get("chat_id"));
         Assertions.assertEquals(expected, map.get("text"));
 
-        List<String> linksListFromDb = userRepository.get(id).getLinks();
+        List<String> linksListFromDb = userRepository.get(id).links();
         List<String> links = new ArrayList<>(){{
             add("https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c");
             add("https://stackoverflow.com/search?q=unsupported%20link");
@@ -304,7 +304,7 @@ class MessageHandlerTest {
         Assertions.assertEquals(id, map.get("chat_id"));
         Assertions.assertEquals(expected, map.get("text"));
 
-        List<String> linksListFromDb = userRepository.get(id).getLinks();
+        List<String> linksListFromDb = userRepository.get(id).links();
         Assertions.assertTrue(linksListFromDb.isEmpty());
     }
 

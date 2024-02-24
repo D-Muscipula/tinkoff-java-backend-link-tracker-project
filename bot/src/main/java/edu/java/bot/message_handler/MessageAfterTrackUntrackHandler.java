@@ -26,7 +26,7 @@ public class MessageAfterTrackUntrackHandler implements MessageHandler {
         long chatId = message.chat().id();
         User user = userRepository.get(chatId);
         String userText = message.text();
-        if (user.getUserState() == UserState.TRACK_STATE) {
+        if (user.userState() == UserState.TRACK_STATE) {
             return new SendMessage(chatId, handleMessageAfterTrack(userText, user));
         } else {
             return new SendMessage(chatId, handleMessageAfterUntrack(userText, user));
@@ -37,13 +37,14 @@ public class MessageAfterTrackUntrackHandler implements MessageHandler {
     private String handleMessageAfterTrack(String userText, User user) {
         StringBuilder botAnswer;
         List<String> links = List.of(userText.split("\n"));
-        int countOfLinks = user.getLinks().size();
+        int countOfLinks = user.links().size();
         botAnswer = new StringBuilder("Ссылки добавлены");
         for (var link : links) {
             if (link != null && validator.isValid(link)) {
                 try {
                     URI uri = new URI(link);
-                    String host = uri.getHost();
+                    Link parsed = Link.parse(uri);
+                    String host = parsed.host();
                     //пока так
                     if (!host.equals("github.com") && !host.equals("stackoverflow.com")) {
                         botAnswer.append("\n").append(host).append(" не поддерживается");
@@ -51,16 +52,18 @@ public class MessageAfterTrackUntrackHandler implements MessageHandler {
                 } catch (URISyntaxException e) {
                     botAnswer.append("\n" + "Ссылка ").append(link).append(" " + "некорректна");
                 }
-                user.getLinks().add(link);
+
+                user.links().add(link);
             } else {
                 botAnswer.append("\nСсылка ").append(link).append(" некорректна");
             }
         }
         //Если нет корректных ссылок, то "Ссылки добавлены" не выводится
-        if (user.getLinks().size() == countOfLinks) {
+        if (user.links().size() == countOfLinks) {
             botAnswer.delete(0, "Ссылки добавлены\n".length());
         }
-        userRepository.update(new User(user.getId(), UserState.REGISTERED, user.getLinks()));
+        //У пользователя меняется состояние и список ссылок
+        userRepository.update(new User(user.id(), UserState.REGISTERED, user.links()));
         return botAnswer.toString();
     }
 
@@ -68,8 +71,9 @@ public class MessageAfterTrackUntrackHandler implements MessageHandler {
     private String handleMessageAfterUntrack(String userText, User user) {
         String botAnswer;
         List<String> links = List.of(userText.split("\n"));
-        user.getLinks().removeAll(links);
-        userRepository.update(new User(user.getId(), UserState.REGISTERED, user.getLinks()));
+        user.links().removeAll(links);
+        //У пользователя меняется состояние и список ссылок
+        userRepository.update(new User(user.id(), UserState.REGISTERED, user.links()));
         botAnswer = "Ссылки удалены";
         return botAnswer;
     }

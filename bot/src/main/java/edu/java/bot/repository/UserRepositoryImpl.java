@@ -16,12 +16,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void add(User user) {
-        map.put(user.getId(), user);
+        map.put(user.id(), user);
     }
 
     @Override
     public void update(User user) {
-        map.put(user.getId(), user);
+        map.put(user.id(), user);
     }
 
 }

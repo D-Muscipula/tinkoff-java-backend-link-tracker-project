@@ -36,22 +36,6 @@ public class CommandMessageHandler implements MessageHandler {
         return command.handle(update);
     }
 
-    private void doUpdateInDatabase(User user, Command command, long chatId) {
-        //Если пользователь не зарегистрирован и набрал /start
-        if (user == null && command instanceof Start) {
-            userRepository.add(new User(chatId, UserState.REGISTERED, new ArrayList<>()));
-        } else if (command instanceof Track) {
-            assert user != null;
-            userRepository.update(new User(chatId, UserState.TRACK_STATE, user.getLinks()));
-        } else if (command instanceof Untrack) {
-            assert user != null;
-            userRepository.update(new User(chatId, UserState.UNTRACK_STATE, user.getLinks()));
-            //Если пользователь ввел до этого /track или /untrack
-        } else if (user != null && user.getUserState() != UserState.REGISTERED) {
-            userRepository.update(new User(chatId, UserState.REGISTERED, user.getLinks()));
-        }
-    }
-
     private Command getCommand(String command, User user) {
         String trimmedCommand = command.trim();
         Command commandToReturn = new UnknownCommand();
@@ -59,10 +43,12 @@ public class CommandMessageHandler implements MessageHandler {
         if (trimmedCommand.equals("/start")) {
             commandToReturn = new Start(user);
             // Команда /help должна работать, даже если пользователь не прошел регистрацию
+            // Если какая-то другая команда при незарегистрированном пользователе,
+            // то выводится сообщение о регистрации
         } else if (user == null && !trimmedCommand.equals("/help")) {
             commandToReturn = new UnregisteredCommand();
         } else if (trimmedCommand.equals("/list")) {
-            commandToReturn = new ListCommand(user.getLinks());
+            commandToReturn = new ListCommand(user.links());
         }
 
         if (commandToReturn.getDescription().equals("Неизвестная команда")) {
@@ -74,5 +60,21 @@ public class CommandMessageHandler implements MessageHandler {
         }
 
         return commandToReturn;
+    }
+
+    private void doUpdateInDatabase(User user, Command command, long chatId) {
+        //Если пользователь не зарегистрирован и набрал /start
+        if (user == null && command instanceof Start) {
+            userRepository.add(new User(chatId, UserState.REGISTERED, new ArrayList<>()));
+        } else if (command instanceof Track) {
+            assert user != null;
+            userRepository.update(new User(chatId, UserState.TRACK_STATE, user.links()));
+        } else if (command instanceof Untrack) {
+            assert user != null;
+            userRepository.update(new User(chatId, UserState.UNTRACK_STATE, user.links()));
+            //Если пользователь ввел до этого /track или /untrack
+        } else if (user != null && user.userState() != UserState.REGISTERED) {
+            userRepository.update(new User(chatId, UserState.REGISTERED, user.links()));
+        }
     }
 }

@@ -37,14 +37,14 @@ public class UserMessageHandler implements MessageHandler {
         String userText = message.text();
         logger.info("Текст " + userText);
         if (user != null) {
-            logger.info("User: " + user.getUserState());
+            logger.info("User: " + user.userState());
         } else {
             logger.info("Пользователь еще не зарегистирован");
         }
-        //Прошлая команда была /track или /untrack и бот ожидает ссылки
+        //Прошлая команда была /track или /untrack, и бот ожидает ссылки
         if (user != null
-            && (user.getUserState() == UserState.TRACK_STATE
-            || user.getUserState() == UserState.UNTRACK_STATE)) {
+            && (user.userState() == UserState.TRACK_STATE
+            || user.userState() == UserState.UNTRACK_STATE)) {
             return messageAfterTrackUntrackHandler.handleMessage(update);
 
             //Если введена команда
