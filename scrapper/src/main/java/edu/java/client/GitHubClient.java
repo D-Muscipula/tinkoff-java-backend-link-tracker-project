@@ -33,8 +33,4 @@ public class GitHubClient {
             .bodyToMono(RepositoryDTO.class)
             .block();
     }
-
-    public static void main(String[] args) {
-        System.out.println(new GitHubClient().getRepository("D-Muscipula", "tinkoff-java-backend-course-2023"));
-    }
 }

@@ -15,7 +15,7 @@ public class StackOverflowClient {
         this.applicationConfig = applicationConfig;
     }
 
-    QuestionDTO getQuestion(long numberOfQuestion) {
+    public QuestionDTO getQuestion(long numberOfQuestion) {
         String baseUrl = null;
         if (applicationConfig != null) {
             baseUrl = applicationConfig.baseStackOverflowUrl();
@@ -32,9 +32,5 @@ public class StackOverflowClient {
             .retrieve()
             .bodyToMono(QuestionDTO.class)
             .block();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new StackOverflowClient().getQuestion(34));
     }
 }
