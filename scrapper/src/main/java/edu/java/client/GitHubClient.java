@@ -16,6 +16,8 @@ public class GitHubClient {
     }
 
     public RepositoryDTO getRepository(String user, String repository) {
+        //Пример URL
+        //https://api.github.com/repos/sanyarnd/java-course-2023-backend-template
         String baseUrl = null;
         if (applicationConfig != null) {
             baseUrl = applicationConfig.baseGitHubUrl();

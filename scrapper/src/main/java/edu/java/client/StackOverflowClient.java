@@ -16,6 +16,8 @@ public class StackOverflowClient {
     }
 
     public QuestionDTO getQuestion(long numberOfQuestion) {
+        //Пример URL
+        //https://api.stackexchange.com/2.3/questions/34?order=desc&sort=activity&site=stackoverflow
         String baseUrl = null;
         if (applicationConfig != null) {
             baseUrl = applicationConfig.baseStackOverflowUrl();
