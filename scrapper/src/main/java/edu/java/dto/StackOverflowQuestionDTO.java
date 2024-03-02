@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-public record QuestionDTO(
+public record StackOverflowQuestionDTO(
     @JsonProperty("items") List<Item> items,
     @JsonProperty("has_more") boolean hasMore,
     @JsonProperty("quota_max") int quotaMax,

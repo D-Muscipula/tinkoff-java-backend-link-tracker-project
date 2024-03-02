@@ -1,38 +1,44 @@
 package edu.java.client;
 
 import edu.java.configuration.ApplicationConfig;
-import edu.java.dto.RepositoryDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import edu.java.dto.GitHubRepositoryDTO;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
 public class GitHubClient {
-    private static final WebClient.Builder BUILDER = WebClient.builder();
-    private ApplicationConfig applicationConfig;
+    private WebClient webClient;
+    private final ApplicationConfig applicationConfig;
 
-    @Autowired
-    public void setApplicationConfig(ApplicationConfig applicationConfig) {
+    private static final String DEFAULT_GITHUB_URL = "https://api.github.com/repos/";
+
+    public GitHubClient(ApplicationConfig applicationConfig) {
         this.applicationConfig = applicationConfig;
+        setUpWebClient();
     }
 
-    public RepositoryDTO getRepository(String user, String repository) {
+    public GitHubRepositoryDTO getRepository(String user, String repository) {
         //Пример URL
         //https://api.github.com/repos/sanyarnd/java-course-2023-backend-template
+        return webClient
+            .get()
+            .uri(uriBuilder -> uriBuilder
+                .pathSegment(user, repository)
+                .build())
+            .accept(MediaType.APPLICATION_JSON)
+            .retrieve()
+            .bodyToMono(GitHubRepositoryDTO.class)
+            .block();
+    }
+
+    private void setUpWebClient() {
         String baseUrl = null;
         if (applicationConfig != null) {
             baseUrl = applicationConfig.baseGitHubUrl();
         }
-        String url = String.format("%s/%s", user, repository);
         if (baseUrl == null || baseUrl.isEmpty()) {
-            //URL по умолчанию
-            baseUrl = "https://api.github.com/repos/";
+            baseUrl = DEFAULT_GITHUB_URL;
         }
-        return BUILDER.baseUrl(baseUrl).build()
-            .get()
-            .uri(url)
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .bodyToMono(RepositoryDTO.class)
-            .block();
+        webClient = WebClient.builder()
+            .baseUrl(baseUrl).build();
     }
 }

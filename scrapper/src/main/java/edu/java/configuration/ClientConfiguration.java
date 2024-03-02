@@ -1,8 +1,8 @@
 package edu.java.configuration;
 
-import edu.java.LinkUpdaterScheduler;
 import edu.java.client.GitHubClient;
 import edu.java.client.StackOverflowClient;
+import edu.java.scheduling.LinkUpdaterScheduler;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,21 +11,22 @@ import org.springframework.context.annotation.Configuration;
 @Getter @Configuration
 public class ClientConfiguration {
 
-    private ApplicationConfig applicationConfig;
+    private final ApplicationConfig applicationConfig;
 
     @Autowired
-    public void setApplicationConfig(ApplicationConfig applicationConfig) {
+    public ClientConfiguration(ApplicationConfig applicationConfig) {
         this.applicationConfig = applicationConfig;
     }
 
+
     @Bean
     public GitHubClient gitHubClient() {
-        return new GitHubClient();
+        return new GitHubClient(applicationConfig);
     }
 
     @Bean
     public StackOverflowClient stackOverflowClient() {
-        return new StackOverflowClient();
+        return new StackOverflowClient(applicationConfig);
     }
 
     @Bean

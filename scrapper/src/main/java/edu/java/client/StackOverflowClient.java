@@ -1,38 +1,45 @@
 package edu.java.client;
 
 import edu.java.configuration.ApplicationConfig;
-import edu.java.dto.QuestionDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import edu.java.dto.StackOverflowQuestionDTO;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
 public class StackOverflowClient {
-    private static final WebClient.Builder BUILDER = WebClient.builder();
-    private ApplicationConfig applicationConfig;
+    private WebClient webClient;
+    private final ApplicationConfig applicationConfig;
+    private static final String DEFAULT_STACKOVERFLOW_URL = "https://api.github.com/repos/";
 
-    @Autowired
-    public void setApplicationConfig(ApplicationConfig applicationConfig) {
+    public StackOverflowClient(ApplicationConfig applicationConfig) {
         this.applicationConfig = applicationConfig;
+        setUpWebClient();
     }
 
-    public QuestionDTO getQuestion(long numberOfQuestion) {
+    public StackOverflowQuestionDTO getQuestion(long numberOfQuestion) {
         //Пример URL
         //https://api.stackexchange.com/2.3/questions/34?order=desc&sort=activity&site=stackoverflow
+        return webClient.get()
+            .uri(uriBuilder -> uriBuilder
+                .pathSegment("2.3", "questions", String.valueOf(numberOfQuestion))
+                .queryParam("order", "desc")
+                .queryParam("sort", "activity")
+                .queryParam("site", "stackoverflow")
+                .build())
+            .accept(MediaType.APPLICATION_JSON)
+            .retrieve()
+            .bodyToMono(StackOverflowQuestionDTO.class)
+            .block();
+    }
+
+    private void setUpWebClient() {
         String baseUrl = null;
         if (applicationConfig != null) {
             baseUrl = applicationConfig.baseStackOverflowUrl();
         }
-        String url = String.format("2.3/questions/%d?order=desc&sort=activity&site=stackoverflow", numberOfQuestion);
         if (baseUrl == null || baseUrl.isEmpty()) {
-            //URL по умолчанию
-            baseUrl = "https://api.stackexchange.com/";
+            baseUrl = DEFAULT_STACKOVERFLOW_URL;
         }
-        return BUILDER.baseUrl(baseUrl).build()
-            .get()
-            .uri(url)
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .bodyToMono(QuestionDTO.class)
-            .block();
+        webClient = WebClient.builder()
+            .baseUrl(baseUrl).build();
     }
 }
