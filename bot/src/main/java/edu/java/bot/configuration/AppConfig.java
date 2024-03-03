@@ -1,7 +1,7 @@
 package edu.java.bot.configuration;
 
 import com.pengrad.telegrambot.TelegramBot;
-import edu.java.bot.MyTgBot;
+import edu.java.bot.my_bot.MyTgBot;
 import edu.java.bot.commands.Command;
 import edu.java.bot.commands.Help;
 import edu.java.bot.commands.ListCommand;

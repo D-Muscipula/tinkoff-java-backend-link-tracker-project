@@ -1,4 +1,4 @@
-package edu.java.bot;
+package edu.java.bot.controller;
 
 import edu.java.bot.dto.LinkUpdate;
 import org.slf4j.Logger;
