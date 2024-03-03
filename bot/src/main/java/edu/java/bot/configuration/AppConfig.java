@@ -1,7 +1,7 @@
 package edu.java.bot.configuration;
 
 import com.pengrad.telegrambot.TelegramBot;
-import edu.java.bot.my_bot.MyTgBot;
+import edu.java.bot.client.ScrapperClient;
 import edu.java.bot.commands.Command;
 import edu.java.bot.commands.Help;
 import edu.java.bot.commands.ListCommand;
@@ -12,6 +12,7 @@ import edu.java.bot.message_handler.CommandMessageHandler;
 import edu.java.bot.message_handler.MessageAfterTrackUntrackHandler;
 import edu.java.bot.message_handler.MessageHandler;
 import edu.java.bot.message_handler.UserMessageHandler;
+import edu.java.bot.my_bot.MyTgBot;
 import edu.java.bot.repository.UserRepository;
 import edu.java.bot.repository.UserRepositoryImpl;
 import java.util.ArrayList;
@@ -68,5 +69,10 @@ public class AppConfig {
         MyTgBot myTgBot = new MyTgBot(telegramBot(), messageHandler(), commandList());
         myTgBot.serve();
         return myTgBot;
+    }
+
+    @Bean
+    public ScrapperClient scrapperClient() {
+        return new ScrapperClient(applicationConfig);
     }
 }

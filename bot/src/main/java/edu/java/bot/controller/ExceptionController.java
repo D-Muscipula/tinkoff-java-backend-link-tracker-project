@@ -1,10 +1,10 @@
 package edu.java.bot.controller;
 
-import edu.java.bot.dto.ApiErrorResponse;
-import java.util.Arrays;
-import java.util.List;
+import edu.java.bot.dto.response.ApiErrorResponse;
 import edu.java.bot.exceptions.ThereIsNoSuchLinkException;
 import edu.java.bot.exceptions.TooManyRequestsException;
+import java.util.Arrays;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;

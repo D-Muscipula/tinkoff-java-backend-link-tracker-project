@@ -24,7 +24,7 @@ public class ScrapperController {
 
     @PostMapping("/tg-chat/{id}")
     public ResponseEntity<Void> registerChat(
-        @PathVariable("id") Integer tgChatId
+        @PathVariable("id") Long tgChatId
     ) {
         logger.info("чат зарегистрирован");
         return new ResponseEntity<>(HttpStatus.OK);
@@ -33,7 +33,7 @@ public class ScrapperController {
 
     @DeleteMapping("/tg-chat/{id}")
     public ResponseEntity<Void> deleteChat(
-        @PathVariable("id") Integer tgChatId
+        @PathVariable("id") Long tgChatId
     ) {
         logger.info("чат успешно удалён");
         return new ResponseEntity<>(HttpStatus.OK);
@@ -41,7 +41,7 @@ public class ScrapperController {
 
     @GetMapping("/links")
     public ResponseEntity<ListLinksResponse> getLinks(
-        @RequestHeader("Tg-Chat-Id") Integer tgChatId
+        @RequestHeader("Tg-Chat-Id") Long tgChatId
     ) {
         logger.info("ссылки успешно получены");
         List<LinkResponse> someLinks = new ArrayList<>();

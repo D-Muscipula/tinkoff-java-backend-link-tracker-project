@@ -12,7 +12,8 @@ import org.springframework.validation.annotation.Validated;
                                 description = "Bot API", version = "1.0.0"))
 public record ApplicationConfig(
     @NotEmpty
-    String telegramToken
+    String telegramToken,
+    String baseScrapperClientUrl
 ) {
 
 }
