@@ -1,5 +1,6 @@
 package edu.java.configuration;
 
+import edu.java.client.BotClient;
 import edu.java.client.GitHubClient;
 import edu.java.client.StackOverflowClient;
 import edu.java.scheduling.LinkUpdaterScheduler;
@@ -18,7 +19,6 @@ public class ClientConfiguration {
         this.applicationConfig = applicationConfig;
     }
 
-
     @Bean
     public GitHubClient gitHubClient() {
         return new GitHubClient(applicationConfig);
@@ -27,6 +27,11 @@ public class ClientConfiguration {
     @Bean
     public StackOverflowClient stackOverflowClient() {
         return new StackOverflowClient(applicationConfig);
+    }
+
+    @Bean
+    public BotClient botClient() {
+        return new BotClient(applicationConfig);
     }
 
     @Bean
