@@ -1,0 +1,30 @@
+{
+    "items": [
+        {
+            "tags": [
+                "arrays",
+                "actionscript-3",
+                "apache-flex"
+            ],
+            "owner": {
+                "user_type": "does_not_exist",
+                "display_name": "maclema"
+            },
+            "is_answered": true,
+            "view_count": 11655,
+            "protected_date": 1464481869,
+            "answer_count": 8,
+            "score": 96,
+            "last_activity_date": 1669012652,
+            "creation_date": 1217593857,
+            "last_edit_date": 1606929712,
+            "question_id": 34,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/34/how-to-unload-a-bytearray-using-actionscript-3",
+            "title": "How to unload a ByteArray using Actionscript 3?"
+        }
+    ],
+    "has_more": false,
+    "quota_max": 300,
+    "quota_remaining": 217
+}
