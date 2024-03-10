@@ -1,5 +1,15 @@
 package edu.java.scrapper;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.sql.DriverManager;
+import liquibase.Contexts;
+import liquibase.LabelExpression;
+import liquibase.Liquibase;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.resource.DirectoryResourceAccessor;
+import lombok.SneakyThrows;
+import org.junit.jupiter.api.AfterAll;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.JdbcDatabaseContainer;
@@ -20,14 +30,32 @@ public abstract class IntegrationTest {
         runMigrations(POSTGRES);
     }
 
+
+    @SneakyThrows
     private static void runMigrations(JdbcDatabaseContainer<?> c) {
-        // ...
+        JdbcConnection connection = new JdbcConnection(
+            DriverManager.getConnection(
+                c.getJdbcUrl(),
+                c.getUsername(),
+                c.getPassword()));
+        Path path =  new File(".").toPath().toAbsolutePath().getParent().getParent().resolve("migrations");
+             Liquibase liquibase = new Liquibase("master.xml", new DirectoryResourceAccessor(path), connection);
+        liquibase.update(new Contexts(), new LabelExpression());
     }
+
+
+
+
 
     @DynamicPropertySource
     static void jdbcProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
         registry.add("spring.datasource.username", POSTGRES::getUsername);
         registry.add("spring.datasource.password", POSTGRES::getPassword);
+    }
+
+    @AfterAll
+    static void stop() {
+        POSTGRES.stop();
     }
 }
