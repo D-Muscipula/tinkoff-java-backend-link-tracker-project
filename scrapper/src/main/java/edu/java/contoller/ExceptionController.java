@@ -24,7 +24,7 @@ public class ExceptionController {
     public ApiErrorResponse handleChatDoesntExistException(ChatDoesntExistException ex) {
         return new ApiErrorResponse(
             "chat does not exist",
-            HttpStatus.NOT_FOUND.toString(),
+            "chat_does_not_exist",
             "ChatDoesntExistException",
             ex.getMessage(),
             Arrays.stream(ex.getStackTrace()).map(StackTraceElement::toString).toList()
@@ -36,7 +36,7 @@ public class ExceptionController {
     public ApiErrorResponse handleChatAlreadyExistsException(ChatAlreadyExistsException ex) {
         return new ApiErrorResponse(
             "chat already exist",
-            HttpStatus.CONFLICT.toString(),
+            "chat_already_exist",
             "ChatAlreadyExistsException",
             ex.getMessage(),
             Arrays.stream(ex.getStackTrace()).map(StackTraceElement::toString).toList()
@@ -48,7 +48,7 @@ public class ExceptionController {
     public ApiErrorResponse handleIsNotSupposedToBeTracked(IsNotSupposedToBeTracked ex) {
         return new ApiErrorResponse(
             "link is not supposed to be tracked",
-            HttpStatus.CONFLICT.toString(),
+            "link_is_not_supposed_to_be_tracked",
             "IsNotSupposedToBeTracked",
             ex.getMessage(),
             Arrays.stream(ex.getStackTrace()).map(StackTraceElement::toString).toList()
@@ -60,7 +60,7 @@ public class ExceptionController {
     public ApiErrorResponse handleIsNotSupposedToBeDeleted(IsNotSupposedToBeDeleted ex) {
         return new ApiErrorResponse(
             "link is not supposed to be deleted",
-            HttpStatus.CONFLICT.toString(),
+            "link_is_not_supposed_to_be_deleted",
             "IsNotSupposedToBeDeleted",
             ex.getMessage(),
             Arrays.stream(ex.getStackTrace()).map(StackTraceElement::toString).toList()
@@ -71,8 +71,8 @@ public class ExceptionController {
     @ExceptionHandler
     public ApiErrorResponse handleMissingRequestHeaderException(MissingRequestHeaderException ex) {
         return new ApiErrorResponse(
-            "Missing required request headers",
-            HttpStatus.BAD_REQUEST.toString(),
+            "missing required request headers",
+            "missing_headers",
             "MissingRequestHeaderException",
             ex.getMessage(),
             Arrays.stream(ex.getStackTrace()).map(StackTraceElement::toString).toList()
