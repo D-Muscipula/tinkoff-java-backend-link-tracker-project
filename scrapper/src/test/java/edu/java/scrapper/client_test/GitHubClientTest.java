@@ -1,4 +1,4 @@
-package edu.java.scrapper;
+package edu.java.scrapper.client_test;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import edu.java.client.GitHubClient;

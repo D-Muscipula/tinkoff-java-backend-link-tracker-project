@@ -1,4 +1,4 @@
-package edu.java.scrapper;
+package edu.java.scrapper.client_test;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import org.junit.jupiter.api.AfterAll;
