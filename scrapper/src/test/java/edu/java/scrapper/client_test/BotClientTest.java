@@ -37,7 +37,7 @@ public class BotClientTest extends AbstractClientTest {
     }
 
     @SneakyThrows @Test
-    public void sendUpdateTest() throws IOException {
+    public void sendUpdateTest() {
 
         stubFor(WireMock.post(urlEqualTo("/updates"))
             .willReturn(aResponse()
