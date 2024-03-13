@@ -14,6 +14,9 @@ public class ScrapperClient {
     private static final String SCRAPPER_CLIENT_URL = "http://localhost:8080";
 
     private static final String TG_CHAT_PATH_SEGMENT = "tg-chat";
+    private static final String TG_CHAT_ID_HEADER = "Tg-Chat-Id";
+
+    private static final String LINKS = "links";
 
     public ScrapperClient(ApplicationConfig applicationConfig) {
         this.applicationConfig = applicationConfig;
@@ -44,9 +47,9 @@ public class ScrapperClient {
     public ListLinksResponse getLinks(Long tgChatId) {
         return webClient.get()
             .uri(uriBuilder -> uriBuilder
-                .pathSegment(TG_CHAT_PATH_SEGMENT, String.valueOf(tgChatId))
+                .pathSegment(LINKS, String.valueOf(tgChatId))
                 .build())
-            .header(TG_CHAT_PATH_SEGMENT, String.valueOf(tgChatId))
+            .header(TG_CHAT_ID_HEADER, String.valueOf(tgChatId))
             .retrieve()
             .bodyToMono(ListLinksResponse.class)
             .block();
@@ -54,8 +57,8 @@ public class ScrapperClient {
 
     public void addLink(Long tgChatId, AddLinkRequest addLinkRequest) {
         webClient.post()
-            .uri(TG_CHAT_PATH_SEGMENT)
-            .header(TG_CHAT_PATH_SEGMENT, String.valueOf(tgChatId))
+            .uri(LINKS)
+            .header(TG_CHAT_ID_HEADER, String.valueOf(tgChatId))
             .bodyValue(addLinkRequest)
             .retrieve()
             .bodyToMono(Void.class)
@@ -64,8 +67,8 @@ public class ScrapperClient {
 
     public void deleteLink(Long tgChatId, RemoveLinkRequest removeLinkRequest) {
         webClient.method(HttpMethod.DELETE)
-            .uri(TG_CHAT_PATH_SEGMENT)
-            .header(TG_CHAT_PATH_SEGMENT, String.valueOf(tgChatId))
+            .uri(LINKS)
+            .header(TG_CHAT_ID_HEADER, String.valueOf(tgChatId))
             .bodyValue(removeLinkRequest)
             .retrieve()
             .bodyToMono(Void.class)

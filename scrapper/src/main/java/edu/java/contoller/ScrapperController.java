@@ -6,6 +6,7 @@ import dto.response.ApiErrorResponse;
 import dto.response.LinkResponse;
 import dto.response.ListLinksResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -40,6 +41,7 @@ public class ScrapperController {
                      content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
     })
     public ResponseEntity<Void> registerChat(
+        @Parameter(description = "Id чата в telegram", required = true)
         @PathVariable("id") Long tgChatId
     ) {
         logger.info("чат зарегистрирован");
@@ -58,6 +60,7 @@ public class ScrapperController {
                      content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
     })
     public ResponseEntity<Void> deleteChat(
+        @Parameter(description = "Id чата в telegram", required = true)
         @PathVariable("id") Long tgChatId
     ) {
         logger.info("чат успешно удалён");
@@ -102,6 +105,7 @@ public class ScrapperController {
                      content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
     })
     public ResponseEntity<LinkResponse> addLink(
+        @Parameter(description = "Id чата в telegram", required = true)
         @RequestHeader("Tg-Chat-Id") Long tgChatId,
         @RequestBody AddLinkRequest addLinkRequest
     ) {
@@ -129,6 +133,7 @@ public class ScrapperController {
                      content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
     })
     public ResponseEntity<LinkResponse> deleteLink(
+        @Parameter(description = "Id чата в telegram", required = true)
         @RequestHeader("Tg-Chat-Id") Long tgChatId,
         @RequestBody RemoveLinkRequest removeLinkRequest
     ) {
