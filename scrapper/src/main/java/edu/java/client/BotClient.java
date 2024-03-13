@@ -16,7 +16,7 @@ public class BotClient {
     }
 
     public void sendUpdate(LinkUpdate linkUpdate) {
-        http://localhost:8090/updates
+        //http://localhost:8090/updates
         webClient.post()
             .uri(uriBuilder -> uriBuilder
                 .pathSegment("updates")

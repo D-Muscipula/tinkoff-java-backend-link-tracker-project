@@ -20,7 +20,7 @@ public class ExceptionController {
 
         return new ApiErrorResponse(
             "Invalid request content",
-            ex.getStatusCode().toString(),
+            "incorrect_value",
             ex.getTitleMessageCode(),
             ex.getMessage(),
             List.of(ex.getSuppressedFields())
@@ -33,7 +33,7 @@ public class ExceptionController {
 
         return new ApiErrorResponse(
             "cannot be read",
-            HttpStatus.BAD_REQUEST.toString(),
+            "cannot_be_read",
             ex.toString(),
             ex.getMessage(),
             List.of()
@@ -45,7 +45,7 @@ public class ExceptionController {
     public ApiErrorResponse handleThereIsNoSuchLinkException(ThereIsNoSuchLinkException ex) {
         return new ApiErrorResponse(
             "there is no such link",
-            HttpStatus.NOT_FOUND.toString(),
+            "there_is_no_such_link",
             "ThereIsNoSuchLinkException",
             ex.getMessage(),
             Arrays.stream(ex.getStackTrace()).map(StackTraceElement::toString).toList()
@@ -57,7 +57,7 @@ public class ExceptionController {
     public ApiErrorResponse handleTooManyRequestsException(TooManyRequestsException ex) {
         return new ApiErrorResponse(
             "too many requests",
-            HttpStatus.NOT_FOUND.toString(),
+            "too_many_requests",
             "TooManyRequestsException",
             ex.getMessage(),
             Arrays.stream(ex.getStackTrace()).map(StackTraceElement::toString).toList()
