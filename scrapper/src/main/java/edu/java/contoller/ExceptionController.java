@@ -84,7 +84,7 @@ public class ExceptionController {
     public ApiErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         return new ApiErrorResponse(
             "invalid field value",
-            HttpStatus.BAD_REQUEST.toString(),
+            "incorrect_value",
             ex.getTitleMessageCode(),
             "MethodArgumentNotValidException",
             Arrays.stream(ex.getStackTrace()).map(StackTraceElement::toString).toList()
@@ -96,7 +96,7 @@ public class ExceptionController {
     public ApiErrorResponse handleEmptyRequestBodyException(HttpMessageNotReadableException ex) {
         return new ApiErrorResponse(
             "request body missing",
-            HttpStatus.BAD_REQUEST.toString(),
+            "body_missing",
             "HttpMessageNotReadableException",
             ex.getMessage(),
             Arrays.stream(ex.getStackTrace()).map(StackTraceElement::toString).toList()
@@ -108,7 +108,7 @@ public class ExceptionController {
     public ApiErrorResponse handleUserIsNotRegisteredException(UserIsNotRegisteredException ex) {
         return new ApiErrorResponse(
             "user is not registered",
-            HttpStatus.UNAUTHORIZED.toString(),
+            "user_is_not_registered",
             "UserIsNotRegisteredException",
             ex.getMessage(),
             Arrays.stream(ex.getStackTrace()).map(StackTraceElement::toString).toList()
@@ -120,7 +120,7 @@ public class ExceptionController {
     public ApiErrorResponse handleLinkAlreadyTrackedException(LinkAlreadyTrackedException ex) {
         return new ApiErrorResponse(
             "link already tracked",
-            HttpStatus.CONFLICT.toString(),
+            "already_tracked",
             "LinkAlreadyTrackedException",
             ex.getMessage(),
             Arrays.stream(ex.getStackTrace()).map(StackTraceElement::toString).toList()
@@ -132,7 +132,7 @@ public class ExceptionController {
     public ApiErrorResponse handleThereIsNoSuchLinkException(ThereIsNoSuchLinkException ex) {
         return new ApiErrorResponse(
             "link was not tracked",
-            HttpStatus.BAD_REQUEST.toString(),
+            "was_not_tracked",
             "ThereIsNoSuchLinkException",
             ex.getMessage(),
             Arrays.stream(ex.getStackTrace()).map(StackTraceElement::toString).toList()
