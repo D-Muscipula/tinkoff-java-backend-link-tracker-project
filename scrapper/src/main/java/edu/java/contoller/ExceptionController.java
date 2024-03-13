@@ -1,6 +1,6 @@
 package edu.java.contoller;
 
-import edu.java.dto.response.ApiErrorResponse;
+import dto.response.ApiErrorResponse;
 import edu.java.exceptions.ChatAlreadyExistsException;
 import edu.java.exceptions.ChatDoesntExistException;
 import edu.java.exceptions.IsNotSupposedToBeDeleted;

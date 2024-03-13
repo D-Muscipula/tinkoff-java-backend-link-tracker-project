@@ -1,9 +1,9 @@
 package edu.java.bot.client;
 
+import dto.request.AddLinkRequest;
+import dto.request.RemoveLinkRequest;
+import dto.response.ListLinksResponse;
 import edu.java.bot.configuration.ApplicationConfig;
-import edu.java.bot.dto.request.AddLinkRequest;
-import edu.java.bot.dto.request.RemoveLinkRequest;
-import edu.java.bot.dto.response.ListLinksResponse;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.reactive.function.client.WebClient;
 

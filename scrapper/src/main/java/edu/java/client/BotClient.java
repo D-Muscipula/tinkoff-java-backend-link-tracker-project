@@ -1,7 +1,7 @@
 package edu.java.client;
 
+import dto.request.LinkUpdate;
 import edu.java.configuration.ApplicationConfig;
-import edu.java.dto.request.LinkUpdate;
 import org.springframework.web.reactive.function.client.WebClient;
 
 public class BotClient {

@@ -1,9 +1,9 @@
 package edu.java.contoller;
 
-import edu.java.dto.request.AddLinkRequest;
-import edu.java.dto.request.RemoveLinkRequest;
-import edu.java.dto.response.LinkResponse;
-import edu.java.dto.response.ListLinksResponse;
+import dto.request.AddLinkRequest;
+import dto.request.RemoveLinkRequest;
+import dto.response.LinkResponse;
+import dto.response.ListLinksResponse;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;

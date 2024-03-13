@@ -1,4 +1,4 @@
-package edu.java.dto.response;
+package dto.response;
 
 import java.util.List;
 

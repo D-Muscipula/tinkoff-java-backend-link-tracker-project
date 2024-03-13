@@ -1,6 +1,7 @@
 package edu.java.bot.controller;
 
-import edu.java.bot.dto.request.LinkUpdate;
+
+import dto.request.LinkUpdate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
