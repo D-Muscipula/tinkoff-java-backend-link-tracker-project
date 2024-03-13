@@ -4,7 +4,6 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import dto.request.LinkUpdate;
 import edu.java.client.BotClient;
 import edu.java.configuration.ApplicationConfig;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -61,7 +60,7 @@ public class BotClientTest extends AbstractClientTest {
     }
 
     @Test
-    public void sendUpdateWithErrorCodeTest() throws IOException {
+    public void sendUpdateWithErrorCodeTest() {
 
         stubFor(WireMock.post(urlEqualTo("/updates"))
             .willReturn(aResponse()
@@ -69,7 +68,7 @@ public class BotClientTest extends AbstractClientTest {
                 .withHeader("Content-Type", "application/json")));
 
         BotClient botClient = new BotClient(applicationConfig);
-        URI uri = null;
+        URI uri;
         try {
             uri = new URI("https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c");
         } catch (URISyntaxException e) {
