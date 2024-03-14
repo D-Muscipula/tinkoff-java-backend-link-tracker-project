@@ -46,9 +46,7 @@ public class ScrapperClient {
 
     public ListLinksResponse getLinks(Long tgChatId) {
         return webClient.get()
-            .uri(uriBuilder -> uriBuilder
-                .pathSegment(LINKS, String.valueOf(tgChatId))
-                .build())
+            .uri(LINKS)
             .header(TG_CHAT_ID_HEADER, String.valueOf(tgChatId))
             .retrieve()
             .bodyToMono(ListLinksResponse.class)

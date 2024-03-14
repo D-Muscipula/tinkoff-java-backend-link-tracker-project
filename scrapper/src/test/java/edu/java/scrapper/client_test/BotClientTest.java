@@ -35,7 +35,8 @@ public class BotClientTest extends AbstractClientTest {
         Mockito.when(applicationConfig.baseBotClientUrl()).thenReturn("http://localhost:8080/");
     }
 
-    @SneakyThrows @Test
+    @SneakyThrows
+    @Test
     public void sendUpdateTest() {
 
         stubFor(WireMock.post(urlEqualTo("/updates"))
