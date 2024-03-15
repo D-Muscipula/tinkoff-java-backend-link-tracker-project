@@ -1,4 +1,4 @@
-package edu.java.scrapper;
+package edu.java.scrapper.client_test;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import edu.java.client.StackOverflowClient;
@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
+
+import edu.java.scrapper.client_test.AbstractClientTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

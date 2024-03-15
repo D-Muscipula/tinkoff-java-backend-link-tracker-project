@@ -5,10 +5,15 @@ app:
     force-check-delay: 10s
   baseGitHubUrl: https://api.github.com/repos/
   baseStackOverflowUrl: https://api.stackexchange.com/
+  baseBotClientUrl: http://localhost:8090
 
 spring:
   application:
     name: scrapper
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
 
 server:
   port: 8080
