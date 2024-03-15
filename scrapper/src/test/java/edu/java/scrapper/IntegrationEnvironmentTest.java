@@ -3,20 +3,12 @@ package edu.java.scrapper;
 import edu.java.dto.Link;
 import edu.java.dto.User;
 import edu.java.dto.UserLink;
-import edu.java.dto.UserState;
 import edu.java.repository.LinkRepository;
 import edu.java.repository.LinkRepositoryImpl;
 import edu.java.repository.UserLinkRepository;
 import edu.java.repository.UserLinkRepositoryImpl;
 import edu.java.repository.UserRepository;
 import edu.java.repository.UserRepositoryImpl;
-import liquibase.database.jvm.JdbcConnection;
-import lombok.SneakyThrows;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.postgresql.ds.PGSimpleDataSource;
-import org.springframework.jdbc.core.simple.JdbcClient;
-import javax.sql.DataSource;
 import java.net.URI;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -25,6 +17,12 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import liquibase.database.jvm.JdbcConnection;
+import lombok.SneakyThrows;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.postgresql.ds.PGSimpleDataSource;
+import org.springframework.jdbc.core.simple.JdbcClient;
 
 public class IntegrationEnvironmentTest extends IntegrationTest{
     @SneakyThrows

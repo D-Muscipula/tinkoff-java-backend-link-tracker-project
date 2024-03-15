@@ -1,7 +1,5 @@
 package edu.java.repository;
 
-import edu.java.dto.Link;
-import edu.java.dto.User;
 import edu.java.dto.UserLink;
 import java.util.List;
 import java.util.Optional;
