@@ -1,7 +1,6 @@
 package edu.java.repository;
 
 import edu.java.dto.User;
-import java.sql.Types;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -21,15 +20,18 @@ public class UserRepositoryImpl implements UserRepository {
         String sql = "insert into users (user_chat_id, user_state)"
             + "VALUES (:id, :state)";
         this.jdbcClient.sql(sql)
-                .param("id", user.userChatId(), Types.BIGINT)
-                //todo text?
-                .param("state", user.userState().valueOf(), Types.VARCHAR)
+                .param("id", user.userChatId())
+                .param("state", user.userState())
                 .update();
     }
 
     @Override
-    public void remove(User user) {
-
+    public void remove(Long id) {
+        String sql = "delete from users "
+            + "where user_chat_id = ?";
+        this.jdbcClient.sql(sql)
+            .param(id)
+            .update();
     }
 
     @Override

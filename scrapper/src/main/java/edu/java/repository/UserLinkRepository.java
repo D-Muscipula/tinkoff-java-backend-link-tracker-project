@@ -7,13 +7,21 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserLinkRepository {
-    void add(User user, Link link);
+    void add(UserLink userLink);
 
-    void remove(Long id);
+    void removeById(Long id);
 
-    Optional<UserLink> find(Long id);
+    Integer removeByUserId(Long userId);
 
-    List<UserLink> findByUser(User user);
+    Integer removeByLinkId(Long userId);
 
-    List<UserLink> findByUser(Link link);
+    void removeByUserIdAndLinkId(Long userId, Long linkId);
+
+    Optional<UserLink> findById(Long id);
+
+    List<UserLink> findByUserId(Long userId);
+
+    List<UserLink> findByLinkId(Long linkId);
+
+    Optional<UserLink> findByUserIdAndLinkId(Long userId, Long linkId);
 }
