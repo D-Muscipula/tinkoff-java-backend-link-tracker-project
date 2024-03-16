@@ -13,8 +13,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ScrapperController {
-    private final Logger logger = LoggerFactory.getLogger(ScrapperController.class);
+//    private final Logger logger = LoggerFactory.getLogger(ScrapperController.class);
 
     @PostMapping("/tg-chat/{id}")
     @Operation(summary = "Зарегистрировать чат")
@@ -44,7 +42,7 @@ public class ScrapperController {
         @Parameter(description = "Id чата в telegram", required = true)
         @PathVariable("id") Long tgChatId
     ) {
-        logger.info("чат зарегистрирован");
+//        logger.info("чат зарегистрирован");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -63,7 +61,7 @@ public class ScrapperController {
         @Parameter(description = "Id чата в telegram", required = true)
         @PathVariable("id") Long tgChatId
     ) {
-        logger.info("чат успешно удалён");
+//        logger.info("чат успешно удалён");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -82,7 +80,7 @@ public class ScrapperController {
     public ResponseEntity<ListLinksResponse> getLinks(
         @RequestHeader("Tg-Chat-Id") Long tgChatId
     ) {
-        logger.info("ссылки успешно получены");
+//        logger.info("ссылки успешно получены");
         List<LinkResponse> someLinks = new ArrayList<>();
         return new ResponseEntity<>(
             new ListLinksResponse(someLinks, 0),
@@ -109,7 +107,7 @@ public class ScrapperController {
         @RequestHeader("Tg-Chat-Id") Long tgChatId,
         @RequestBody AddLinkRequest addLinkRequest
     ) {
-        logger.info("ссылка успешна добавлена");
+//        logger.info("ссылка успешна добавлена");
         return new ResponseEntity<>(
             new LinkResponse(tgChatId, addLinkRequest.link()),
             HttpStatus.OK
@@ -137,7 +135,7 @@ public class ScrapperController {
         @RequestHeader("Tg-Chat-Id") Long tgChatId,
         @RequestBody RemoveLinkRequest removeLinkRequest
     ) {
-        logger.info("ссылка успешна удалена");
+//        logger.info("ссылка успешна удалена");
         return new ResponseEntity<>(
             new LinkResponse(tgChatId, removeLinkRequest.link()),
             HttpStatus.OK
