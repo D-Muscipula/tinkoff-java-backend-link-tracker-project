@@ -54,8 +54,8 @@ public abstract class IntegrationTest {
         registry.add("spring.datasource.password", POSTGRES::getPassword);
     }
 
-    @AfterAll
-    static void stop() {
-        POSTGRES.stop();
-    }
+//    @AfterAll
+//    static void stop() {
+//        POSTGRES.stop();
+//    }
 }

@@ -1,6 +1,6 @@
 package edu.java.repository;
 
-import edu.java.dto.User;
+import edu.java.dto.TgUser;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -16,18 +16,18 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void add(User user) {
-        String sql = "insert into users (user_chat_id, user_state)"
+    public void add(TgUser tgUser) {
+        String sql = "insert into tg_user (user_chat_id, user_state)"
             + "VALUES (:id, :state)";
         this.jdbcClient.sql(sql)
-                .param("id", user.userChatId())
-                .param("state", user.userState())
+                .param("id", tgUser.userChatId())
+                .param("state", tgUser.userState())
                 .update();
     }
 
     @Override
     public void remove(Long id) {
-        String sql = "delete from users "
+        String sql = "delete from tg_user "
             + "where user_chat_id = ?";
         this.jdbcClient.sql(sql)
             .param(id)
@@ -35,12 +35,12 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Optional<User> findById(Long id) {
-        String sql = "select * from users"
+    public Optional<TgUser> findById(Long id) {
+        String sql = "select * from tg_user"
             + " where user_chat_id = ? limit 1";
         return jdbcClient.sql(sql)
             .param(id)
-            .query(User.class)
+            .query(TgUser.class)
             .optional();
     }
 

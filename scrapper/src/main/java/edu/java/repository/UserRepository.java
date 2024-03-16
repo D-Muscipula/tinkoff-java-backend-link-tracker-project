@@ -1,13 +1,13 @@
 package edu.java.repository;
 
-import edu.java.dto.User;
+import edu.java.dto.TgUser;
 import java.util.Optional;
 
 public interface UserRepository {
 
-    void add(User user);
+    void add(TgUser tgUser);
 
     void remove(Long id);
 
-    Optional<User> findById(Long id);
+    Optional<TgUser> findById(Long id);
 }

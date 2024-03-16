@@ -18,7 +18,7 @@ public class LinkRepositoryImpl implements LinkRepository {
 
     @Override
     public void add(Link link) {
-        String sql = "insert into links (url, updated_at, last_checked_at)"
+        String sql = "insert into link (url, updated_at, last_checked_at)"
             + "VALUES (:url, :updated_at, :last_checked_at)";
         this.jdbcClient.sql(sql)
             .param("url", link.url().toString())
@@ -29,7 +29,7 @@ public class LinkRepositoryImpl implements LinkRepository {
 
     @Override
     public void removeById(Long id) {
-        String sql = "delete from links "
+        String sql = "delete from link "
             + "where id = ?";
         this.jdbcClient.sql(sql)
             .param(id)
@@ -38,7 +38,7 @@ public class LinkRepositoryImpl implements LinkRepository {
 
     @Override
     public void removeByURL(URI url) {
-        String sql = "delete from links"
+        String sql = "delete from link"
             + " where url = ?";
         this.jdbcClient.sql(sql)
             .param(url.toString())
@@ -47,7 +47,7 @@ public class LinkRepositoryImpl implements LinkRepository {
 
     @Override
     public Optional<Link> findById(Long id) {
-        String sql = "select * from links "
+        String sql = "select * from link "
             + "where id = ? limit 1";
         return jdbcClient.sql(sql)
             .param(id)
@@ -57,7 +57,7 @@ public class LinkRepositoryImpl implements LinkRepository {
 
     @Override
     public Optional<Link> findByURL(URI url) {
-        String sql = "select * from links"
+        String sql = "select * from link"
             + " where url = ? limit 1";
         return jdbcClient.sql(sql)
             .param(url.toString())

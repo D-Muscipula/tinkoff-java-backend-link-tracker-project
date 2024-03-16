@@ -107,7 +107,7 @@ public class ExceptionController {
     @ExceptionHandler
     public ApiErrorResponse handleUserIsNotRegisteredException(UserIsNotRegisteredException ex) {
         return new ApiErrorResponse(
-            "user is not registered",
+            "tgUser is not registered",
             "user_is_not_registered",
             "UserIsNotRegisteredException",
             ex.getMessage(),
