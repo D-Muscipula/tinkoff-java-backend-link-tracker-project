@@ -31,11 +31,14 @@ public class LinkRepositoryImpl implements LinkRepository {
     @Override
     public void update(Link link) {
         String sql = "update link "
-            + "set updated_at = ?, last_checked_at = ?"
+            + "set updated_at = ?, last_checked_at = ?, "
+            + "last_commit_sha = ?, answers_count = ? "
             + " where id = ?";
         this.jdbcClient.sql(sql)
             .param(link.updatedAt())
             .param(link.lastCheckedAt())
+            .param(link.lastCommitSha())
+            .param(link.answersCount())
             .param(link.id())
             .update();
     }

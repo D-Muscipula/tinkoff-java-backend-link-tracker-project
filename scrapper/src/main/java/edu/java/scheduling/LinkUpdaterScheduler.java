@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClientException;
 
 @Component
 public class LinkUpdaterScheduler {
@@ -38,11 +39,15 @@ public class LinkUpdaterScheduler {
         logger.info("it works");
         List<Link> oldLinks = linkService.findOldLinks(intervalSinceLastCheck);
         for (Link link : oldLinks) {
-            logger.info(link.toString());
-            if (link.url().getHost().equals("github.com")) {
-                jdbcGitHubLinkUpdater.update(link);
-            } else if (link.url().getHost().equals("stackoverflow.com")) {
-                jdbcStackOverflowLinkUpdater.update(link);
+            try {
+                logger.info(link.toString());
+                if (link.url().getHost().equals("github.com")) {
+                    jdbcGitHubLinkUpdater.update(link);
+                } else if (link.url().getHost().equals("stackoverflow.com")) {
+                    jdbcStackOverflowLinkUpdater.update(link);
+                }
+            } catch (WebClientException e) {
+                logger.info("бот, вероятно,  выключен");
             }
         }
     }
