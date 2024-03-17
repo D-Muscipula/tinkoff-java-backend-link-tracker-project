@@ -8,7 +8,10 @@ import edu.java.dto.Link;
 import edu.java.dto.TgUser;
 import edu.java.service.LinkService;
 import edu.java.service.LinkUpdater;
+import java.time.OffsetDateTime;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,7 @@ public class JdbcGitHubLinkUpdater implements LinkUpdater {
     private final LinkService linkService;
     private final GitHubClient gitHubClient;
     private final BotClient botClient;
+    private final Logger logger = LoggerFactory.getLogger(JdbcGitHubLinkUpdater.class);
 
     @Autowired
     public JdbcGitHubLinkUpdater(
@@ -37,18 +41,24 @@ public class JdbcGitHubLinkUpdater implements LinkUpdater {
         GitHubRepositoryDTO gitHubRepositoryDTO = gitHubClient.getRepository(username, repositoryName);
         if (gitHubRepositoryDTO.updatedAt().isAfter(link.updatedAt())) {
             Link newtimeLink = new Link(link.id(),
-                link.url(), gitHubRepositoryDTO.updatedAt(), link.lastCheckedAt()
+                link.url(), gitHubRepositoryDTO.updatedAt(), OffsetDateTime.now()
             );
             linkService.update(newtimeLink);
             List<TgUser> userList = linkService.listAllUsers(link.id());
+            LinkUpdate linkUpdate = new LinkUpdate(
+                link.id(),
+                link.url(),
+                String.format("link: %s is updated", link.url()),
+                userList.stream().map(TgUser::userChatId).toList());
+            logger.info(linkUpdate.toString());
             botClient.sendUpdate(
-                new LinkUpdate(
-                    link.id(),
-                    link.url(),
-                    String.format("link: %s is updated", link.url()),
-                    userList.stream().map(TgUser::userChatId).toList()
-                )
+                linkUpdate
+                );
+        } else {
+            Link newtimeLink = new Link(link.id(),
+                link.url(), link.updatedAt(), OffsetDateTime.now()
             );
+            linkService.update(newtimeLink);
         }
     }
 }

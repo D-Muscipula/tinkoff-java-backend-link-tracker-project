@@ -123,7 +123,7 @@ public class JdbcLinkService implements LinkService {
             .stream()
             .filter(
                 link -> ChronoUnit.SECONDS.between(
-                    OffsetDateTime.now(), link.lastCheckedAt()
+                    link.lastCheckedAt(), OffsetDateTime.now()
                 ) >= intervalSinceLastCheck
             )
             .toList();

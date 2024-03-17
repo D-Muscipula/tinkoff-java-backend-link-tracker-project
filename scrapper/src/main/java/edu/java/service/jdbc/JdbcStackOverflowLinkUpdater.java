@@ -40,7 +40,7 @@ public class JdbcStackOverflowLinkUpdater implements LinkUpdater {
         if (lastActivityDate
             .isAfter(link.updatedAt())) {
             Link newtimeLink = new Link(link.id(),
-                link.url(), lastActivityDate, link.lastCheckedAt()
+                link.url(), lastActivityDate, OffsetDateTime.now()
             );
             linkService.update(newtimeLink);
             List<TgUser> userList = linkService.listAllUsers(link.id());
@@ -52,6 +52,11 @@ public class JdbcStackOverflowLinkUpdater implements LinkUpdater {
                     userList.stream().map(TgUser::userChatId).toList()
                 )
             );
+        } else {
+            Link newtimeLink = new Link(link.id(),
+                link.url(), link.updatedAt(), OffsetDateTime.now()
+            );
+            linkService.update(newtimeLink);
         }
     }
 }

@@ -38,6 +38,7 @@ public class LinkUpdaterScheduler {
         logger.info("it works");
         List<Link> oldLinks = linkService.findOldLinks(intervalSinceLastCheck);
         for (Link link : oldLinks) {
+            logger.info(link.toString());
             if (link.url().getHost().equals("github.com")) {
                 jdbcGitHubLinkUpdater.update(link);
             } else if (link.url().getHost().equals("stackoverflow.com")) {
