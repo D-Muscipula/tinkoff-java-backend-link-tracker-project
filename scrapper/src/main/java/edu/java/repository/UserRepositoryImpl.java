@@ -1,6 +1,5 @@
 package edu.java.repository;
 
-import edu.java.dto.Link;
 import edu.java.dto.TgUser;
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +46,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<TgUser> findALl() {
+    public List<TgUser> findAll() {
         String sql = " select * from tg_user";
         return jdbcClient.sql(sql)
             .query(TgUser.class)

@@ -12,5 +12,5 @@ public interface UserRepository {
 
     Optional<TgUser> findById(Long id);
 
-    List<TgUser> findALl();
+    List<TgUser> findAll();
 }

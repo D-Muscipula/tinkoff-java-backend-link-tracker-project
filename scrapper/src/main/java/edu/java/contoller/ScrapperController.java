@@ -114,9 +114,7 @@ public class ScrapperController {
         List<LinkResponse> someLinks = new ArrayList<>();
         try {
             List<Link> links = jdbcLinkService.listAll(tgChatId);
-            links.forEach((link) -> {
-                someLinks.add(new LinkResponse(link.id(), link.url()));
-            });
+            links.forEach((link) -> someLinks.add(new LinkResponse(link.id(), link.url())));
             logger.info("ссылки успешно получены");
         } catch (ChatDoesntExistException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
