@@ -41,7 +41,7 @@ public class JdbcGitHubLinkUpdater implements LinkUpdater {
         GitHubRepositoryDTO gitHubRepositoryDTO = gitHubClient.getRepository(username, repositoryName);
         if (gitHubRepositoryDTO.updatedAt().isAfter(link.updatedAt())) {
             Link newtimeLink = new Link(link.id(),
-                link.url(), gitHubRepositoryDTO.updatedAt(), OffsetDateTime.now()
+                link.url(), gitHubRepositoryDTO.updatedAt(), OffsetDateTime.now(), null, null
             );
             linkService.update(newtimeLink);
             List<TgUser> userList = linkService.listAllUsers(link.id());
@@ -56,7 +56,7 @@ public class JdbcGitHubLinkUpdater implements LinkUpdater {
                 );
         } else {
             Link newtimeLink = new Link(link.id(),
-                link.url(), link.updatedAt(), OffsetDateTime.now()
+                link.url(), link.updatedAt(), OffsetDateTime.now(), null, null
             );
             linkService.update(newtimeLink);
         }

@@ -47,7 +47,7 @@ public class JdbcLinkService implements LinkService {
 
         Optional<Link> link = linkRepository.findByURL(url);
         if (link.isEmpty()) {
-            linkRepository.add(new Link(-1L, url, OffsetDateTime.now(), OffsetDateTime.now()));
+            linkRepository.add(new Link(-1L, url, OffsetDateTime.now(), OffsetDateTime.now(), null, null));
             link = linkRepository.findByURL(url);
         }
 

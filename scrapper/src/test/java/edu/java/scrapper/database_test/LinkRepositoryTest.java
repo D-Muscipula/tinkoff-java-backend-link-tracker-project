@@ -28,7 +28,7 @@ public class LinkRepositoryTest extends IntegrationTest {
         OffsetDateTime updatedAt = OffsetDateTime.parse("2024-01-31T22:22:10Z");
         OffsetDateTime lastCheckedAt = OffsetDateTime.parse("2024-02-18T16:14:29Z");
 
-        linkRepository.add(new Link(-1L, uriForAdd, updatedAt, lastCheckedAt));
+        linkRepository.add(new Link(-1L, uriForAdd, updatedAt, lastCheckedAt, null, null));
         Assertions.assertTrue(linkRepository.findByURL(uriForAdd).isPresent());
 
         Link foundLink = linkRepository.findByURL(uriForAdd).get();
@@ -38,7 +38,7 @@ public class LinkRepositoryTest extends IntegrationTest {
         Assertions.assertEquals(lastCheckedAt, foundLink.lastCheckedAt());
 
         URI uriForAddNew = URI.create("https://stackoverflow.com/q");
-        linkRepository.add(new Link(-1L, uriForAddNew , updatedAt, lastCheckedAt));
+        linkRepository.add(new Link(-1L, uriForAddNew , updatedAt, lastCheckedAt, null, null));
 
         Long id = linkRepository.findByURL(uriForAddNew).get().id();
         Assertions.assertTrue(linkRepository.findById(id).isPresent());
@@ -54,14 +54,14 @@ public class LinkRepositoryTest extends IntegrationTest {
         OffsetDateTime updatedAt = OffsetDateTime.parse("2024-01-31T22:22:10Z");
         OffsetDateTime lastCheckedAt = OffsetDateTime.parse("2024-02-18T16:14:29Z");
 
-        linkRepository.add(new Link(-1L, uriForAdd, updatedAt, lastCheckedAt));
+        linkRepository.add(new Link(-1L, uriForAdd, updatedAt, lastCheckedAt, null, null));
         Assertions.assertTrue(linkRepository.findByURL(uriForAdd).isPresent());
 
         linkRepository.removeByURL(uriForAdd);
         Optional<Link> deletedLink= linkRepository.findByURL(uriForAdd);
         Assertions.assertFalse(deletedLink.isPresent());
 
-        linkRepository.add(new Link(-1L, uriForAdd, updatedAt, lastCheckedAt));
+        linkRepository.add(new Link(-1L, uriForAdd, updatedAt, lastCheckedAt, null, null));
         Long id = linkRepository.findByURL(uriForAdd).get().id();
 
         linkRepository.removeById(id);

@@ -41,7 +41,7 @@ public class TgUserLinkRepositoryTest extends IntegrationTest {
             URI.create("https://stackoverflow.com/questions/42/best-way-to-allow-plugins-for-a-php-application/77#77");
         updatedAt = OffsetDateTime.parse("2024-01-31T22:22:10Z");
         lastCheckedAt = OffsetDateTime.parse("2024-02-18T16:14:29Z");
-        defaultLinkForAdding = new Link(1L, uriForAdd, updatedAt, lastCheckedAt);
+        defaultLinkForAdding = new Link(1L, uriForAdd, updatedAt, lastCheckedAt, null, null);
         defaultTgUser = new TgUser(10L, "registered");
     }
 
@@ -85,7 +85,7 @@ public class TgUserLinkRepositoryTest extends IntegrationTest {
         Assertions.assertEquals(foundUserLink.link(), linkId);
 
         TgUser tgUserForAdding1 = new TgUser(11L, "registered");
-        Link linkForAdding1 = new Link(-1L, URI.create("abc"), updatedAt, lastCheckedAt);
+        Link linkForAdding1 = new Link(-1L, URI.create("abc"), updatedAt, lastCheckedAt, null, null);
 
         userRepository.add(tgUserForAdding1);
         linkRepository.add(linkForAdding1);
@@ -115,7 +115,7 @@ public class TgUserLinkRepositoryTest extends IntegrationTest {
         UserLink userLink = new UserLink(-1L, userId, linkId);
         userLinkRepository.add(userLink);
 
-        Link linkForAdding1 = new Link(-1L, URI.create("abc"), updatedAt, lastCheckedAt);
+        Link linkForAdding1 = new Link(-1L, URI.create("abc"), updatedAt, lastCheckedAt, null, null);
         linkRepository.add(linkForAdding1);
         Long linkId1 = linkRepository.findByURL(URI.create("abc")).get().id();
         UserLink userLink1 = new UserLink(-1L, userId, linkId1);
@@ -196,7 +196,7 @@ public class TgUserLinkRepositoryTest extends IntegrationTest {
         UserLink userLink = new UserLink(-1L, defaultTgUser.userChatId(), linkId);
         userLinkRepository.add(userLink);
 
-        Link linkForAdding1 = new Link(-1L, URI.create("abc"), updatedAt, lastCheckedAt);
+        Link linkForAdding1 = new Link(-1L, URI.create("abc"), updatedAt, lastCheckedAt, null, null);
         linkRepository.add(linkForAdding1);
         Long linkId1 = linkRepository.findByURL(URI.create("abc")).get().id();
         UserLink userLink1 = new UserLink(-1L, defaultTgUser.userChatId(), linkId1);

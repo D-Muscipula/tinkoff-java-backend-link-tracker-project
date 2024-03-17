@@ -1,7 +1,10 @@
 package edu.java.client;
 
 import edu.java.configuration.ApplicationConfig;
+import edu.java.dto.CommitDTO;
 import edu.java.dto.GitHubRepositoryDTO;
+import java.util.Objects;
+import java.util.Optional;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -28,6 +31,19 @@ public class GitHubClient {
             .retrieve()
             .bodyToMono(GitHubRepositoryDTO.class)
             .block();
+    }
+
+    public Optional<CommitDTO> getCommit(String user, String repository) {
+        return Objects.requireNonNull(Objects.requireNonNull(webClient.get()
+                                .uri(uriBuilder -> uriBuilder
+                                        .pathSegment(user, repository, "commits")
+                                        .build())
+                                .retrieve()
+                                .toEntityList(CommitDTO.class)
+                                .block())
+                        .getBody())
+            .stream()
+            .findFirst();
     }
 
     private void setUpWebClient() {
