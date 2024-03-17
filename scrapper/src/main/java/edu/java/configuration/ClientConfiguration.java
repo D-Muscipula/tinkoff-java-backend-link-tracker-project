@@ -33,9 +33,4 @@ public class ClientConfiguration {
     public BotClient botClient() {
         return new BotClient(applicationConfig);
     }
-
-    @Bean
-    public LinkUpdaterScheduler linkUpdaterScheduler() {
-        return new LinkUpdaterScheduler();
-    }
 }
