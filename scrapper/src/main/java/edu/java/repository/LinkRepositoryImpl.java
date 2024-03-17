@@ -2,6 +2,7 @@ package edu.java.repository;
 
 import edu.java.dto.Link;
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -24,6 +25,18 @@ public class LinkRepositoryImpl implements LinkRepository {
             .param("url", link.url().toString())
             .param("updated_at", link.updatedAt())
             .param("last_checked_at", link.lastCheckedAt())
+            .update();
+    }
+
+    @Override
+    public void update(Link link) {
+        String sql = "update link "
+            + "set updated_at = ?, last_checked_at = ?"
+            + " where id = ?";
+        this.jdbcClient.sql(sql)
+            .param(link.updatedAt())
+            .param(link.lastCheckedAt())
+            .param(link.id())
             .update();
     }
 
@@ -63,5 +76,13 @@ public class LinkRepositoryImpl implements LinkRepository {
             .param(url.toString())
             .query(Link.class)
             .optional();
+    }
+
+    @Override
+    public List<Link> findAll() {
+        String sql = " select * from link";
+        return jdbcClient.sql(sql)
+            .query(Link.class)
+            .list();
     }
 }

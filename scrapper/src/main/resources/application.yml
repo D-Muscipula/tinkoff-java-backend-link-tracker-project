@@ -3,6 +3,7 @@ app:
     enable: true
     interval: 10s
     force-check-delay: 10s
+    interval-since-last-check: 100
   baseGitHubUrl: https://api.github.com/repos/
   baseStackOverflowUrl: https://api.stackexchange.com/
   baseBotClientUrl: http://localhost:8090
@@ -13,7 +14,8 @@ spring:
   liquibase:
     enabled: false
   datasource:
-    url: jdbc:postgresql://postgresql:5437/scrapper
+    #url: jdbc:postgresql://postgresql:5437/scrapper
+    url: jdbc:postgresql://localhost:5437/scrapper
     username: ${USERNAME}
     password: ${PASSWORD}
     driverClassName: org.postgresql.Driver

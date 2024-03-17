@@ -21,5 +21,7 @@ public interface UserLinkRepository {
 
     List<UserLink> findByLinkId(Long linkId);
 
+    List<UserLink> findAll();
+
     Optional<UserLink> findByUserIdAndLinkId(Long userId, Long linkId);
 }

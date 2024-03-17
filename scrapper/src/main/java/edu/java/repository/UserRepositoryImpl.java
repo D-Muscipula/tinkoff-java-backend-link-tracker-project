@@ -1,6 +1,8 @@
 package edu.java.repository;
 
+import edu.java.dto.Link;
 import edu.java.dto.TgUser;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -42,6 +44,14 @@ public class UserRepositoryImpl implements UserRepository {
             .param(id)
             .query(TgUser.class)
             .optional();
+    }
+
+    @Override
+    public List<TgUser> findALl() {
+        String sql = " select * from tg_user";
+        return jdbcClient.sql(sql)
+            .query(TgUser.class)
+            .list();
     }
 
 }

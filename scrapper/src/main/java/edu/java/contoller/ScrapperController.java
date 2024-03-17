@@ -5,6 +5,12 @@ import dto.request.RemoveLinkRequest;
 import dto.response.ApiErrorResponse;
 import dto.response.LinkResponse;
 import dto.response.ListLinksResponse;
+import edu.java.dto.Link;
+import edu.java.exceptions.ChatAlreadyExistsException;
+import edu.java.exceptions.ChatDoesntExistException;
+import edu.java.exceptions.ThereIsNoSuchLinkException;
+import edu.java.service.jdbc.JdbcLinkService;
+import edu.java.service.jdbc.JdbcTgUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,6 +19,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,7 +34,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ScrapperController {
-//    private final Logger logger = LoggerFactory.getLogger(ScrapperController.class);
+    private final JdbcLinkService jdbcLinkService;
+    private final JdbcTgUserService jdbcTgUserService;
+    private final Logger logger = LoggerFactory.getLogger(ScrapperController.class);
+
+    @Autowired
+    public ScrapperController(JdbcLinkService jdbcLinkService, JdbcTgUserService jdbcTgUserService) {
+        this.jdbcLinkService = jdbcLinkService;
+        this.jdbcTgUserService = jdbcTgUserService;
+    }
 
     @PostMapping("/tg-chat/{id}")
     @Operation(summary = "Зарегистрировать чат")
@@ -42,7 +59,14 @@ public class ScrapperController {
         @Parameter(description = "Id чата в telegram", required = true)
         @PathVariable("id") Long tgChatId
     ) {
-//        logger.info("чат зарегистрирован");
+        try {
+            jdbcTgUserService.register(tgChatId);
+            logger.info("чат " + tgChatId + "зарегистрирован");
+        } catch (ChatAlreadyExistsException e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -61,7 +85,14 @@ public class ScrapperController {
         @Parameter(description = "Id чата в telegram", required = true)
         @PathVariable("id") Long tgChatId
     ) {
-//        logger.info("чат успешно удалён");
+        try {
+            jdbcTgUserService.unregister(tgChatId);
+            logger.info("чат успешно удалён");
+        } catch (ChatDoesntExistException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -80,10 +111,21 @@ public class ScrapperController {
     public ResponseEntity<ListLinksResponse> getLinks(
         @RequestHeader("Tg-Chat-Id") Long tgChatId
     ) {
-//        logger.info("ссылки успешно получены");
         List<LinkResponse> someLinks = new ArrayList<>();
+        try {
+            List<Link> links = jdbcLinkService.listAll(tgChatId);
+            links.forEach((link) -> {
+                someLinks.add(new LinkResponse(link.id(), link.url()));
+            });
+            logger.info("ссылки успешно получены");
+        } catch (ChatDoesntExistException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         return new ResponseEntity<>(
-            new ListLinksResponse(someLinks, 0),
+            new ListLinksResponse(someLinks, someLinks.size()),
             HttpStatus.OK
         );
     }
@@ -107,7 +149,15 @@ public class ScrapperController {
         @RequestHeader("Tg-Chat-Id") Long tgChatId,
         @RequestBody AddLinkRequest addLinkRequest
     ) {
-//        logger.info("ссылка успешна добавлена");
+        try {
+            jdbcLinkService.add(tgChatId, addLinkRequest.link());
+            logger.info("ссылка успешна добавлена");
+        } catch (ChatDoesntExistException e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         return new ResponseEntity<>(
             new LinkResponse(tgChatId, addLinkRequest.link()),
             HttpStatus.OK
@@ -135,7 +185,17 @@ public class ScrapperController {
         @RequestHeader("Tg-Chat-Id") Long tgChatId,
         @RequestBody RemoveLinkRequest removeLinkRequest
     ) {
-//        logger.info("ссылка успешна удалена");
+        try {
+            jdbcLinkService.remove(tgChatId, removeLinkRequest.link());
+            logger.info("ссылка успешна удалена");
+        } catch (ChatDoesntExistException e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (ThereIsNoSuchLinkException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         return new ResponseEntity<>(
             new LinkResponse(tgChatId, removeLinkRequest.link()),
             HttpStatus.OK

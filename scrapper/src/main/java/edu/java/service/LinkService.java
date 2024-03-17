@@ -1,13 +1,20 @@
 package edu.java.service;
 
 import edu.java.dto.Link;
+import edu.java.dto.TgUser;
 import java.net.URI;
-import java.util.Collection;
+import java.util.List;
 
 public interface LinkService {
-    Link add(long tgChatId, URI url);
+    void add(long tgChatId, URI url);
 
-    Link remove(long tgChatId, URI url);
+    void update(Link link);
 
-    Collection<Link> listAll(long tgChatId);
+    void remove(long tgChatId, URI url);
+
+    List<Link> listAll(long tgChatId);
+
+    List<TgUser> listAllUsers(long linkId);
+
+    List<Link> findOldLinks(Long intervalSinceLastCheck);
 }

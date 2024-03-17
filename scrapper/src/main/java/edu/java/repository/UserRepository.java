@@ -1,6 +1,7 @@
 package edu.java.repository;
 
 import edu.java.dto.TgUser;
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
@@ -10,4 +11,6 @@ public interface UserRepository {
     void remove(Long id);
 
     Optional<TgUser> findById(Long id);
+
+    List<TgUser> findALl();
 }

@@ -96,6 +96,14 @@ public class UserLinkRepositoryImpl implements UserLinkRepository {
     }
 
     @Override
+    public List<UserLink> findAll() {
+        String sql = " select * from users_links";
+        return jdbcClient.sql(sql)
+            .query(UserLink.class)
+            .list();
+    }
+
+    @Override
     public Optional<UserLink> findByUserIdAndLinkId(Long userId, Long linkId) {
         String sql = "select * from users_links "
             + "where tg_user = ? and link = ?";

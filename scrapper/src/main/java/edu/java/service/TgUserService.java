@@ -1,4 +1,7 @@
 package edu.java.service;
 
-public class TgUserService {
+public interface TgUserService {
+    void register(long tgUserId);
+
+    void unregister(long tgUserId);
 }
