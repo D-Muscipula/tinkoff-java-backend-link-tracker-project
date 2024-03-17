@@ -1,11 +1,11 @@
 package edu.java.scrapper.database_test;
 
-import edu.java.dto.Link;
-import edu.java.dto.TgUser;
-import edu.java.dto.UserLink;
-import edu.java.repository.LinkRepository;
-import edu.java.repository.UserLinkRepository;
-import edu.java.repository.UserRepository;
+import edu.java.scrapper.dto.Link;
+import edu.java.scrapper.dto.TgUser;
+import edu.java.scrapper.dto.UserLink;
+import edu.java.scrapper.domain.repository.LinkRepository;
+import edu.java.scrapper.domain.repository.UserLinkRepository;
+import edu.java.scrapper.domain.repository.UserRepository;
 import edu.java.scrapper.IntegrationTest;
 import java.net.URI;
 import java.time.OffsetDateTime;
@@ -215,19 +215,18 @@ public class TgUserLinkRepositoryTest extends IntegrationTest {
     @Rollback
     @DisplayName("Удаление по id ссылки")
     void removeByLinkIdTest() {
-        UserLink userLink = new UserLink(-1L, defaultTgUser.userChatId(), defaultLinkForAdding.id());
-
         userRepository.add(defaultTgUser);
         linkRepository.add(defaultLinkForAdding);
+        Long userId = defaultTgUser.userChatId();
+        Long linkId = linkRepository.findByURL(uriForAdd).get().id();
+        UserLink userLink = new UserLink(-1L, defaultTgUser.userChatId(), linkId);
         userLinkRepository.add(userLink);
 
         TgUser tgUserForAdding1 = new TgUser(11L, "registered");
-        UserLink userLink1 = new UserLink(-1L, tgUserForAdding1.userChatId(), defaultLinkForAdding.id());
+        UserLink userLink1 = new UserLink(-1L, tgUserForAdding1.userChatId(), linkId);
 
         userRepository.add(tgUserForAdding1);
         userLinkRepository.add(userLink1);
-
-        Long linkId = linkRepository.findByURL(uriForAdd).get().id();
 
         Integer countOfDeleted = userLinkRepository.removeByLinkId(linkId);
         Assertions.assertEquals(2, countOfDeleted);

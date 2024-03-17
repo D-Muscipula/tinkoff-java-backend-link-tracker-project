@@ -1,7 +1,7 @@
 package edu.java.scrapper.database_test;
 
-import edu.java.dto.TgUser;
-import edu.java.repository.UserRepository;
+import edu.java.scrapper.dto.TgUser;
+import edu.java.scrapper.domain.repository.UserRepository;
 import edu.java.scrapper.IntegrationTest;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
