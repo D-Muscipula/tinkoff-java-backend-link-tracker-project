@@ -1,7 +1,12 @@
 package edu.java.bot.repository;
 
+import dto.request.AddLinkRequest;
+import dto.request.RemoveLinkRequest;
+import dto.request.TgUserUpdate;
 import dto.response.TgUserResponse;
 import edu.java.bot.client.ScrapperClient;
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepositoryScrapperClientImpl implements UserRepository {
@@ -27,11 +32,37 @@ public class UserRepositoryScrapperClientImpl implements UserRepository {
 
     @Override
     public void add(User user) {
-
+        scrapperClient.registerChat(user.id());
     }
 
     @Override
     public void update(User user) {
+        TgUserResponse tgUserResponse = scrapperClient.getUser(user.id());
+        UserState currentUserState = UserState.valueOf(tgUserResponse.userState());
+        UserState futureUserState = user.userState();
+        if (currentUserState == UserState.REGISTERED
+            && futureUserState == UserState.TRACK_STATE || futureUserState == UserState.UNTRACK_STATE) {
+            scrapperClient.updateUser(new TgUserUpdate(user.id(), futureUserState.getValue()));
+        } else if (currentUserState == UserState.TRACK_STATE && futureUserState == UserState.REGISTERED) {
+            for (int i = 0; i < user.links().size(); i++) {
+                scrapperClient.addLink(
+                    user.id(),
+                    new AddLinkRequest(URI.create(user.links().get(i)))
+                );
+                scrapperClient.updateUser(new TgUserUpdate(user.id(), futureUserState.getValue()));
+            }
+        } else if (currentUserState == UserState.UNTRACK_STATE && futureUserState == UserState.REGISTERED) {
+            List<String> list = new ArrayList<>(scrapperClient.getLinks(user.id()).links().stream()
+                    .map((link) -> link.url().toString()).toList());
+            list.removeAll(user.links());
+            for (String string : list) {
+                scrapperClient.deleteLink(
+                        user.id(),
+                        new RemoveLinkRequest(URI.create(string))
+                );
+                scrapperClient.updateUser(new TgUserUpdate(user.id(), futureUserState.getValue()));
+            }
+        }
 
     }
 }
