@@ -23,4 +23,4 @@ public enum UserState {
         throw new IllegalArgumentException("No enum constant with value: " + value);
     }
 }
-}
+

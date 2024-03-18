@@ -14,10 +14,9 @@ import edu.java.bot.message_handler.MessageHandler;
 import edu.java.bot.message_handler.UserMessageHandler;
 import edu.java.bot.my_bot.MyTgBot;
 import edu.java.bot.repository.UserRepository;
-import edu.java.bot.repository.UserRepositoryImpl;
+import edu.java.bot.repository.UserRepositoryScrapperClientImpl;
 import java.util.ArrayList;
 import java.util.List;
-import edu.java.bot.repository.UserRepositoryScrapperClientImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
