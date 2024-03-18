@@ -2,7 +2,9 @@ package edu.java.bot.client;
 
 import dto.request.AddLinkRequest;
 import dto.request.RemoveLinkRequest;
+import dto.request.TgUserUpdate;
 import dto.response.ListLinksResponse;
+import dto.response.TgUserResponse;
 import edu.java.bot.configuration.ApplicationConfig;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,6 +19,7 @@ public class ScrapperClient {
     private static final String TG_CHAT_ID_HEADER = "Tg-Chat-Id";
 
     private static final String LINKS = "links";
+    private static final String STATE = "state";
 
     public ScrapperClient(ApplicationConfig applicationConfig) {
         this.applicationConfig = applicationConfig;
@@ -70,6 +73,23 @@ public class ScrapperClient {
             .bodyValue(removeLinkRequest)
             .retrieve()
             .bodyToMono(Void.class)
+            .block();
+    }
+
+    public void updateUser(TgUserUpdate tgUserUpdate) {
+        webClient.method(HttpMethod.POST)
+            .uri(STATE)
+            .bodyValue(tgUserUpdate)
+            .retrieve()
+            .bodyToMono(Void.class)
+            .block();
+    }
+
+    public TgUserResponse getUser(Long tgChatId) {
+        return webClient.method(HttpMethod.GET)
+            .uri(STATE)
+            .retrieve()
+            .bodyToMono(TgUserResponse.class)
             .block();
     }
 

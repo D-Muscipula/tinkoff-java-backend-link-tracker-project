@@ -17,6 +17,7 @@ import edu.java.bot.repository.UserRepository;
 import edu.java.bot.repository.UserRepositoryImpl;
 import java.util.ArrayList;
 import java.util.List;
+import edu.java.bot.repository.UserRepositoryScrapperClientImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -35,7 +36,7 @@ public class AppConfig {
 
     @Bean
     public UserRepository dB() {
-        return new UserRepositoryImpl();
+        return new UserRepositoryScrapperClientImpl(scrapperClient());
     }
 
     @Bean

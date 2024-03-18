@@ -27,6 +27,17 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public void updateTgUser(TgUser tgUser) {
+        String sql = "update tg_user "
+            + "set user_state = ?"
+            + " where user_chat_id = ?";
+        this.jdbcClient.sql(sql)
+            .param(tgUser.userState())
+            .param(tgUser.userChatId())
+            .update();
+    }
+
+    @Override
     public void remove(Long id) {
         String sql = "delete from tg_user "
             + "where user_chat_id = ?";

@@ -1,5 +1,7 @@
 package edu.java.bot.controller;
 
+import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.request.SendMessage;
 import dto.request.LinkUpdate;
 import dto.response.ApiErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BotController {
     private final Logger logger = LoggerFactory.getLogger(BotController.class);
+    private final TelegramBot telegramBot;
+
+    public BotController(TelegramBot telegramBot) {
+        this.telegramBot = telegramBot;
+    }
 
     @PostMapping("/updates")
     @Operation(summary = "Отправить обновление")
@@ -38,6 +45,10 @@ public class BotController {
         @RequestBody LinkUpdate linkUpdate
     ) {
         logger.info("обновления получены");
+        for (var i : linkUpdate.tgChatIds()) {
+            String message = linkUpdate.description();
+            telegramBot.execute(new SendMessage(i, message));
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

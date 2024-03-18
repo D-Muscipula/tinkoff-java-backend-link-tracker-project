@@ -8,6 +8,8 @@ public interface UserRepository {
 
     void add(TgUser tgUser);
 
+    void updateTgUser(TgUser tgUser);
+
     void remove(Long id);
 
     Optional<TgUser> findById(Long id);
