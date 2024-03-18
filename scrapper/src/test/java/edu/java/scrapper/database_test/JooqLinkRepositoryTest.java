@@ -1,10 +1,11 @@
 package edu.java.scrapper.database_test;
 
-import edu.java.scrapper.dto.Link;
-import edu.java.scrapper.domain.repository.LinkRepository;
 import edu.java.scrapper.IntegrationTest;
+import edu.java.scrapper.domain.repository.LinkRepository;
+import edu.java.scrapper.dto.Link;
 import java.net.URI;
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -16,8 +17,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
-public class LinkRepositoryTest extends IntegrationTest {
-    @Qualifier("linkRepositoryImpl") @Autowired
+public class JooqLinkRepositoryTest extends IntegrationTest {
+    @Qualifier("jooqLinkRepository") @Autowired
     private LinkRepository linkRepository;
 
     @Test
@@ -35,8 +36,9 @@ public class LinkRepositoryTest extends IntegrationTest {
         Link foundLink = linkRepository.findByURL(uriForAdd).get();
 
         Assertions.assertEquals(uriForAdd, foundLink.url());
-        Assertions.assertEquals(updatedAt, foundLink.updatedAt());
-        Assertions.assertEquals(lastCheckedAt, foundLink.lastCheckedAt());
+
+        Assertions.assertEquals(0, ChronoUnit.SECONDS.between(updatedAt, foundLink.updatedAt()));
+        Assertions.assertEquals(0, ChronoUnit.SECONDS.between(lastCheckedAt, foundLink.lastCheckedAt()));
 
         URI uriForAddNew = URI.create("https://stackoverflow.com/q");
         linkRepository.add(new Link(-1L, uriForAddNew , updatedAt, lastCheckedAt, null, null));
@@ -70,3 +72,4 @@ public class LinkRepositoryTest extends IntegrationTest {
         Assertions.assertFalse(deletedLink1.isPresent());
     }
 }
+

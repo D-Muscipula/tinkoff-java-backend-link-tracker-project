@@ -1,4 +1,4 @@
-package edu.java.scrapper.domain.service.jdbc;
+package edu.java.scrapper.domain.service.updater;
 
 import dto.request.LinkUpdate;
 import edu.java.scrapper.client.BotClient;
@@ -11,6 +11,7 @@ import edu.java.scrapper.dto.TgUser;
 import java.time.OffsetDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +22,7 @@ public class JdbcStackOverflowLinkUpdater implements LinkUpdater {
 
     @Autowired
     public JdbcStackOverflowLinkUpdater(
-        LinkService linkService,
+        @Qualifier("jdbcLinkService") LinkService linkService,
         StackOverflowClient stackOverflowClient,
         BotClient botClient
     ) {

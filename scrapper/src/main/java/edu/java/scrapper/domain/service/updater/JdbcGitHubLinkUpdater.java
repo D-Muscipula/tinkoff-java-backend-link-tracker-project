@@ -1,4 +1,4 @@
-package edu.java.scrapper.domain.service.jdbc;
+package edu.java.scrapper.domain.service.updater;
 
 import dto.request.LinkUpdate;
 import edu.java.scrapper.client.BotClient;
@@ -15,6 +15,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,7 +27,7 @@ public class JdbcGitHubLinkUpdater implements LinkUpdater {
 
     @Autowired
     public JdbcGitHubLinkUpdater(
-        LinkService linkService,
+        @Qualifier("jdbcLinkService") LinkService linkService,
         GitHubClient gitHubClient,
         BotClient botClient
     ) {

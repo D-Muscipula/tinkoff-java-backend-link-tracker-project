@@ -1,9 +1,8 @@
 package edu.java.scrapper.database_test;
 
-import edu.java.scrapper.dto.TgUser;
-import edu.java.scrapper.domain.repository.UserRepository;
 import edu.java.scrapper.IntegrationTest;
-import java.util.Optional;
+import edu.java.scrapper.domain.repository.UserRepository;
+import edu.java.scrapper.dto.TgUser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +10,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.Optional;
 
 @SpringBootTest
-public class TgUserRepositoryTest extends IntegrationTest {
-    @Qualifier("userRepositoryImpl") @Autowired
+public class JooqUserRepositoryTest extends IntegrationTest {
+    @Qualifier("jooqUserRepository")
+    @Autowired
     private UserRepository userRepository;
+
 
     @Test
     @Transactional

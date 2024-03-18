@@ -1,4 +1,4 @@
-package edu.java.scrapper.domain.service.jdbc;
+package edu.java.scrapper.domain.service.jooq;
 
 import edu.java.scrapper.domain.repository.LinkRepository;
 import edu.java.scrapper.domain.repository.UserLinkRepository;
@@ -22,16 +22,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class JdbcLinkService implements LinkService {
+public class JooqLinkService implements LinkService {
     private final UserRepository userRepository;
     private final LinkRepository linkRepository;
     private final UserLinkRepository userLinkRepository;
 
     @Autowired
-    public JdbcLinkService(
-        @Qualifier("userRepositoryImpl") UserRepository userRepository,
-        @Qualifier("linkRepositoryImpl") LinkRepository linkRepository,
-        @Qualifier("userLinkRepositoryImpl") UserLinkRepository userLinkRepository
+    public JooqLinkService(
+        @Qualifier("jooqUserRepository") UserRepository userRepository,
+        @Qualifier("jooqLinkRepository") LinkRepository linkRepository,
+        @Qualifier("jooqUserLinkRepository") UserLinkRepository userLinkRepository
     ) {
         this.userRepository = userRepository;
         this.linkRepository = linkRepository;

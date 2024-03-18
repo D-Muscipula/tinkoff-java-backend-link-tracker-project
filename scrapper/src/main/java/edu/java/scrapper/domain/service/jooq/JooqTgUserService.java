@@ -1,4 +1,4 @@
-package edu.java.scrapper.domain.service.jdbc;
+package edu.java.scrapper.domain.service.jooq;
 
 import edu.java.scrapper.domain.repository.UserRepository;
 import edu.java.scrapper.domain.service.TgUserService;
@@ -11,13 +11,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class JdbcTgUserService implements TgUserService {
+public class JooqTgUserService implements TgUserService {
     private final UserRepository userRepository;
 
     @Autowired
 
-    public JdbcTgUserService(
-        @Qualifier("userRepositoryImpl")
+    public JooqTgUserService(
+        @Qualifier("jooqUserRepository")
         UserRepository userRepository
     ) {
         this.userRepository = userRepository;
