@@ -88,6 +88,7 @@ public class ScrapperClient {
     public TgUserResponse getUser(Long tgChatId) {
         return webClient.method(HttpMethod.GET)
             .uri(STATE)
+            .header(TG_CHAT_ID_HEADER, String.valueOf(tgChatId))
             .retrieve()
             .bodyToMono(TgUserResponse.class)
             .block();

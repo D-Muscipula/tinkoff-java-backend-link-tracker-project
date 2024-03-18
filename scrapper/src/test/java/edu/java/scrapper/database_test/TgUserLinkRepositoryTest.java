@@ -1,11 +1,11 @@
 package edu.java.scrapper.database_test;
 
-import edu.java.dto.Link;
-import edu.java.dto.TgUser;
-import edu.java.dto.UserLink;
-import edu.java.repository.LinkRepository;
-import edu.java.repository.UserLinkRepository;
-import edu.java.repository.UserRepository;
+import edu.java.scrapper.dto.Link;
+import edu.java.scrapper.dto.TgUser;
+import edu.java.scrapper.dto.UserLink;
+import edu.java.scrapper.repository.LinkRepository;
+import edu.java.scrapper.repository.UserLinkRepository;
+import edu.java.scrapper.repository.UserRepository;
 import edu.java.scrapper.IntegrationTest;
 import java.net.URI;
 import java.time.OffsetDateTime;

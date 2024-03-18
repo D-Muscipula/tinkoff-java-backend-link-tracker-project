@@ -22,8 +22,8 @@ public class UserRepositoryScrapperClientImpl implements UserRepository {
         if (tgUserResponse.userState().equals("unregistered")) {
             return null;
         } else {
-            List<String> links = scrapperClient.getLinks(id).links().stream()
-                .map((link) -> link.url().toString()).toList();
+            List<String> links = new ArrayList<>(scrapperClient.getLinks(id).links().stream()
+                .map((link) -> link.url().toString()).toList());
             return new User(tgUserResponse.userChatId(), UserState.fromString(tgUserResponse.userState()),
                 links
             );
@@ -38,7 +38,7 @@ public class UserRepositoryScrapperClientImpl implements UserRepository {
     @Override
     public void update(User user) {
         TgUserResponse tgUserResponse = scrapperClient.getUser(user.id());
-        UserState currentUserState = UserState.valueOf(tgUserResponse.userState());
+        UserState currentUserState = UserState.fromString(tgUserResponse.userState());
         UserState futureUserState = user.userState();
         if (currentUserState == UserState.REGISTERED
             && futureUserState == UserState.TRACK_STATE || futureUserState == UserState.UNTRACK_STATE) {

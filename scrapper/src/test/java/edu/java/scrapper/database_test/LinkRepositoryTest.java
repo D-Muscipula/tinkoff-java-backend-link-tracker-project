@@ -1,7 +1,7 @@
 package edu.java.scrapper.database_test;
 
-import edu.java.dto.Link;
-import edu.java.repository.LinkRepository;
+import edu.java.scrapper.dto.Link;
+import edu.java.scrapper.repository.LinkRepository;
 import edu.java.scrapper.IntegrationTest;
 import java.net.URI;
 import java.time.OffsetDateTime;

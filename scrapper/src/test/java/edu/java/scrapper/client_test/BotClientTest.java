@@ -2,8 +2,8 @@ package edu.java.scrapper.client_test;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import dto.request.LinkUpdate;
-import edu.java.client.BotClient;
-import edu.java.configuration.ApplicationConfig;
+import edu.java.scrapper.client.BotClient;
+import edu.java.scrapper.configuration.ApplicationConfig;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
