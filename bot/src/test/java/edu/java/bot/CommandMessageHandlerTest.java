@@ -19,6 +19,7 @@ import edu.java.bot.repository.UserState;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import edu.java.bot.service.UserServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ public class CommandMessageHandlerTest {
     @Mock
     private Chat chat;
 
-    private UserRepository userRepository;
+    private UserRepositoryImpl userRepository;
 
     @BeforeEach
     void setUp() {
@@ -52,7 +53,7 @@ public class CommandMessageHandlerTest {
                 add(new ListCommand(new ArrayList<>()));
             }
         };
-        messageHandler = new CommandMessageHandler(userRepository, commandList);
+        messageHandler = new CommandMessageHandler(new UserServiceImpl(userRepository), commandList);
     }
 
     @Test

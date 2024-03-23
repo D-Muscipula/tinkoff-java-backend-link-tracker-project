@@ -14,9 +14,10 @@ import edu.java.bot.message_handler.MessageHandler;
 import edu.java.bot.message_handler.UserMessageHandler;
 import edu.java.bot.my_bot.MyTgBot;
 import edu.java.bot.repository.UserRepository;
-import edu.java.bot.repository.UserRepositoryScrapperClientImpl;
+import edu.java.bot.service.UserScrapperService;
 import java.util.ArrayList;
 import java.util.List;
+import edu.java.bot.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,8 +35,8 @@ public class AppConfig {
     }
 
     @Bean
-    public UserRepository dB() {
-        return new UserRepositoryScrapperClientImpl(scrapperClient());
+    public UserService dB() {
+        return new UserScrapperService(scrapperClient());
     }
 
     @Bean

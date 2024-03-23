@@ -1,18 +1,20 @@
-package edu.java.bot.repository;
+package edu.java.bot.service;
 
 import dto.request.AddLinkRequest;
 import dto.request.RemoveLinkRequest;
 import dto.request.TgUserUpdate;
 import dto.response.TgUserResponse;
 import edu.java.bot.client.ScrapperClient;
+import edu.java.bot.repository.User;
+import edu.java.bot.repository.UserState;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepositoryScrapperClientImpl implements UserRepository {
+public class UserScrapperService implements UserService {
     private final ScrapperClient scrapperClient;
 
-    public UserRepositoryScrapperClientImpl(ScrapperClient scrapperClient) {
+    public UserScrapperService(ScrapperClient scrapperClient) {
         this.scrapperClient = scrapperClient;
     }
 

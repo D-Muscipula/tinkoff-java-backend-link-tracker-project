@@ -11,17 +11,17 @@ import edu.java.bot.commands.UnknownCommand;
 import edu.java.bot.commands.UnregisteredCommand;
 import edu.java.bot.commands.Untrack;
 import edu.java.bot.repository.User;
-import edu.java.bot.repository.UserRepository;
 import edu.java.bot.repository.UserState;
+import edu.java.bot.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CommandMessageHandler implements MessageHandler {
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final List<Command> commands;
 
-    public CommandMessageHandler(UserRepository userRepository, List<Command> commands) {
-        this.userRepository = userRepository;
+    public CommandMessageHandler(UserService userService, List<Command> commands) {
+        this.userService = userService;
         this.commands = commands;
     }
 
@@ -29,7 +29,7 @@ public class CommandMessageHandler implements MessageHandler {
     public SendMessage handleMessage(Update update) {
         Message message = update.message();
         long chatId = message.chat().id();
-        User user = userRepository.get(chatId);
+        User user = userService.get(chatId);
         String userText = message.text();
         Command command = getCommand(userText, user);
         doUpdateInDatabase(user, command, chatId);
@@ -65,16 +65,16 @@ public class CommandMessageHandler implements MessageHandler {
     private void doUpdateInDatabase(User user, Command command, long chatId) {
         //Если пользователь не зарегистрирован и набрал /start
         if (user == null && command instanceof Start) {
-            userRepository.add(new User(chatId, UserState.REGISTERED, new ArrayList<>()));
+            userService.add(new User(chatId, UserState.REGISTERED, new ArrayList<>()));
         } else if (command instanceof Track) {
             assert user != null;
-            userRepository.update(new User(chatId, UserState.TRACK_STATE, user.links()));
+            userService.update(new User(chatId, UserState.TRACK_STATE, user.links()));
         } else if (command instanceof Untrack) {
             assert user != null;
-            userRepository.update(new User(chatId, UserState.UNTRACK_STATE, user.links()));
+            userService.update(new User(chatId, UserState.UNTRACK_STATE, user.links()));
             //Если пользователь ввел до этого /track или /untrack
         } else if (user != null && user.userState() != UserState.REGISTERED) {
-            userRepository.update(new User(chatId, UserState.REGISTERED, user.links()));
+            userService.update(new User(chatId, UserState.REGISTERED, user.links()));
         }
     }
 }

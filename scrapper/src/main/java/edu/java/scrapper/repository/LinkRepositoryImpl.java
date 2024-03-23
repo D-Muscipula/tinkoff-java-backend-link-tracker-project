@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class LinkRepositoryImpl implements LinkRepository {
     private final JdbcClient jdbcClient;
+    private final static String SELECT_FROM_LINK = "select id, url, updated_at, last_checked_at  from link ";
+    private final static String DELETE_FROM_LINK = "delete from link ";
 
     @Autowired
     public LinkRepositoryImpl(JdbcClient jdbcClient) {
@@ -42,7 +44,7 @@ public class LinkRepositoryImpl implements LinkRepository {
 
     @Override
     public void removeById(Long id) {
-        String sql = "delete from link "
+        String sql = DELETE_FROM_LINK
             + "where id = ?";
         this.jdbcClient.sql(sql)
             .param(id)
@@ -51,7 +53,7 @@ public class LinkRepositoryImpl implements LinkRepository {
 
     @Override
     public void removeByURL(URI url) {
-        String sql = "delete from link"
+        String sql = DELETE_FROM_LINK
             + " where url = ?";
         this.jdbcClient.sql(sql)
             .param(url.toString())
@@ -60,7 +62,7 @@ public class LinkRepositoryImpl implements LinkRepository {
 
     @Override
     public Optional<Link> findById(Long id) {
-        String sql = "select * from link "
+        String sql = SELECT_FROM_LINK
             + "where id = ? limit 1";
         return jdbcClient.sql(sql)
             .param(id)
@@ -70,8 +72,8 @@ public class LinkRepositoryImpl implements LinkRepository {
 
     @Override
     public Optional<Link> findByURL(URI url) {
-        String sql = "select * from link"
-            + " where url = ? limit 1";
+        String sql = SELECT_FROM_LINK
+            + "where url = ? limit 1";
         return jdbcClient.sql(sql)
             .param(url.toString())
             .query(Link.class)
@@ -80,8 +82,7 @@ public class LinkRepositoryImpl implements LinkRepository {
 
     @Override
     public List<Link> findAll() {
-        String sql = " select * from link";
-        return jdbcClient.sql(sql)
+        return jdbcClient.sql(SELECT_FROM_LINK)
             .query(Link.class)
             .list();
     }

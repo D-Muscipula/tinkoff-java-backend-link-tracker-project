@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserLinkRepositoryImpl implements UserLinkRepository {
     private final JdbcClient jdbcClient;
-    private static final String SELECT_FROM = "select * from users_links";
-    private static final String DELETE_FROM = "delete from users_links";
+    private static final String SELECT_FROM_USERS_LINKS = "select id, tg_user, link from users_links ";
+    private static final String DELETE_FROM = "delete from users_links ";
 
     @Autowired
     public UserLinkRepositoryImpl(JdbcClient jdbcClient) {
@@ -31,7 +31,7 @@ public class UserLinkRepositoryImpl implements UserLinkRepository {
     @Override
     public void removeById(Long id) {
         String sql = DELETE_FROM
-            + " where id = ?";
+            + "where id = ?";
         this.jdbcClient.sql(sql)
             .param(id)
             .update();
@@ -40,7 +40,7 @@ public class UserLinkRepositoryImpl implements UserLinkRepository {
     @Override
     public Integer removeByUserId(Long userId) {
         String sql = DELETE_FROM
-            + " where tg_user = ? ";
+            + "where tg_user = ? ";
         return this.jdbcClient.sql(sql)
             .param(userId)
             .update();
@@ -49,7 +49,7 @@ public class UserLinkRepositoryImpl implements UserLinkRepository {
     @Override
     public Integer removeByLinkId(Long userId) {
         String sql = DELETE_FROM
-            + " where link = ? ";
+            + "where link = ? ";
         return this.jdbcClient.sql(sql)
             .param(userId)
             .update();
@@ -58,7 +58,7 @@ public class UserLinkRepositoryImpl implements UserLinkRepository {
     @Override
     public void removeByUserIdAndLinkId(Long userId, Long linkId) {
         String sql = DELETE_FROM
-            + " where tg_user = ? and link = ? ";
+            + "where tg_user = ? and link = ? ";
         this.jdbcClient.sql(sql)
             .param(userId)
             .param(linkId)
@@ -67,8 +67,8 @@ public class UserLinkRepositoryImpl implements UserLinkRepository {
 
     @Override
     public Optional<UserLink> findById(Long id) {
-        String sql = SELECT_FROM
-            + " where id = ? limit 1";
+        String sql = SELECT_FROM_USERS_LINKS
+            + "where id = ? limit 1";
         return jdbcClient.sql(sql)
             .param(id)
             .query(UserLink.class)
@@ -77,8 +77,8 @@ public class UserLinkRepositoryImpl implements UserLinkRepository {
 
     @Override
     public List<UserLink> findByUserId(Long userId) {
-        String sql = SELECT_FROM
-            + " where tg_user = ?";
+        String sql = SELECT_FROM_USERS_LINKS
+            + "where tg_user = ?";
         return jdbcClient.sql(sql)
             .param(userId)
             .query(UserLink.class)
@@ -87,8 +87,8 @@ public class UserLinkRepositoryImpl implements UserLinkRepository {
 
     @Override
     public List<UserLink> findByLinkId(Long linkId) {
-        String sql = SELECT_FROM
-            + " where link = ?";
+        String sql = SELECT_FROM_USERS_LINKS
+            + "where link = ?";
         return jdbcClient.sql(sql)
             .param(linkId)
             .query(UserLink.class)
@@ -97,15 +97,14 @@ public class UserLinkRepositoryImpl implements UserLinkRepository {
 
     @Override
     public List<UserLink> findAll() {
-        String sql = " select * from users_links";
-        return jdbcClient.sql(sql)
+        return jdbcClient.sql(SELECT_FROM_USERS_LINKS)
             .query(UserLink.class)
             .list();
     }
 
     @Override
     public Optional<UserLink> findByUserIdAndLinkId(Long userId, Long linkId) {
-        String sql = "select * from users_links "
+        String sql = SELECT_FROM_USERS_LINKS
             + "where tg_user = ? and link = ?";
         return jdbcClient.sql(sql)
             .param(userId)

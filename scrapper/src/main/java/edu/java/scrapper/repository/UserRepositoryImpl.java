@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserRepositoryImpl implements UserRepository {
     private final JdbcClient jdbcClient;
+    private static final String SELECT_FROM_USER = "select user_chat_id, user_state from tg_user ";
 
     @Autowired
     public UserRepositoryImpl(JdbcClient jdbcClient) {
@@ -48,8 +49,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<TgUser> findById(Long id) {
-        String sql = "select * from tg_user"
-            + " where user_chat_id = ? limit 1";
+        String sql = SELECT_FROM_USER
+            + "where user_chat_id = ? limit 1";
         return jdbcClient.sql(sql)
             .param(id)
             .query(TgUser.class)
@@ -58,8 +59,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<TgUser> findAll() {
-        String sql = " select * from tg_user";
-        return jdbcClient.sql(sql)
+        return jdbcClient.sql(SELECT_FROM_USER)
             .query(TgUser.class)
             .list();
     }
