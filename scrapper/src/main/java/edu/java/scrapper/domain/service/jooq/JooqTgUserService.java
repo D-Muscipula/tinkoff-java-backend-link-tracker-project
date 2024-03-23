@@ -40,4 +40,9 @@ public class JooqTgUserService implements TgUserService {
         }
         userRepository.remove(tgUserId);
     }
+
+    @Override
+    public void update(TgUser tgUser) {
+
+    }
 }

@@ -27,6 +27,11 @@ public class JooqUserRepository implements UserRepository {
     }
 
     @Override
+    public void updateTgUser(TgUser tgUser) {
+
+    }
+
+    @Override
     public void remove(Long id) {
         dslContext.deleteFrom(TG_USER)
             .where(TG_USER.USER_CHAT_ID.eq(id))
