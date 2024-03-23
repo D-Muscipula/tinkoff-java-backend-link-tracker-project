@@ -1,10 +1,10 @@
 package edu.java.scrapper.scheduling;
 
-import edu.java.scrapper.dto.Link;
 import edu.java.scrapper.domain.service.LinkService;
 import edu.java.scrapper.domain.service.LinkUpdater;
 import edu.java.scrapper.domain.service.jdbc.JdbcGitHubLinkUpdater;
 import edu.java.scrapper.domain.service.jdbc.JdbcStackOverflowLinkUpdater;
+import edu.java.scrapper.dto.Link;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
