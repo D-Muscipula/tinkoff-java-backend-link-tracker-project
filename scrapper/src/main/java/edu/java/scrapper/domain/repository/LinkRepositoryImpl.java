@@ -4,18 +4,14 @@ import edu.java.scrapper.dto.Link;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public class LinkRepositoryImpl implements LinkRepository {
     private final JdbcClient jdbcClient;
     private final static String SELECT_FROM_LINK =
         "select id, url, updated_at, last_checked_at, last_commit_sha, answers_count from link ";
     private final static String DELETE_FROM_LINK = "delete from link ";
 
-    @Autowired
     public LinkRepositoryImpl(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
     }

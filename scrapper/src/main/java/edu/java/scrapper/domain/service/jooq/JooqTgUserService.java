@@ -50,4 +50,9 @@ public class JooqTgUserService implements TgUserService {
             userRepository.updateTgUser(tgUser);
         }
     }
+
+    @Override
+    public Optional<TgUser> findById(Long tgChatId) {
+        return userRepository.findById(tgChatId);
+    }
 }

@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 public class TgUserRepositoryTest extends IntegrationTest {
-    @Qualifier("userRepositoryImpl") @Autowired
+    @Autowired
     private UserRepository userRepository;
 
     @Test

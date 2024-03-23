@@ -6,15 +6,10 @@ import edu.java.scrapper.dto.TgUser;
 import edu.java.scrapper.exceptions.ChatAlreadyExistsException;
 import edu.java.scrapper.exceptions.ChatDoesntExistException;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 
-@Service
 public class JdbcTgUserService implements TgUserService {
     private final UserRepository userRepository;
-
-    @Autowired
 
     public JdbcTgUserService(
         @Qualifier("userRepositoryImpl")

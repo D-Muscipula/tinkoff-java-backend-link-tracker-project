@@ -3,16 +3,12 @@ package edu.java.scrapper.domain.repository;
 import edu.java.scrapper.dto.TgUser;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public class UserRepositoryImpl implements UserRepository {
     private final JdbcClient jdbcClient;
     private static final String SELECT_FROM_USER = "select user_chat_id, user_state from tg_user ";
 
-    @Autowired
     public UserRepositoryImpl(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
     }
@@ -22,9 +18,9 @@ public class UserRepositoryImpl implements UserRepository {
         String sql = "insert into tg_user (user_chat_id, user_state)"
             + "VALUES (:id, :state)";
         this.jdbcClient.sql(sql)
-                .param("id", tgUser.userChatId())
-                .param("state", tgUser.userState())
-                .update();
+            .param("id", tgUser.userChatId())
+            .param("state", tgUser.userState())
+            .update();
     }
 
     @Override

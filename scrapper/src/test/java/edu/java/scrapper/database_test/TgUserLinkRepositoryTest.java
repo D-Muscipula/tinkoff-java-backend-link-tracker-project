@@ -22,11 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 public class TgUserLinkRepositoryTest extends IntegrationTest {
-    @Qualifier("userLinkRepositoryImpl") @Autowired
+    @Autowired
     private UserLinkRepository userLinkRepository;
-    @Qualifier("linkRepositoryImpl") @Autowired
+    @Autowired
     private LinkRepository linkRepository;
-    @Qualifier("userRepositoryImpl") @Autowired
+    @Autowired
     private UserRepository userRepository;
 
     private static Link defaultLinkForAdding;

@@ -18,7 +18,8 @@ public record ApplicationConfig(
     Scheduler scheduler,
     String baseGitHubUrl,
     String baseStackOverflowUrl,
-    String baseBotClientUrl
+    String baseBotClientUrl,
+    AccessType databaseAccessType
 ) {
 
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay,

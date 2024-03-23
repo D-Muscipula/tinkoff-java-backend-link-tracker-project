@@ -16,18 +16,14 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
 public class JdbcLinkService implements LinkService {
     private final UserRepository userRepository;
     private final LinkRepository linkRepository;
     private final UserLinkRepository userLinkRepository;
 
-    @Autowired
     public JdbcLinkService(
         @Qualifier("userRepositoryImpl") UserRepository userRepository,
         @Qualifier("linkRepositoryImpl") LinkRepository linkRepository,

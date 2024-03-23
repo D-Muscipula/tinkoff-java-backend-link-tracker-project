@@ -3,17 +3,13 @@ package edu.java.scrapper.domain.repository;
 import edu.java.scrapper.dto.UserLink;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public class UserLinkRepositoryImpl implements UserLinkRepository {
     private final JdbcClient jdbcClient;
     private static final String SELECT_FROM_USERS_LINKS = "select id, tg_user, link from users_links ";
     private static final String DELETE_FROM = "delete from users_links ";
 
-    @Autowired
     public UserLinkRepositoryImpl(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
     }
@@ -21,7 +17,7 @@ public class UserLinkRepositoryImpl implements UserLinkRepository {
     @Override
     public void add(UserLink userLink) {
         String sql = "insert into users_links (tg_user, link)"
-                + "VALUES (:user_id, :link_id)";
+            + "VALUES (:user_id, :link_id)";
         this.jdbcClient.sql(sql)
             .param("user_id", userLink.tgUser())
             .param("link_id", userLink.link())

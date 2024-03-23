@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 public class LinkRepositoryTest extends IntegrationTest {
-    @Qualifier("linkRepositoryImpl") @Autowired
+    @Autowired
     private LinkRepository linkRepository;
 
     @Test
