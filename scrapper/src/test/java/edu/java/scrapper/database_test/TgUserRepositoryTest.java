@@ -1,13 +1,12 @@
 package edu.java.scrapper.database_test;
 
-import edu.java.scrapper.dto.TgUser;
-import edu.java.scrapper.domain.repository.UserRepository;
 import edu.java.scrapper.IntegrationTest;
+import edu.java.scrapper.domain.repository.UserRepository;
+import edu.java.scrapper.dto.TgUser;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
