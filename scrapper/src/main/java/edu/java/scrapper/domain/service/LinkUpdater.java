@@ -4,4 +4,6 @@ import edu.java.scrapper.dto.Link;
 
 public interface LinkUpdater {
     void update(Link link);
+
+    String getHost();
 }

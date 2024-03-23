@@ -2,12 +2,15 @@ package edu.java.scrapper.controller;
 
 import dto.request.AddLinkRequest;
 import dto.request.RemoveLinkRequest;
+import dto.request.TgUserUpdate;
 import dto.response.ApiErrorResponse;
 import dto.response.LinkResponse;
 import dto.response.ListLinksResponse;
+import dto.response.TgUserResponse;
 import edu.java.scrapper.domain.service.jdbc.JdbcLinkService;
 import edu.java.scrapper.domain.service.jdbc.JdbcTgUserService;
 import edu.java.scrapper.dto.Link;
+import edu.java.scrapper.dto.TgUser;
 import edu.java.scrapper.exceptions.ChatAlreadyExistsException;
 import edu.java.scrapper.exceptions.ChatDoesntExistException;
 import edu.java.scrapper.exceptions.ThereIsNoSuchLinkException;
@@ -19,6 +22,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -198,5 +202,35 @@ public class ScrapperController {
             new LinkResponse(tgChatId, removeLinkRequest.link()),
             HttpStatus.OK
         );
+    }
+
+    @PostMapping("/state")
+    public ResponseEntity<Void> updateChat(
+        @RequestBody TgUserUpdate tgUserUpdate
+    ) {
+        try {
+            TgUser tgUser = new TgUser(tgUserUpdate.userChatId(), tgUserUpdate.userState());
+            jdbcTgUserService.update(tgUser);
+            logger.info("состояние " + tgUser.userChatId() + "изменено");
+        } catch (ChatDoesntExistException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/state")
+    public ResponseEntity<TgUserResponse> getState(
+        @RequestHeader("Tg-Chat-Id") Long tgChatId
+    ) {
+        Optional<TgUser> tgUser = jdbcTgUserService.findById(tgChatId);
+        return tgUser.map(user -> new ResponseEntity<>(
+                new TgUserResponse(user.userChatId(), user.userState()),
+                HttpStatus.OK
+        )).orElseGet(() -> new ResponseEntity<>(
+                new TgUserResponse(tgChatId, "unregistered"),
+                HttpStatus.OK
+        ));
     }
 }

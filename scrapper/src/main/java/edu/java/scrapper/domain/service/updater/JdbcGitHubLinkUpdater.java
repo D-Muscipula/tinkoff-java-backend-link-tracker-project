@@ -91,4 +91,9 @@ public class JdbcGitHubLinkUpdater implements LinkUpdater {
             );
         }
     }
+
+    @Override
+    public String getHost() {
+        return "github.com";
+    }
 }

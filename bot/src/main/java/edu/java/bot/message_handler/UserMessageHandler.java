@@ -4,13 +4,13 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.repository.User;
-import edu.java.bot.repository.UserRepository;
 import edu.java.bot.repository.UserState;
+import edu.java.bot.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class UserMessageHandler implements MessageHandler {
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final MessageAfterTrackUntrackHandler messageAfterTrackUntrackHandler;
     private final CommandMessageHandler commandMessageHandler;
     private final Logger logger = LoggerFactory.getLogger(UserMessageHandler.class);
@@ -18,9 +18,9 @@ public class UserMessageHandler implements MessageHandler {
 
     public UserMessageHandler(
         MessageAfterTrackUntrackHandler messageAfterTrackUntrackHandler,
-        CommandMessageHandler commandMessageHandler, UserRepository userRepository
+        CommandMessageHandler commandMessageHandler, UserService userService
     ) {
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.messageAfterTrackUntrackHandler = messageAfterTrackUntrackHandler;
         this.commandMessageHandler = commandMessageHandler;
     }
@@ -33,7 +33,7 @@ public class UserMessageHandler implements MessageHandler {
         }
 
         long chatId = message.chat().id();
-        User user = userRepository.get(chatId);
+        User user = userService.get(chatId);
         String userText = message.text();
         logger.info("Текст " + userText);
         if (user != null) {

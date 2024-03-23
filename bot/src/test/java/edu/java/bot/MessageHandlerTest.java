@@ -15,12 +15,13 @@ import edu.java.bot.message_handler.MessageAfterTrackUntrackHandler;
 import edu.java.bot.message_handler.MessageHandler;
 import edu.java.bot.message_handler.UserMessageHandler;
 import edu.java.bot.repository.User;
-import edu.java.bot.repository.UserRepository;
 import edu.java.bot.repository.UserRepositoryImpl;
+import edu.java.bot.repository.UserState;
+import edu.java.bot.service.UserService;
+import edu.java.bot.service.UserServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import edu.java.bot.repository.UserState;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,12 +40,13 @@ class MessageHandlerTest {
     @Mock
     private Chat chat;
 
-    private UserRepository userRepository;
+    private UserRepositoryImpl userRepository;
 
 
     @BeforeEach
     void setUp() {
         userRepository = new UserRepositoryImpl();
+        UserService userService = new UserServiceImpl(userRepository);
         List<Command> commandList = new ArrayList<>() {
             {
                 add(new Start(null));
@@ -54,9 +56,10 @@ class MessageHandlerTest {
                 add(new ListCommand(new ArrayList<>()));
             }
         };
-        MessageAfterTrackUntrackHandler messageAfterTrackUntrackHandler = new MessageAfterTrackUntrackHandler(userRepository);
-        CommandMessageHandler commandMessageHandler = new CommandMessageHandler(userRepository, commandList);
-        messageHandler = new UserMessageHandler(messageAfterTrackUntrackHandler, commandMessageHandler, userRepository);
+        MessageAfterTrackUntrackHandler messageAfterTrackUntrackHandler = new MessageAfterTrackUntrackHandler(
+            userService);
+        CommandMessageHandler commandMessageHandler = new CommandMessageHandler(userService, commandList);
+        messageHandler = new UserMessageHandler(messageAfterTrackUntrackHandler, commandMessageHandler, userService);
     }
 
     @Test

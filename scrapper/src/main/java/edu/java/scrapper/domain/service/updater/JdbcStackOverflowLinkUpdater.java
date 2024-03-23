@@ -96,4 +96,9 @@ public class JdbcStackOverflowLinkUpdater implements LinkUpdater {
 
         }
     }
+
+    @Override
+    public String getHost() {
+        return "stackoverflow.com";
+    }
 }

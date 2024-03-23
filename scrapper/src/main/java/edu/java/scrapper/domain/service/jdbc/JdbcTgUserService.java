@@ -40,4 +40,18 @@ public class JdbcTgUserService implements TgUserService {
         }
         userRepository.remove(tgUserId);
     }
+
+    @Override
+    public void update(TgUser tgUser) {
+        Optional<TgUser> tgUserFromDb = userRepository.findById(tgUser.userChatId());
+        if (tgUserFromDb.isEmpty()) {
+            throw new ChatDoesntExistException();
+        } else {
+            userRepository.updateTgUser(tgUser);
+        }
+    }
+
+    public Optional<TgUser> findById(Long tgUserId) {
+        return userRepository.findById(tgUserId);
+    }
 }

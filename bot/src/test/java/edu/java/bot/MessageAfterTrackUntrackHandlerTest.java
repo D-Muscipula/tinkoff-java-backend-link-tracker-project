@@ -7,9 +7,10 @@ import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.message_handler.MessageAfterTrackUntrackHandler;
 import edu.java.bot.message_handler.MessageHandler;
 import edu.java.bot.repository.User;
-import edu.java.bot.repository.UserRepository;
 import edu.java.bot.repository.UserRepositoryImpl;
 import edu.java.bot.repository.UserState;
+import edu.java.bot.service.UserService;
+import edu.java.bot.service.UserServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,12 +32,12 @@ public class MessageAfterTrackUntrackHandlerTest {
     @Mock
     private Chat chat;
 
-    private UserRepository userRepository;
+    private UserService userService;
 
     @BeforeEach
     void setUp() {
-        userRepository = new UserRepositoryImpl();
-        messageHandler = new MessageAfterTrackUntrackHandler(userRepository);
+        userService = new UserServiceImpl(new UserRepositoryImpl());
+        messageHandler = new MessageAfterTrackUntrackHandler(userService);
     }
 
     @Test
@@ -46,7 +47,7 @@ public class MessageAfterTrackUntrackHandlerTest {
             https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c
             https://stackoverflow.com/search?q=unsupported%20link""";
         String expected = "Ссылки добавлены";
-        userRepository.add(new User(125L, UserState.TRACK_STATE, new ArrayList<>()));
+        userService.add(new User(125L, UserState.TRACK_STATE, new ArrayList<>()));
         Mockito.when(update.message()).thenReturn(message);
         Mockito.when(message.chat()).thenReturn(chat);
         long id = 125L;
@@ -57,7 +58,7 @@ public class MessageAfterTrackUntrackHandlerTest {
         Assertions.assertEquals(id, map.get("chat_id"));
         Assertions.assertEquals(expected, map.get("text"));
 
-        List<String> linksListFromDb = userRepository.get(id).links();
+        List<String> linksListFromDb = userService.get(id).links();
         List<String> links = new ArrayList<>(){{
             add("https://github.com/sanyarnd/tinkoff-java-course-2023/");
             add("https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c");
@@ -74,7 +75,7 @@ public class MessageAfterTrackUntrackHandlerTest {
             https://stackoverflow.com/search?q=unsupported%20link""";
         String expected = "Ссылки добавлены\n"
             + "Ссылка https://abobus/abobus/abobus/ некорректна";
-        userRepository.add(new User(125L, UserState.TRACK_STATE, new ArrayList<>()));
+        userService.add(new User(125L, UserState.TRACK_STATE, new ArrayList<>()));
         Mockito.when(update.message()).thenReturn(message);
         Mockito.when(message.chat()).thenReturn(chat);
         long id = 125L;
@@ -85,7 +86,7 @@ public class MessageAfterTrackUntrackHandlerTest {
         Assertions.assertEquals(id, map.get("chat_id"));
         Assertions.assertEquals(expected, map.get("text"));
 
-        List<String> linksListFromDb = userRepository.get(id).links();
+        List<String> linksListFromDb = userService.get(id).links();
         List<String> links = new ArrayList<>(){{
             add("https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c");
             add("https://stackoverflow.com/search?q=unsupported%20link");
@@ -101,7 +102,7 @@ public class MessageAfterTrackUntrackHandlerTest {
             https://stackoverflow.com/search?q=unsupported%20link""";
         String expected = "Ссылки добавлены\n"
             + "www.youtube.com не поддерживается";
-        userRepository.add(new User(125L, UserState.TRACK_STATE, new ArrayList<>()));
+        userService.add(new User(125L, UserState.TRACK_STATE, new ArrayList<>()));
         Mockito.when(update.message()).thenReturn(message);
         Mockito.when(message.chat()).thenReturn(chat);
         long id = 125L;
@@ -112,7 +113,7 @@ public class MessageAfterTrackUntrackHandlerTest {
         Assertions.assertEquals(id, map.get("chat_id"));
         Assertions.assertEquals(expected, map.get("text"));
 
-        List<String> linksListFromDb = userRepository.get(id).links();
+        List<String> linksListFromDb = userService.get(id).links();
         List<String> links = new ArrayList<>(){{
             add("https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c");
             add("https://stackoverflow.com/search?q=unsupported%20link");
@@ -132,7 +133,7 @@ public class MessageAfterTrackUntrackHandlerTest {
             add("https://stackoverflow.com/search?q=unsupported%20link");
         }};
         String expected = "Ссылки удалены";
-        userRepository.add(new User(125L, UserState.UNTRACK_STATE, links));
+        userService.add(new User(125L, UserState.UNTRACK_STATE, links));
         Mockito.when(update.message()).thenReturn(message);
         Mockito.when(message.chat()).thenReturn(chat);
         long id = 125L;
@@ -143,7 +144,7 @@ public class MessageAfterTrackUntrackHandlerTest {
         Assertions.assertEquals(id, map.get("chat_id"));
         Assertions.assertEquals(expected, map.get("text"));
 
-        List<String> linksListFromDb = userRepository.get(id).links();
+        List<String> linksListFromDb = userService.get(id).links();
         Assertions.assertTrue(linksListFromDb.isEmpty());
     }
 
