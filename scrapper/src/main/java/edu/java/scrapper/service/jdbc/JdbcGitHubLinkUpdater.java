@@ -61,4 +61,9 @@ public class JdbcGitHubLinkUpdater implements LinkUpdater {
             linkService.update(newtimeLink);
         }
     }
+
+    @Override
+    public String getHost() {
+        return "github.com";
+    }
 }

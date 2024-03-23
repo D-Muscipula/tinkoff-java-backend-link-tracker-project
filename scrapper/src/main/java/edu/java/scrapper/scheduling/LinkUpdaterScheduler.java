@@ -2,9 +2,12 @@ package edu.java.scrapper.scheduling;
 
 import edu.java.scrapper.dto.Link;
 import edu.java.scrapper.service.LinkService;
+import edu.java.scrapper.service.LinkUpdater;
 import edu.java.scrapper.service.jdbc.JdbcGitHubLinkUpdater;
 import edu.java.scrapper.service.jdbc.JdbcStackOverflowLinkUpdater;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +22,7 @@ public class LinkUpdaterScheduler {
     @Value("#{@scheduler.intervalSinceLastCheck()}")
     private Long intervalSinceLastCheck;
     private final LinkService linkService;
-    private final JdbcGitHubLinkUpdater jdbcGitHubLinkUpdater;
-    private final JdbcStackOverflowLinkUpdater jdbcStackOverflowLinkUpdater;
+    private final Map<String, LinkUpdater> updaters = new HashMap<>();
 
     @Autowired
     public LinkUpdaterScheduler(
@@ -29,8 +31,8 @@ public class LinkUpdaterScheduler {
         JdbcStackOverflowLinkUpdater jdbcStackOverflowLinkUpdater
     ) {
         this.linkService = linkService;
-        this.jdbcGitHubLinkUpdater = jdbcGitHubLinkUpdater;
-        this.jdbcStackOverflowLinkUpdater = jdbcStackOverflowLinkUpdater;
+        updaters.put(jdbcGitHubLinkUpdater.getHost(), jdbcGitHubLinkUpdater);
+        updaters.put(jdbcStackOverflowLinkUpdater.getHost(), jdbcStackOverflowLinkUpdater);
     }
 
     @Scheduled(fixedDelayString = "#{scheduler.interval()}")
@@ -39,10 +41,10 @@ public class LinkUpdaterScheduler {
         List<Link> oldLinks = linkService.findOldLinks(intervalSinceLastCheck);
         for (Link link : oldLinks) {
             logger.info(link.toString());
-            if (link.url().getHost().equals("github.com")) {
-                jdbcGitHubLinkUpdater.update(link);
-            } else if (link.url().getHost().equals("stackoverflow.com")) {
-                jdbcStackOverflowLinkUpdater.update(link);
+            LinkUpdater linkUpdater = updaters.get(link.url().getHost());
+            if (linkUpdater != null) {
+                logger.info(linkUpdater.getHost() + " update");
+                linkUpdater.update(link);
             }
         }
     }

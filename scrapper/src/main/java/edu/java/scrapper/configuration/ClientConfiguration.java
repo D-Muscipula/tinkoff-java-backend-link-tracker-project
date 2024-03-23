@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Getter @Configuration
+@Getter
+@Configuration
 public class ClientConfiguration {
 
     private final ApplicationConfig applicationConfig;

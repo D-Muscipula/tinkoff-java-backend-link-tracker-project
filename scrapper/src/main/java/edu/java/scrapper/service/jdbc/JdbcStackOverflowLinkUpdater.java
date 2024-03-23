@@ -59,4 +59,9 @@ public class JdbcStackOverflowLinkUpdater implements LinkUpdater {
             linkService.update(newtimeLink);
         }
     }
+
+    @Override
+    public String getHost() {
+        return "stackoverflow.com";
+    }
 }
