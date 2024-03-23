@@ -57,4 +57,23 @@ public class JooqUserRepositoryTest extends IntegrationTest {
         Optional<TgUser> deletedUser = userRepository.findById(125L);
         Assertions.assertFalse(deletedUser.isPresent());
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    void updateTest() {
+        TgUser tgUserForAdding = new TgUser(125L, "registered");
+
+        userRepository.add(tgUserForAdding);
+        Assertions.assertTrue(userRepository.findById(125L).isPresent());
+
+        TgUser foundTgUser = userRepository.findById(125L).get();
+        Assertions.assertEquals(tgUserForAdding, foundTgUser);
+
+        userRepository.updateTgUser(new TgUser(125L, "track"));
+
+        Optional<TgUser> user = userRepository.findById(125L);
+        Assertions.assertTrue(user.isPresent());
+        Assertions.assertEquals("track", user.get().userState());
+    }
 }

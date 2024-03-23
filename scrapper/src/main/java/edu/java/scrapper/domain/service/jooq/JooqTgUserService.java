@@ -43,6 +43,11 @@ public class JooqTgUserService implements TgUserService {
 
     @Override
     public void update(TgUser tgUser) {
-
+        Optional<TgUser> tgUserFromDb = userRepository.findById(tgUser.userChatId());
+        if (tgUserFromDb.isEmpty()) {
+            throw new ChatDoesntExistException();
+        } else {
+            userRepository.updateTgUser(tgUser);
+        }
     }
 }

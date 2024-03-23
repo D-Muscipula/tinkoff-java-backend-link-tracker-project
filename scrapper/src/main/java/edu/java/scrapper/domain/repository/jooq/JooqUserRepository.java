@@ -8,6 +8,7 @@ import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import static edu.java.scrapper.domain.jooq.Tables.TG_USER;
+import static org.jooq.impl.DSL.row;
 
 @Repository
 public class JooqUserRepository implements UserRepository {
@@ -28,7 +29,12 @@ public class JooqUserRepository implements UserRepository {
 
     @Override
     public void updateTgUser(TgUser tgUser) {
-
+        dslContext.update(TG_USER)
+            .set(
+                row(TG_USER.USER_STATE),
+                row(tgUser.userState())
+            ).where(TG_USER.USER_CHAT_ID.eq(tgUser.userChatId()))
+            .execute();
     }
 
     @Override
