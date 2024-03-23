@@ -1,10 +1,10 @@
-package edu.java.scrapper.service.jdbc;
+package edu.java.scrapper.domain.service.jdbc;
 
+import edu.java.scrapper.domain.service.TgUserService;
 import edu.java.scrapper.dto.TgUser;
 import edu.java.scrapper.exceptions.ChatAlreadyExistsException;
 import edu.java.scrapper.exceptions.ChatDoesntExistException;
-import edu.java.scrapper.repository.UserRepository;
-import edu.java.scrapper.service.TgUserService;
+import edu.java.scrapper.domain.repository.UserRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

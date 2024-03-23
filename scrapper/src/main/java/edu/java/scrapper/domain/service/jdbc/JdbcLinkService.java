@@ -1,15 +1,15 @@
-package edu.java.scrapper.service.jdbc;
+package edu.java.scrapper.domain.service.jdbc;
 
+import edu.java.scrapper.domain.service.LinkService;
 import edu.java.scrapper.dto.Link;
 import edu.java.scrapper.dto.TgUser;
 import edu.java.scrapper.dto.UserLink;
 import edu.java.scrapper.exceptions.ChatDoesntExistException;
 import edu.java.scrapper.exceptions.LinkAlreadyTrackedException;
 import edu.java.scrapper.exceptions.ThereIsNoSuchLinkException;
-import edu.java.scrapper.repository.LinkRepository;
-import edu.java.scrapper.repository.UserLinkRepository;
-import edu.java.scrapper.repository.UserRepository;
-import edu.java.scrapper.service.LinkService;
+import edu.java.scrapper.domain.repository.LinkRepository;
+import edu.java.scrapper.domain.repository.UserLinkRepository;
+import edu.java.scrapper.domain.repository.UserRepository;
 import java.net.URI;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;

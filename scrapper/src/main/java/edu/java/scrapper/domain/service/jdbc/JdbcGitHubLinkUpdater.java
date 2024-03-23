@@ -1,13 +1,13 @@
-package edu.java.scrapper.service.jdbc;
+package edu.java.scrapper.domain.service.jdbc;
 
 import dto.request.LinkUpdate;
 import edu.java.scrapper.client.BotClient;
 import edu.java.scrapper.client.GitHubClient;
+import edu.java.scrapper.domain.service.LinkService;
+import edu.java.scrapper.domain.service.LinkUpdater;
 import edu.java.scrapper.dto.GitHubRepositoryDTO;
 import edu.java.scrapper.dto.Link;
 import edu.java.scrapper.dto.TgUser;
-import edu.java.scrapper.service.LinkService;
-import edu.java.scrapper.service.LinkUpdater;
 import java.time.OffsetDateTime;
 import java.util.List;
 import org.slf4j.Logger;

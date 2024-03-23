@@ -1,4 +1,4 @@
-package edu.java.scrapper.service;
+package edu.java.scrapper.domain.service;
 
 import edu.java.scrapper.dto.Link;
 
