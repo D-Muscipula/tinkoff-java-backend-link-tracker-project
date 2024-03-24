@@ -51,7 +51,7 @@ public class JdbcAccessConfiguration {
 
     @Bean
     public TgUserService tgUserService() {
-        return new JdbcTgUserService(userRepository());
+        return new JdbcTgUserService(userRepository(), linkRepository(), userLinkRepository());
     }
 
     @Bean
