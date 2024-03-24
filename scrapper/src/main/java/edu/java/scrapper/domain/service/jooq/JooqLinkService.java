@@ -18,16 +18,13 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
 public class JooqLinkService implements LinkService {
     private final UserRepository userRepository;
     private final LinkRepository linkRepository;
     private final UserLinkRepository userLinkRepository;
 
-    @Autowired
     public JooqLinkService(
         @Qualifier("jooqUserRepository") UserRepository userRepository,
         @Qualifier("jooqLinkRepository") LinkRepository linkRepository,

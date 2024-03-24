@@ -22,11 +22,11 @@ import java.util.List;
 
 @SpringBootTest
 public class JooqUserLinkRepositoryTest extends IntegrationTest {
-    @Qualifier("jooqUserLinkRepository") @Autowired
+    @Autowired
     private UserLinkRepository userLinkRepository;
-    @Qualifier("jooqLinkRepository") @Autowired
+    @Autowired
     private LinkRepository linkRepository;
-    @Qualifier("jooqUserRepository") @Autowired
+    @Autowired
     private UserRepository userRepository;
 
     private static Link defaultLinkForAdding;

@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 public class JooqLinkRepositoryTest extends IntegrationTest {
-    @Qualifier("jooqLinkRepository") @Autowired
+    @Autowired
     private LinkRepository linkRepository;
 
     @Test

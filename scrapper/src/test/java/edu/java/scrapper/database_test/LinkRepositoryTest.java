@@ -5,6 +5,7 @@ import edu.java.scrapper.domain.repository.LinkRepository;
 import edu.java.scrapper.dto.Link;
 import java.net.URI;
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -34,15 +35,15 @@ public class LinkRepositoryTest extends IntegrationTest {
         Link foundLink = linkRepository.findByURL(uriForAdd).get();
 
         Assertions.assertEquals(uriForAdd, foundLink.url());
-        Assertions.assertEquals(updatedAt, foundLink.updatedAt());
-        Assertions.assertEquals(lastCheckedAt, foundLink.lastCheckedAt());
+
+        Assertions.assertEquals(0, ChronoUnit.SECONDS.between(updatedAt, foundLink.updatedAt()));
+        Assertions.assertEquals(0, ChronoUnit.SECONDS.between(lastCheckedAt, foundLink.lastCheckedAt()));
 
         URI uriForAddNew = URI.create("https://stackoverflow.com/q");
         linkRepository.add(new Link(-1L, uriForAddNew , updatedAt, lastCheckedAt, null, null));
 
         Long id = linkRepository.findByURL(uriForAddNew).get().id();
         Assertions.assertTrue(linkRepository.findById(id).isPresent());
-
     }
 
     @Test

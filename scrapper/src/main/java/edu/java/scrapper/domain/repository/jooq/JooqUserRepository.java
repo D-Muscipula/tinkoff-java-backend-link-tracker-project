@@ -5,17 +5,13 @@ import edu.java.scrapper.dto.TgUser;
 import java.util.List;
 import java.util.Optional;
 import org.jooq.DSLContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import static edu.java.scrapper.domain.jooq.Tables.TG_USER;
 import static org.jooq.impl.DSL.row;
 
-@Repository
 public class JooqUserRepository implements UserRepository {
 
     private final DSLContext dslContext;
 
-    @Autowired
     public JooqUserRepository(DSLContext dslContext) {
         this.dslContext = dslContext;
     }

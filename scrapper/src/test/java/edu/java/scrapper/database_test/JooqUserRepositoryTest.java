@@ -14,7 +14,6 @@ import java.util.Optional;
 
 @SpringBootTest
 public class JooqUserRepositoryTest extends IntegrationTest {
-    @Qualifier("jooqUserRepository")
     @Autowired
     private UserRepository userRepository;
 

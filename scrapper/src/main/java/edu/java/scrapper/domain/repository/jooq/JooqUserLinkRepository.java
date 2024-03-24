@@ -5,15 +5,12 @@ import edu.java.scrapper.dto.UserLink;
 import java.util.List;
 import java.util.Optional;
 import org.jooq.DSLContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import static edu.java.scrapper.domain.jooq.tables.UsersLinks.USERS_LINKS;
 
-@Repository
+
 public class JooqUserLinkRepository implements UserLinkRepository {
     private final DSLContext dslContext;
 
-    @Autowired
     public JooqUserLinkRepository(DSLContext dslContext) {
         this.dslContext = dslContext;
     }

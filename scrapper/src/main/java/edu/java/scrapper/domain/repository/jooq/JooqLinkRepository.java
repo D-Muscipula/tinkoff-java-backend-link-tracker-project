@@ -6,16 +6,12 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import org.jooq.DSLContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import static edu.java.scrapper.domain.jooq.tables.Link.LINK;
 import static org.jooq.impl.DSL.row;
 
-@Repository
 public class JooqLinkRepository implements LinkRepository {
     private final DSLContext dslContext;
 
-    @Autowired
     public JooqLinkRepository(DSLContext dslContext) {
         this.dslContext = dslContext;
     }
