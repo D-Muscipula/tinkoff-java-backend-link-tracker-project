@@ -9,9 +9,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@TestPropertySource(properties = {
+    "app.database-access-type=jdbc"})
 public class TgUserRepositoryTest extends IntegrationTest {
     @Autowired
     private UserRepository userRepository;

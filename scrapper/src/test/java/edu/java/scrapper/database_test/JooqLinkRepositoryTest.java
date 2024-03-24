@@ -13,10 +13,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
-//@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(properties = {
+    "app.database-access-type=jooq"})
 public class JooqLinkRepositoryTest extends IntegrationTest {
     @Autowired
     private LinkRepository linkRepository;
@@ -43,6 +45,7 @@ public class JooqLinkRepositoryTest extends IntegrationTest {
         URI uriForAddNew = URI.create("https://stackoverflow.com/q");
         linkRepository.add(new Link(-1L, uriForAddNew , updatedAt, lastCheckedAt, null, null));
 
+        assert linkRepository.findByURL(uriForAddNew).isPresent();
         Long id = linkRepository.findByURL(uriForAddNew).get().id();
         Assertions.assertTrue(linkRepository.findById(id).isPresent());
 

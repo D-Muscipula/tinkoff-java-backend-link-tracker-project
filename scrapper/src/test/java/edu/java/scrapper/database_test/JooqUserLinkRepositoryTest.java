@@ -7,20 +7,22 @@ import edu.java.scrapper.domain.repository.UserRepository;
 import edu.java.scrapper.dto.Link;
 import edu.java.scrapper.dto.TgUser;
 import edu.java.scrapper.dto.UserLink;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
-import java.net.URI;
-import java.time.OffsetDateTime;
-import java.util.List;
 
 @SpringBootTest
+@TestPropertySource(properties = {
+    "app.database-access-type=jooq"})
 public class JooqUserLinkRepositoryTest extends IntegrationTest {
     @Autowired
     private UserLinkRepository userLinkRepository;
@@ -54,6 +56,7 @@ public class JooqUserLinkRepositoryTest extends IntegrationTest {
         userRepository.add(defaultTgUser);
         linkRepository.add(defaultLinkForAdding);
         Long userId = defaultTgUser.userChatId();
+        assert linkRepository.findByURL(uriForAdd).isPresent();
         Long linkId = linkRepository.findByURL(uriForAdd).get().id();
         UserLink userLink = new UserLink(-1L, defaultTgUser.userChatId(), linkId);
         userLinkRepository.add(userLink);
@@ -75,10 +78,12 @@ public class JooqUserLinkRepositoryTest extends IntegrationTest {
         userRepository.add(defaultTgUser);
         linkRepository.add(defaultLinkForAdding);
         Long userId = defaultTgUser.userChatId();
+        assert linkRepository.findByURL(uriForAdd).isPresent();
         Long linkId = linkRepository.findByURL(uriForAdd).get().id();
         UserLink userLink = new UserLink(-1L, userId, linkId);
         userLinkRepository.add(userLink);
 
+        assert userLinkRepository.findByUserIdAndLinkId(userId, linkId).isPresent();
         Long id = userLinkRepository.findByUserIdAndLinkId(userId, linkId).get().id();
         Assertions.assertTrue(userLinkRepository.findById(id).isPresent());
         UserLink foundUserLink = userLinkRepository.findById(id).get();
@@ -91,11 +96,13 @@ public class JooqUserLinkRepositoryTest extends IntegrationTest {
         userRepository.add(tgUserForAdding1);
         linkRepository.add(linkForAdding1);
         Long userId1 = tgUserForAdding1.userChatId();
+        assert linkRepository.findByURL(URI.create("abc")).isPresent();
         Long linkId1 = linkRepository.findByURL(URI.create("abc")).get().id();
         UserLink userLink1 = new UserLink(-1L, userId1, linkId1);
 
         userLinkRepository.add(userLink1);
 
+        assert userLinkRepository.findByUserIdAndLinkId(userId1, linkId1).isPresent();
         Long id1 = userLinkRepository.findByUserIdAndLinkId(userId1, linkId1).get().id();
         Assertions.assertTrue(userLinkRepository.findById(id1).isPresent());
         UserLink foundUserLink1 = userLinkRepository.findById(id1).get();
@@ -112,12 +119,14 @@ public class JooqUserLinkRepositoryTest extends IntegrationTest {
         userRepository.add(defaultTgUser);
         linkRepository.add(defaultLinkForAdding);
         Long userId = defaultTgUser.userChatId();
+        assert linkRepository.findByURL(uriForAdd).isPresent();
         Long linkId = linkRepository.findByURL(uriForAdd).get().id();
         UserLink userLink = new UserLink(-1L, userId, linkId);
         userLinkRepository.add(userLink);
 
         Link linkForAdding1 = new Link(-1L, URI.create("abc"), updatedAt, lastCheckedAt, null, null);
         linkRepository.add(linkForAdding1);
+        assert linkRepository.findByURL(URI.create("abc")).isPresent();
         Long linkId1 = linkRepository.findByURL(URI.create("abc")).get().id();
         UserLink userLink1 = new UserLink(-1L, userId, linkId1);
         userLinkRepository.add(userLink1);
@@ -134,6 +143,7 @@ public class JooqUserLinkRepositoryTest extends IntegrationTest {
         userRepository.add(defaultTgUser);
         linkRepository.add(defaultLinkForAdding);
         Long userId = defaultTgUser.userChatId();
+        assert linkRepository.findByURL(uriForAdd).isPresent();
         Long linkId = linkRepository.findByURL(uriForAdd).get().id();
         UserLink userLink = new UserLink(-1L, userId, linkId);
         userLinkRepository.add(userLink);
@@ -156,6 +166,7 @@ public class JooqUserLinkRepositoryTest extends IntegrationTest {
         userRepository.add(defaultTgUser);
         linkRepository.add(defaultLinkForAdding);
         Long userId = defaultTgUser.userChatId();
+        assert linkRepository.findByURL(uriForAdd).isPresent();
         Long linkId = linkRepository.findByURL(uriForAdd).get().id();
         UserLink userLink = new UserLink(-1L, userId, linkId);
         userLinkRepository.add(userLink);
@@ -175,6 +186,7 @@ public class JooqUserLinkRepositoryTest extends IntegrationTest {
         userRepository.add(defaultTgUser);
         linkRepository.add(defaultLinkForAdding);
         Long userId = defaultTgUser.userChatId();
+        assert linkRepository.findByURL(uriForAdd).isPresent();
         Long linkId = linkRepository.findByURL(uriForAdd).get().id();
         UserLink userLink = new UserLink(-1L, defaultTgUser.userChatId(), linkId);
         userLinkRepository.add(userLink);
@@ -193,12 +205,14 @@ public class JooqUserLinkRepositoryTest extends IntegrationTest {
         userRepository.add(defaultTgUser);
         linkRepository.add(defaultLinkForAdding);
         Long userId = defaultTgUser.userChatId();
+        assert linkRepository.findByURL(uriForAdd).isPresent();
         Long linkId = linkRepository.findByURL(uriForAdd).get().id();
         UserLink userLink = new UserLink(-1L, defaultTgUser.userChatId(), linkId);
         userLinkRepository.add(userLink);
 
         Link linkForAdding1 = new Link(-1L, URI.create("abc"), updatedAt, lastCheckedAt, null, null);
         linkRepository.add(linkForAdding1);
+        assert linkRepository.findByURL(URI.create("abc")).isPresent();
         Long linkId1 = linkRepository.findByURL(URI.create("abc")).get().id();
         UserLink userLink1 = new UserLink(-1L, defaultTgUser.userChatId(), linkId1);
 
@@ -219,6 +233,7 @@ public class JooqUserLinkRepositoryTest extends IntegrationTest {
         userRepository.add(defaultTgUser);
         linkRepository.add(defaultLinkForAdding);
         Long userId = defaultTgUser.userChatId();
+        assert linkRepository.findByURL(uriForAdd).isPresent();
         Long linkId = linkRepository.findByURL(uriForAdd).get().id();
         UserLink userLink = new UserLink(-1L, userId, linkId);
         userLinkRepository.add(userLink);
