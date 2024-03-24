@@ -1,4 +1,4 @@
-package edu.java.scrapper.database_test;
+package edu.java.scrapper.database_test.jooq;
 
 import edu.java.scrapper.IntegrationTest;
 import edu.java.scrapper.domain.repository.UserRepository;
@@ -14,10 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @TestPropertySource(properties = {
-    "app.database-access-type=jdbc"})
-public class TgUserRepositoryTest extends IntegrationTest {
+    "app.database-access-type=jooq"})
+public class JooqUserRepositoryTest extends IntegrationTest {
     @Autowired
     private UserRepository userRepository;
+
 
     @Test
     @Transactional

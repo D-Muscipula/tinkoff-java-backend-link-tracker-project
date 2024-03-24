@@ -1,4 +1,4 @@
-package edu.java.scrapper.database_test;
+package edu.java.scrapper.database_test.jdbc;
 
 import edu.java.scrapper.IntegrationTest;
 import edu.java.scrapper.domain.repository.LinkRepository;
@@ -22,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @TestPropertySource(properties = {
-    "app.database-access-type=jooq"})
-public class JooqUserLinkRepositoryTest extends IntegrationTest {
+    "app.database-access-type=jdbc"})
+public class TgUserLinkRepositoryTest extends IntegrationTest {
     @Autowired
     private UserLinkRepository userLinkRepository;
     @Autowired
