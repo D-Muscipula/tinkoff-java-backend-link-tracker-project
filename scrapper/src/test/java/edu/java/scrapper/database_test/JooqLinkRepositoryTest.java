@@ -16,6 +16,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+//@TestPropertySource(locations="classpath:test.properties")
 public class JooqLinkRepositoryTest extends IntegrationTest {
     @Autowired
     private LinkRepository linkRepository;

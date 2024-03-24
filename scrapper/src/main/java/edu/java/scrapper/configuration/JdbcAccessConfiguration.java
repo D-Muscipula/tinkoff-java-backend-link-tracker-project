@@ -1,11 +1,11 @@
 package edu.java.scrapper.configuration;
 
 import edu.java.scrapper.domain.repository.LinkRepository;
-import edu.java.scrapper.domain.repository.LinkRepositoryImpl;
 import edu.java.scrapper.domain.repository.UserLinkRepository;
-import edu.java.scrapper.domain.repository.UserLinkRepositoryImpl;
 import edu.java.scrapper.domain.repository.UserRepository;
-import edu.java.scrapper.domain.repository.UserRepositoryImpl;
+import edu.java.scrapper.domain.repository.jdbc.LinkRepositoryImpl;
+import edu.java.scrapper.domain.repository.jdbc.UserLinkRepositoryImpl;
+import edu.java.scrapper.domain.repository.jdbc.UserRepositoryImpl;
 import edu.java.scrapper.domain.service.LinkService;
 import edu.java.scrapper.domain.service.TgUserService;
 import edu.java.scrapper.domain.service.jdbc.JdbcLinkService;

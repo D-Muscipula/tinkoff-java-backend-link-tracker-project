@@ -1,5 +1,6 @@
-package edu.java.scrapper.domain.repository;
+package edu.java.scrapper.domain.repository.jdbc;
 
+import edu.java.scrapper.domain.repository.UserLinkRepository;
 import edu.java.scrapper.dto.UserLink;
 import java.util.List;
 import java.util.Optional;

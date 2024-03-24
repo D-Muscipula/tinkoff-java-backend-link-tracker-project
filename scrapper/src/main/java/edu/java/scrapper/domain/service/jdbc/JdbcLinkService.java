@@ -3,6 +3,7 @@ package edu.java.scrapper.domain.service.jdbc;
 import edu.java.scrapper.domain.repository.LinkRepository;
 import edu.java.scrapper.domain.repository.UserLinkRepository;
 import edu.java.scrapper.domain.repository.UserRepository;
+import edu.java.scrapper.domain.repository.jpa.JpaUserRepository;
 import edu.java.scrapper.domain.service.LinkService;
 import edu.java.scrapper.dto.Link;
 import edu.java.scrapper.dto.TgUser;
@@ -41,6 +42,7 @@ public class JdbcLinkService implements LinkService {
         if (tgUser.isEmpty()) {
             throw new ChatDoesntExistException();
         }
+        JpaUserRepository jpaUserRepository;
 
         Optional<Link> link = linkRepository.findByURL(url);
         if (link.isEmpty()) {
