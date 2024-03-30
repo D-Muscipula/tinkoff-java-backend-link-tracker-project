@@ -9,6 +9,31 @@ app:
   baseBotClientUrl: http://localhost:8090
   database-access-type: jpa
 
+retry:
+  github:
+    type: fixed
+    max-attempt: 3
+    delay: 10
+    codes:
+      -500
+      -501
+      -503
+  stackoverflow:
+      type: linear
+      max-attempt: 3
+      delay: 10
+      codes:
+        -500
+        -501
+        -503
+  bot:
+    type: linear
+    max-attempt: 3
+    delay: 10
+    codes:
+      -500
+      -501
+      -503
 spring:
   application:
     name: scrapper
