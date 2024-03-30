@@ -22,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @TestPropertySource(properties = {
-    "app.database-access-type=jdbc"})
-public class TgUserLinkRepositoryTest extends IntegrationTest {
+    "app.database-access-type=jooq"})
+public class JooqUserLinkRepositoryTest extends IntegrationTest {
     @Autowired
     private UserLinkRepository userLinkRepository;
     @Autowired

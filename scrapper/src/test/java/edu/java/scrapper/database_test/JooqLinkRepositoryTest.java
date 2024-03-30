@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @TestPropertySource(properties = {
-    "app.database-access-type=jdbc"})
-public class LinkRepositoryTest extends IntegrationTest {
+    "app.database-access-type=jooq"})
+public class JooqLinkRepositoryTest extends IntegrationTest {
     @Autowired
     private LinkRepository linkRepository;
 
@@ -48,6 +48,7 @@ public class LinkRepositoryTest extends IntegrationTest {
         assert linkRepository.findByURL(uriForAddNew).isPresent();
         Long id = linkRepository.findByURL(uriForAddNew).get().id();
         Assertions.assertTrue(linkRepository.findById(id).isPresent());
+
     }
 
     @Test
@@ -74,3 +75,4 @@ public class LinkRepositoryTest extends IntegrationTest {
         Assertions.assertFalse(deletedLink1.isPresent());
     }
 }
+

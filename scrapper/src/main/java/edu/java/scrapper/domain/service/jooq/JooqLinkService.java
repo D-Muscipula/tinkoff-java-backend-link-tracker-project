@@ -1,9 +1,8 @@
-package edu.java.scrapper.domain.service.jdbc;
+package edu.java.scrapper.domain.service.jooq;
 
 import edu.java.scrapper.domain.repository.LinkRepository;
 import edu.java.scrapper.domain.repository.UserLinkRepository;
 import edu.java.scrapper.domain.repository.UserRepository;
-import edu.java.scrapper.domain.repository.jpa.JpaUserRepository;
 import edu.java.scrapper.domain.service.LinkService;
 import edu.java.scrapper.dto.Link;
 import edu.java.scrapper.dto.TgUser;
@@ -20,15 +19,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
 
-public class JdbcLinkService implements LinkService {
+public class JooqLinkService implements LinkService {
     private final UserRepository userRepository;
     private final LinkRepository linkRepository;
     private final UserLinkRepository userLinkRepository;
 
-    public JdbcLinkService(
-        @Qualifier("userRepositoryImpl") UserRepository userRepository,
-        @Qualifier("linkRepositoryImpl") LinkRepository linkRepository,
-        @Qualifier("userLinkRepositoryImpl") UserLinkRepository userLinkRepository
+    public JooqLinkService(
+        @Qualifier("jooqUserRepository") UserRepository userRepository,
+        @Qualifier("jooqLinkRepository") LinkRepository linkRepository,
+        @Qualifier("jooqUserLinkRepository") UserLinkRepository userLinkRepository
     ) {
         this.userRepository = userRepository;
         this.linkRepository = linkRepository;
@@ -42,7 +41,6 @@ public class JdbcLinkService implements LinkService {
         if (tgUser.isEmpty()) {
             throw new ChatDoesntExistException();
         }
-        JpaUserRepository jpaUserRepository;
 
         Optional<Link> link = linkRepository.findByURL(url);
         if (link.isEmpty()) {

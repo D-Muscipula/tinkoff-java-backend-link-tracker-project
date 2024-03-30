@@ -2,8 +2,8 @@ package edu.java.scrapper.scheduling;
 
 import edu.java.scrapper.domain.service.LinkService;
 import edu.java.scrapper.domain.service.LinkUpdater;
-import edu.java.scrapper.domain.service.jdbc.JdbcGitHubLinkUpdater;
-import edu.java.scrapper.domain.service.jdbc.JdbcStackOverflowLinkUpdater;
+import edu.java.scrapper.domain.service.updater.JdbcGitHubLinkUpdater;
+import edu.java.scrapper.domain.service.updater.JdbcStackOverflowLinkUpdater;
 import edu.java.scrapper.dto.Link;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClientException;
 
 @Component
 public class LinkUpdaterScheduler {
@@ -40,11 +41,15 @@ public class LinkUpdaterScheduler {
         logger.info("it works");
         List<Link> oldLinks = linkService.findOldLinks(intervalSinceLastCheck);
         for (Link link : oldLinks) {
-            logger.info(link.toString());
-            LinkUpdater linkUpdater = updaters.get(link.url().getHost());
-            if (linkUpdater != null) {
-                logger.info(linkUpdater.getHost() + " update");
-                linkUpdater.update(link);
+            try {
+                logger.info(link.toString());
+                LinkUpdater linkUpdater = updaters.get(link.url().getHost());
+                if (linkUpdater != null) {
+                    logger.info(linkUpdater.getHost() + " update");
+                    linkUpdater.update(link);
+                }
+            } catch (WebClientException e) {
+                logger.info("бот, вероятно,  выключен");
             }
         }
     }

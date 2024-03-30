@@ -1,4 +1,4 @@
-package edu.java.scrapper.domain.service.jdbc;
+package edu.java.scrapper.domain.service.jooq;
 
 import edu.java.scrapper.domain.repository.UserRepository;
 import edu.java.scrapper.domain.service.TgUserService;
@@ -8,11 +8,11 @@ import edu.java.scrapper.exceptions.ChatDoesntExistException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-public class JdbcTgUserService implements TgUserService {
+public class JooqTgUserService implements TgUserService {
     private final UserRepository userRepository;
 
-    public JdbcTgUserService(
-        @Qualifier("userRepositoryImpl")
+    public JooqTgUserService(
+        @Qualifier("jooqUserRepository")
         UserRepository userRepository
     ) {
         this.userRepository = userRepository;
@@ -46,7 +46,8 @@ public class JdbcTgUserService implements TgUserService {
         }
     }
 
-    public Optional<TgUser> findById(Long tgUserId) {
-        return userRepository.findById(tgUserId);
+    @Override
+    public Optional<TgUser> findById(Long tgChatId) {
+        return userRepository.findById(tgChatId);
     }
 }

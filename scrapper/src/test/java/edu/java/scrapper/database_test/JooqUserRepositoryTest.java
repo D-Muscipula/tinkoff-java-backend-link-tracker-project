@@ -14,10 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @TestPropertySource(properties = {
-    "app.database-access-type=jdbc"})
-public class TgUserRepositoryTest extends IntegrationTest {
+    "app.database-access-type=jooq"})
+public class JooqUserRepositoryTest extends IntegrationTest {
     @Autowired
     private UserRepository userRepository;
+
 
     @Test
     @Transactional
