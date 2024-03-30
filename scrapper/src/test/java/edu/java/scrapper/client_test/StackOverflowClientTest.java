@@ -1,15 +1,14 @@
 package edu.java.scrapper.client_test;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
-import edu.java.client.StackOverflowClient;
-import edu.java.configuration.ApplicationConfig;
-import edu.java.dto.StackOverflowQuestionDTO;
+import edu.java.scrapper.client.StackOverflowClient;
+import edu.java.scrapper.configuration.ApplicationConfig;
+import edu.java.scrapper.dto.StackOverflowQuestionDTO;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 
-import edu.java.scrapper.client_test.AbstractClientTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

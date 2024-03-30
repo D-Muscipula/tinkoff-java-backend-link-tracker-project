@@ -9,7 +9,6 @@ import liquibase.Liquibase;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.DirectoryResourceAccessor;
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.AfterAll;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.JdbcDatabaseContainer;
@@ -54,8 +53,8 @@ public abstract class IntegrationTest {
         registry.add("spring.datasource.password", POSTGRES::getPassword);
     }
 
-    @AfterAll
-    static void stop() {
-        POSTGRES.stop();
-    }
+//    @AfterAll
+//    static void stop() {
+//        POSTGRES.stop();
+//    }
 }

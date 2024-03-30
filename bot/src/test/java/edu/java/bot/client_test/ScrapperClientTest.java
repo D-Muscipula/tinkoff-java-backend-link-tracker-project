@@ -5,6 +5,7 @@ import dto.request.AddLinkRequest;
 import dto.request.RemoveLinkRequest;
 import dto.response.LinkResponse;
 import dto.response.ListLinksResponse;
+import dto.response.TgUserResponse;
 import edu.java.bot.client.ScrapperClient;
 import edu.java.bot.configuration.ApplicationConfig;
 import lombok.SneakyThrows;
@@ -140,6 +141,29 @@ public class ScrapperClientTest extends AbstractClientTest {
         scrapperClient.deleteLink(125L, new RemoveLinkRequest(new URI("https://example.com/1")));
         verify(deleteRequestedFor(urlEqualTo("/links"))
             .withRequestBody(containing(body)));
+    }
+
+
+    @SneakyThrows
+    @Test
+    public void getStateTest() {
+        String body = """
+            {
+            "userChatId": 123,
+            "userState": "track"
+            }
+            """;
+
+        stubFor(WireMock.get(urlEqualTo("/state"))
+            .willReturn(aResponse()
+                .withStatus(200)
+                .withBody(body)
+                .withHeader("Content-Type", "application/json")));
+
+        ScrapperClient scrapperClient = new ScrapperClient(applicationConfig);
+        TgUserResponse a = scrapperClient.getUser(123L);
+        Assertions.assertEquals("track", a.userState());
+        verify(getRequestedFor(urlEqualTo("/state")));
     }
 
 }

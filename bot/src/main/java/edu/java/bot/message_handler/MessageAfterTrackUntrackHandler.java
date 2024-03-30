@@ -4,8 +4,8 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.repository.User;
-import edu.java.bot.repository.UserRepository;
 import edu.java.bot.repository.UserState;
+import edu.java.bot.service.UserService;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -13,18 +13,18 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.jetbrains.annotations.NotNull;
 
 public class MessageAfterTrackUntrackHandler implements MessageHandler {
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final UrlValidator validator = new UrlValidator();
 
-    public MessageAfterTrackUntrackHandler(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public MessageAfterTrackUntrackHandler(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
     public SendMessage handleMessage(Update update) {
         Message message = update.message();
         long chatId = message.chat().id();
-        User user = userRepository.get(chatId);
+        User user = userService.get(chatId);
         String userText = message.text();
         if (user.userState() == UserState.TRACK_STATE) {
             return new SendMessage(chatId, handleMessageAfterTrack(userText, user));
@@ -63,7 +63,7 @@ public class MessageAfterTrackUntrackHandler implements MessageHandler {
             botAnswer.delete(0, "Ссылки добавлены\n".length());
         }
         //У пользователя меняется состояние и список ссылок
-        userRepository.update(new User(user.id(), UserState.REGISTERED, user.links()));
+        userService.update(new User(user.id(), UserState.REGISTERED, user.links()));
         return botAnswer.toString();
     }
 
@@ -73,7 +73,7 @@ public class MessageAfterTrackUntrackHandler implements MessageHandler {
         List<String> links = List.of(userText.split("\n"));
         user.links().removeAll(links);
         //У пользователя меняется состояние и список ссылок
-        userRepository.update(new User(user.id(), UserState.REGISTERED, user.links()));
+        userService.update(new User(user.id(), UserState.REGISTERED, user.links()));
         botAnswer = "Ссылки удалены";
         return botAnswer;
     }

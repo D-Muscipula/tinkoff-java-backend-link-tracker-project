@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset D-Muscipula:init_1
 
-CREATE TABLE IF NOT EXISTS users
+CREATE TABLE IF NOT EXISTS tg_user
 (
     user_chat_id BIGINT NOT NULL,
     user_state   TEXT   NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS users
     UNIQUE (user_chat_id)
 );
 
-CREATE TABLE IF NOT EXISTS links
+CREATE TABLE IF NOT EXISTS link
 (
     id         BIGINT GENERATED ALWAYS AS IDENTITY,
     url        VARCHAR                  NOT NULL,
@@ -25,10 +25,10 @@ CREATE TABLE IF NOT EXISTS links
 CREATE TABLE IF NOT EXISTS users_links
 (
     id      BIGINT GENERATED ALWAYS AS IDENTITY,
-    user_id BIGINT,
-    link_id BIGINT NOT NULL,
+    tg_user BIGINT,
+    link BIGINT NOT NULL,
 
-    FOREIGN KEY (user_id) REFERENCES users (user_chat_id),
-    FOREIGN KEY (link_id) REFERENCES links (id),
-    PRIMARY KEY (user_id, link_id)
+    FOREIGN KEY (tg_user) REFERENCES tg_user (user_chat_id) ON DELETE CASCADE,
+    FOREIGN KEY (link) REFERENCES link (id) ON DELETE CASCADE,
+    PRIMARY KEY (tg_user, link)
 );
