@@ -15,6 +15,12 @@ spring:
     username: ${USERNAME}
     password: ${PASSWORD}
     driverClassName: org.postgresql.Driver
+retry:
+  scrapper-retry:
+    type: fixed
+    max-attempt: 3
+    delay: 10
+    codes: [500, 501, 503]
 
 springdoc:
   swagger-ui:

@@ -2,6 +2,7 @@ package edu.java.bot.configuration;
 
 import com.pengrad.telegrambot.TelegramBot;
 import edu.java.bot.client.ScrapperClient;
+import edu.java.bot.client.retry.RetryUtils;
 import edu.java.bot.commands.Command;
 import edu.java.bot.commands.Help;
 import edu.java.bot.commands.ListCommand;
@@ -17,15 +18,20 @@ import edu.java.bot.service.UserScrapperService;
 import edu.java.bot.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import reactor.util.retry.Retry;
 
 @Configuration
 public class AppConfig {
     private final ApplicationConfig applicationConfig;
+    private final RetryConfig retryConfig;
 
-    public AppConfig(ApplicationConfig applicationConfig) {
+    @Autowired
+    public AppConfig(ApplicationConfig applicationConfig, RetryConfig retryConfig) {
         this.applicationConfig = applicationConfig;
+        this.retryConfig = retryConfig;
     }
 
     @Bean
@@ -72,7 +78,16 @@ public class AppConfig {
     }
 
     @Bean
+    public Retry retryScrapper() {
+        RetryType type = retryConfig.scrapperRetry().type();
+        Integer maxAttempt = retryConfig.scrapperRetry().maxAttempt();
+        Integer delay = retryConfig.scrapperRetry().delay();
+        List<Integer> codes = retryConfig.scrapperRetry().codes();
+        return RetryUtils.createRetry(type, maxAttempt, delay, codes);
+    }
+
+    @Bean
     public ScrapperClient scrapperClient() {
-        return new ScrapperClient(applicationConfig);
+        return new ScrapperClient(applicationConfig, retryScrapper());
     }
 }
