@@ -61,26 +61,26 @@ public class JdbcLinkServiceTest extends IntegrationTest {
 
     }
 
-    @Test
-    @Transactional
-    @Rollback
-    void update() {
-    }
+//    @Test
+//    @Transactional
+//    @Rollback
+//    void update() {
+//    }
+//
+//    @Test
+//    @Transactional
+//    @Rollback
+//    void remove() {
+//    }
 
-    @Test
-    @Transactional
-    @Rollback
-    void remove() {
-    }
-
-    @Test
-    @Transactional
-    @Rollback
-    void listAll() {
-        tgUserService.register(125L);
-        tgUserService.register(12L);
-        tgUserService.register(1);
-    }
+//    @Test
+//    @Transactional
+//    @Rollback
+//    void listAll() {
+//        tgUserService.register(125L);
+//        tgUserService.register(12L);
+//        tgUserService.register(1);
+//    }
 
     @Test
     @Transactional
@@ -100,9 +100,9 @@ public class JdbcLinkServiceTest extends IntegrationTest {
         Assertions.assertTrue(userList.containsAll(expected));
     }
 
-    @Test
-    @Transactional
-    @Rollback
-    void findOldLinks() {
-    }
+//    @Test
+//    @Transactional
+//    @Rollback
+//    void findOldLinks() {
+//    }
 }
