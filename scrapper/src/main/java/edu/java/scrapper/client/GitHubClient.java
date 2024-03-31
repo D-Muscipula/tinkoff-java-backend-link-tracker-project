@@ -32,7 +32,8 @@ public class GitHubClient {
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
             .bodyToMono(GitHubRepositoryDTO.class)
-            .retryWhen(retry).block();
+            .retryWhen(retry)
+            .block();
     }
 
     public Optional<CommitDTO> getCommit(String user, String repository) {
@@ -42,6 +43,7 @@ public class GitHubClient {
                         .build())
                     .retrieve()
                     .toEntityList(CommitDTO.class)
+                    .retryWhen(retry)
                     .block())
                 .getBody())
             .stream()

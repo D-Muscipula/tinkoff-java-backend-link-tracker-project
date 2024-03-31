@@ -3,6 +3,7 @@ package edu.java.scrapper.client_test;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import dto.request.LinkUpdate;
 import edu.java.scrapper.client.BotClient;
+import edu.java.scrapper.client.retry.RetryUtils;
 import edu.java.scrapper.configuration.ApplicationConfig;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.util.retry.Retry;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.containing;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
@@ -43,8 +45,8 @@ public class BotClientTest extends AbstractClientTest {
             .willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")));
-
-        BotClient botClient = new BotClient(applicationConfig);
+        Retry retry = RetryUtils.fixedRetry(3, 1, List.of(500, 501, 502));
+        BotClient botClient = new BotClient(applicationConfig, retry);
         URI uri = new URI("https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c");
         LinkUpdate linkUpdate = new LinkUpdate(10L,
             uri, "some link", List.of(1L, 30L, 10L)
@@ -67,8 +69,9 @@ public class BotClientTest extends AbstractClientTest {
             .willReturn(aResponse()
                 .withStatus(400)
                 .withHeader("Content-Type", "application/json")));
+        Retry retry = RetryUtils.fixedRetry(3, 1, List.of(500, 501, 502));
 
-        BotClient botClient = new BotClient(applicationConfig);
+        BotClient botClient = new BotClient(applicationConfig, retry);
         URI uri;
         try {
             uri = new URI("https://stackoverflow.com/questions/1642028/what-is-the-operator-in-c");

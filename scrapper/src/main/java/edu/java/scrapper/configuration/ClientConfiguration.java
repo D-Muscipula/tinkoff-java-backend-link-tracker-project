@@ -44,17 +44,26 @@ public class ClientConfiguration {
         RetryType type = retryConfig.stackoverflow().type();
         Integer maxAttempt = retryConfig.stackoverflow().maxAttempt();
         Integer delay = retryConfig.stackoverflow().delay();
-        List<Integer> codes = retryConfig.github().codes();
+        List<Integer> codes = retryConfig.stackoverflow().codes();
+        return RetryUtils.createRetry(type, maxAttempt, delay, codes);
+    }
+
+    @Bean
+    public Retry retryBot() {
+        RetryType type = retryConfig.bot().type();
+        Integer maxAttempt = retryConfig.bot().maxAttempt();
+        Integer delay = retryConfig.bot().delay();
+        List<Integer> codes = retryConfig.bot().codes();
         return RetryUtils.createRetry(type, maxAttempt, delay, codes);
     }
 
     @Bean
     public StackOverflowClient stackOverflowClient() {
-        return new StackOverflowClient(applicationConfig);
+        return new StackOverflowClient(applicationConfig, retryStackoverflow());
     }
 
     @Bean
     public BotClient botClient() {
-        return new BotClient(applicationConfig);
+        return new BotClient(applicationConfig, retryBot());
     }
 }
