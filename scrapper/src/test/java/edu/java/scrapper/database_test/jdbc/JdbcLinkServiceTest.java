@@ -10,6 +10,7 @@ import edu.java.scrapper.dto.Link;
 import edu.java.scrapper.dto.TgUser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
@@ -31,6 +32,7 @@ public class JdbcLinkServiceTest extends IntegrationTest {
     private final TgUserService tgUserService;
     private static final URI DEFAULT_URI = URI.create("https://stackoverflow.com/questions/42/best-way-to-allow-plugins-for-a-php-application/77#77");
 
+    @Autowired
     public JdbcLinkServiceTest(
         LinkService linkService,
         UserRepository userRepository,
