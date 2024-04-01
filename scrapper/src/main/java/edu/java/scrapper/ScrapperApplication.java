@@ -11,8 +11,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableConfigurationProperties({ApplicationConfig.class, RetryConfig.class})
 @EnableCaching
+@EnableConfigurationProperties({ApplicationConfig.class, RetryConfig.class})
 public class ScrapperApplication {
     public static void main(String[] args) {
         SpringApplication.run(ScrapperApplication.class, args);

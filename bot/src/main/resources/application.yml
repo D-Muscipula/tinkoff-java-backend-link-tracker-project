@@ -15,6 +15,25 @@ spring:
     username: ${USERNAME}
     password: ${PASSWORD}
     driverClassName: org.postgresql.Driver
+  cache:
+    cache-names:
+      - rate-limit-buckets-bot
+    caffeine:
+      spec: maximumSize=100000,expireAfterAccess=3600s
+
+bucket4j:
+    enabled: true
+    filters:
+      - cache-name: rate-limit-buckets-bot
+        url: .*
+        http-status-code: TOO_MANY_REQUESTS
+        http-response-body: "{ \"status\": 429, \"error\": \"Too Many Requests\" }"
+        rate-limits:
+          - cache-key: getRemoteAddr()
+            bandwidths:
+              - capacity: 100000
+                time: 1
+                unit: hours
 retry:
   scrapper-retry:
     type: fixed
