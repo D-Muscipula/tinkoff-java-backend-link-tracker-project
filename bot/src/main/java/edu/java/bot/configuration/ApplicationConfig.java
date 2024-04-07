@@ -13,7 +13,9 @@ import org.springframework.validation.annotation.Validated;
 public record ApplicationConfig(
     @NotEmpty
     String telegramToken,
-    String baseScrapperClientUrl
+    String baseScrapperClientUrl,
+
+    String kafkaTopicName
 ) {
 
 }
