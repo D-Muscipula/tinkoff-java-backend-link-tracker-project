@@ -17,6 +17,6 @@ public record ApplicationConfig(
 
     ScrapperTopic scrapperTopic
 ) {
-    record ScrapperTopic(String name) {
+   public record ScrapperTopic(String name) {
     }
 }
