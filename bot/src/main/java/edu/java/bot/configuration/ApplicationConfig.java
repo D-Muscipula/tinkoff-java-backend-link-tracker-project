@@ -15,7 +15,8 @@ public record ApplicationConfig(
     String telegramToken,
     String baseScrapperClientUrl,
 
-    String kafkaTopicName
+    ScrapperTopic scrapperTopic
 ) {
-
+    record ScrapperTopic(String name) {
+    }
 }

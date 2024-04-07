@@ -1,7 +1,8 @@
 app:
   telegram-token: ${MY_TOKEN}
   baseScrapperClientUrl: http://localhost:8080
-  kafka-topic-name: updates
+  scrapper-topic:
+    name: updates
 
 spring:
   application:
