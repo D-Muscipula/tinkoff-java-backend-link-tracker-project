@@ -1,7 +1,6 @@
 package edu.java.scrapper.domain.service.updater;
 
 import dto.request.LinkUpdate;
-import edu.java.scrapper.client.BotClient;
 import edu.java.scrapper.client.GitHubClient;
 import edu.java.scrapper.domain.service.LinkService;
 import edu.java.scrapper.domain.service.LinkUpdater;
@@ -21,18 +20,18 @@ import org.springframework.stereotype.Service;
 public class JdbcGitHubLinkUpdater implements LinkUpdater {
     private final LinkService linkService;
     private final GitHubClient gitHubClient;
-    private final BotClient botClient;
+    private final UpdateSender updateSender;
     private final Logger logger = LoggerFactory.getLogger(JdbcGitHubLinkUpdater.class);
 
     @Autowired
     public JdbcGitHubLinkUpdater(
         LinkService linkService,
         GitHubClient gitHubClient,
-        BotClient botClient
+        UpdateSender updateSender
     ) {
         this.linkService = linkService;
         this.gitHubClient = gitHubClient;
-        this.botClient = botClient;
+        this.updateSender = updateSender;
     }
 
     @Override
@@ -62,7 +61,7 @@ public class JdbcGitHubLinkUpdater implements LinkUpdater {
                 userList.stream().map(TgUser::userChatId).toList()
             );
             logger.info(linkUpdate.toString());
-            botClient.sendUpdate(
+            updateSender.sendUpdate(
                 linkUpdate
             );
         } else {
@@ -85,7 +84,7 @@ public class JdbcGitHubLinkUpdater implements LinkUpdater {
                 userList.stream().map(TgUser::userChatId).toList()
             );
             logger.info(linkUpdate.toString());
-            botClient.sendUpdate(
+            updateSender.sendUpdate(
                 linkUpdate
             );
         }

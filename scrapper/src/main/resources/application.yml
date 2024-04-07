@@ -9,6 +9,7 @@ app:
   baseBotClientUrl: http://localhost:8090
   database-access-type: jpa
   kafka-topic-name: updates
+  use-queue: false
 
 retry:
   github:

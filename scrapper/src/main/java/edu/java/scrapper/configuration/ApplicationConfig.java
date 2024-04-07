@@ -21,7 +21,8 @@ public record ApplicationConfig(
     String baseBotClientUrl,
     AccessType databaseAccessType,
 
-    String kafkaTopicName
+    String kafkaTopicName,
+    boolean useQueue
 ) {
 
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay,
