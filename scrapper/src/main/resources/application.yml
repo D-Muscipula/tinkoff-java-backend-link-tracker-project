@@ -66,6 +66,35 @@ bucket4j:
               time: 1
               unit: hours
 
+management:
+  server:
+    port: 8800
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+      base-path: /
+      path-mapping:
+        prometheus: /metrics
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    info:
+      enabled: true
+    prometheus:
+      enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  metrics:
+    tags:
+        application: ${spring.application.name}
+
+
+
+
 springdoc:
   swagger-ui:
     path: /swagger-ui

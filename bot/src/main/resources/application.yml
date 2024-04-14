@@ -61,6 +61,34 @@ retry:
     delay: 10
     codes: [500, 501, 503]
 
+
+management:
+  server:
+    port: 8900
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+      base-path: /
+      path-mapping:
+        prometheus: /metrics
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    info:
+      enabled: true
+    prometheus:
+      enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+
 springdoc:
   swagger-ui:
     path: /swagger-ui
