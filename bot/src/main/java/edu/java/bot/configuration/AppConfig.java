@@ -16,6 +16,7 @@ import edu.java.bot.message_handler.UserMessageHandler;
 import edu.java.bot.my_bot.MyTgBot;
 import edu.java.bot.service.UserScrapperService;
 import edu.java.bot.service.UserService;
+import io.micrometer.core.instrument.MeterRegistry;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,13 @@ import reactor.util.retry.Retry;
 public class AppConfig {
     private final ApplicationConfig applicationConfig;
     private final RetryConfig retryConfig;
+    private final MeterRegistry meterRegistry;
 
     @Autowired
-    public AppConfig(ApplicationConfig applicationConfig, RetryConfig retryConfig) {
+    public AppConfig(ApplicationConfig applicationConfig, RetryConfig retryConfig, MeterRegistry meterRegistry) {
         this.applicationConfig = applicationConfig;
         this.retryConfig = retryConfig;
+        this.meterRegistry = meterRegistry;
     }
 
     @Bean
@@ -66,13 +69,14 @@ public class AppConfig {
     }
 
     @Bean
-    public MessageHandler messageHandler() {
-        return new UserMessageHandler(messageAfterTrackUntrackHandler(), commandMessageHandler(), dB());
+    public MessageHandler messageHandler(MeterRegistry meterRegistry) {
+        return new UserMessageHandler(messageAfterTrackUntrackHandler(),
+            commandMessageHandler(), dB(), meterRegistry);
     }
 
     @Bean
     public MyTgBot tgBot() {
-        MyTgBot myTgBot = new MyTgBot(telegramBot(), messageHandler(), commandList());
+        MyTgBot myTgBot = new MyTgBot(telegramBot(), messageHandler(meterRegistry), commandList());
         myTgBot.serve();
         return myTgBot;
     }
