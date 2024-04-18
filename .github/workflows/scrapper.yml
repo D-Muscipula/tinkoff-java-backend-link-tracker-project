@@ -6,6 +6,9 @@ on:
     paths:
       - .github/workflows/scrapper.yml
       - scrapper/**
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}/scrapper
 
 jobs:
   build:
