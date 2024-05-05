@@ -48,7 +48,7 @@ public class JpaLinkService implements LinkService {
         if (link.isEmpty() || tgUser.getLinks().contains(link.get())) {
             throw new LinkAlreadyTrackedException();
         }
-        tgUser.getLinks().add(link.get());
+        tgUser.addLink(link.get());
         jpaUserRepository.save(tgUser);
     }
 

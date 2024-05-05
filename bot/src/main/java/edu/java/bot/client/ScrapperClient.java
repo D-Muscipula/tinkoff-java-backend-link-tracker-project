@@ -8,10 +8,12 @@ import dto.response.TgUserResponse;
 import edu.java.bot.configuration.ApplicationConfig;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.util.retry.Retry;
 
 public class ScrapperClient {
     private WebClient webClient;
     private final ApplicationConfig applicationConfig;
+    private final Retry retry;
 
     private static final String SCRAPPER_CLIENT_URL = "http://localhost:8080";
 
@@ -21,8 +23,9 @@ public class ScrapperClient {
     private static final String LINKS = "links";
     private static final String STATE = "state";
 
-    public ScrapperClient(ApplicationConfig applicationConfig) {
+    public ScrapperClient(ApplicationConfig applicationConfig, Retry retry) {
         this.applicationConfig = applicationConfig;
+        this.retry = retry;
         setUpWebClient();
     }
 
@@ -34,6 +37,7 @@ public class ScrapperClient {
                 .build())
             .retrieve()
             .bodyToMono(Void.class)
+            .retryWhen(retry)
             .block();
     }
 
@@ -44,6 +48,7 @@ public class ScrapperClient {
                 .build())
             .retrieve()
             .bodyToMono(Void.class)
+            .retryWhen(retry)
             .block();
     }
 
@@ -53,6 +58,7 @@ public class ScrapperClient {
             .header(TG_CHAT_ID_HEADER, String.valueOf(tgChatId))
             .retrieve()
             .bodyToMono(ListLinksResponse.class)
+            .retryWhen(retry)
             .block();
     }
 
@@ -63,6 +69,7 @@ public class ScrapperClient {
             .bodyValue(addLinkRequest)
             .retrieve()
             .bodyToMono(Void.class)
+            .retryWhen(retry)
             .block();
     }
 
@@ -73,6 +80,7 @@ public class ScrapperClient {
             .bodyValue(removeLinkRequest)
             .retrieve()
             .bodyToMono(Void.class)
+            .retryWhen(retry)
             .block();
     }
 
@@ -82,6 +90,7 @@ public class ScrapperClient {
             .bodyValue(tgUserUpdate)
             .retrieve()
             .bodyToMono(Void.class)
+            .retryWhen(retry)
             .block();
     }
 
@@ -91,6 +100,7 @@ public class ScrapperClient {
             .header(TG_CHAT_ID_HEADER, String.valueOf(tgChatId))
             .retrieve()
             .bodyToMono(TgUserResponse.class)
+            .retryWhen(retry)
             .block();
     }
 

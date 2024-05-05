@@ -2,12 +2,14 @@ package edu.java.scrapper.client_test;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import edu.java.scrapper.client.StackOverflowClient;
+import edu.java.scrapper.client.retry.RetryUtils;
 import edu.java.scrapper.configuration.ApplicationConfig;
 import edu.java.scrapper.dto.StackOverflowQuestionDTO;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testcontainers.shaded.org.apache.commons.io.FileUtils;
+import reactor.util.retry.Retry;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
@@ -42,8 +45,8 @@ public class StackOverflowClientTest extends AbstractClientTest {
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
                 .withBody(body)));
-
-        StackOverflowClient stackOverflowClient = new StackOverflowClient(applicationConfig);
+        Retry retry = RetryUtils.fixedRetry(3, 3, List.of(500, 501, 502));
+        StackOverflowClient stackOverflowClient = new StackOverflowClient(applicationConfig, retry);
         StackOverflowQuestionDTO question = stackOverflowClient.getQuestion(34L);
 
         Assertions.assertEquals(34, question.items().getFirst().questionId());

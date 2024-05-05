@@ -28,9 +28,14 @@ public class TgUser {
     @ManyToMany
     @JoinTable(
         name = "users_links",
-        joinColumns = @JoinColumn(name = "tg_user", referencedColumnName = "user_chat_id"),
+        joinColumns = @JoinColumn(name = "tg_user"),
         inverseJoinColumns = @JoinColumn(name = "link")
     )
     Set<Link> links = new HashSet<>();
+
+    public void addLink(Link link) {
+        link.getUsers().add(this);
+        links.add(link);
+    }
 
 }

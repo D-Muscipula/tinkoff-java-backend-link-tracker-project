@@ -7,6 +7,7 @@ import dto.response.LinkResponse;
 import dto.response.ListLinksResponse;
 import dto.response.TgUserResponse;
 import edu.java.bot.client.ScrapperClient;
+import edu.java.bot.client.retry.RetryUtils;
 import edu.java.bot.configuration.ApplicationConfig;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import reactor.util.retry.Retry;
 import java.net.URI;
 import java.util.List;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
@@ -46,8 +48,8 @@ public class ScrapperClientTest extends AbstractClientTest {
             .willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")));
-
-        ScrapperClient scrapperClient = new ScrapperClient(applicationConfig);
+        Retry retry = RetryUtils.fixedRetry(3, 1, List.of(500, 501, 502));
+        ScrapperClient scrapperClient = new ScrapperClient(applicationConfig, retry);
         scrapperClient.registerChat(125L);
 
         verify(postRequestedFor(urlEqualTo("/tg-chat/125")));
@@ -61,7 +63,8 @@ public class ScrapperClientTest extends AbstractClientTest {
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")));
 
-        ScrapperClient scrapperClient = new ScrapperClient(applicationConfig);
+        Retry retry = RetryUtils.fixedRetry(3, 1, List.of(500, 501, 502));
+        ScrapperClient scrapperClient = new ScrapperClient(applicationConfig, retry);
         scrapperClient.deleteChat(125L);
 
         verify(deleteRequestedFor(urlEqualTo("/tg-chat/125")));
@@ -95,7 +98,8 @@ public class ScrapperClientTest extends AbstractClientTest {
                 .withHeader("Content-Type", "application/json")
                 .withBody(body)));
 
-        ScrapperClient scrapperClient = new ScrapperClient(applicationConfig);
+        Retry retry = RetryUtils.fixedRetry(3, 1, List.of(500, 501, 502));
+        ScrapperClient scrapperClient = new ScrapperClient(applicationConfig, retry);
         ListLinksResponse listLinksResponse = scrapperClient.getLinks(125L);
         Assertions.assertEquals(3, listLinksResponse.size());
         List<LinkResponse> links = List.of(
@@ -120,7 +124,8 @@ public class ScrapperClientTest extends AbstractClientTest {
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")));
 
-        ScrapperClient scrapperClient = new ScrapperClient(applicationConfig);
+        Retry retry = RetryUtils.fixedRetry(3, 1, List.of(500, 501, 502));
+        ScrapperClient scrapperClient = new ScrapperClient(applicationConfig, retry);
         scrapperClient.addLink(125L, new AddLinkRequest(new URI("https://example.com/1")));
         verify(postRequestedFor(urlEqualTo("/links"))
             .withRequestBody(containing(body)));
@@ -137,7 +142,8 @@ public class ScrapperClientTest extends AbstractClientTest {
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")));
 
-        ScrapperClient scrapperClient = new ScrapperClient(applicationConfig);
+        Retry retry = RetryUtils.fixedRetry(3, 1, List.of(500, 501, 502));
+        ScrapperClient scrapperClient = new ScrapperClient(applicationConfig, retry);
         scrapperClient.deleteLink(125L, new RemoveLinkRequest(new URI("https://example.com/1")));
         verify(deleteRequestedFor(urlEqualTo("/links"))
             .withRequestBody(containing(body)));
@@ -160,7 +166,8 @@ public class ScrapperClientTest extends AbstractClientTest {
                 .withBody(body)
                 .withHeader("Content-Type", "application/json")));
 
-        ScrapperClient scrapperClient = new ScrapperClient(applicationConfig);
+        Retry retry = RetryUtils.fixedRetry(3, 1, List.of(500, 501, 502));
+        ScrapperClient scrapperClient = new ScrapperClient(applicationConfig, retry);
         TgUserResponse a = scrapperClient.getUser(123L);
         Assertions.assertEquals("track", a.userState());
         verify(getRequestedFor(urlEqualTo("/state")));

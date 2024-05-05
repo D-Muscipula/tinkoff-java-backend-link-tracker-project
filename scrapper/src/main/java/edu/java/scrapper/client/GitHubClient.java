@@ -7,15 +7,17 @@ import java.util.Objects;
 import java.util.Optional;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.util.retry.Retry;
 
 public class GitHubClient {
     private WebClient webClient;
     private final ApplicationConfig applicationConfig;
-
+    private final Retry retry;
     private static final String DEFAULT_GITHUB_URL = "https://api.github.com/repos/";
 
-    public GitHubClient(ApplicationConfig applicationConfig) {
+    public GitHubClient(ApplicationConfig applicationConfig, Retry retry) {
         this.applicationConfig = applicationConfig;
+        this.retry = retry;
         setUpWebClient();
     }
 
@@ -30,18 +32,20 @@ public class GitHubClient {
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
             .bodyToMono(GitHubRepositoryDTO.class)
+            .retryWhen(retry)
             .block();
     }
 
     public Optional<CommitDTO> getCommit(String user, String repository) {
         return Objects.requireNonNull(Objects.requireNonNull(webClient.get()
-                                .uri(uriBuilder -> uriBuilder
-                                        .pathSegment(user, repository, "commits")
-                                        .build())
-                                .retrieve()
-                                .toEntityList(CommitDTO.class)
-                                .block())
-                        .getBody())
+                    .uri(uriBuilder -> uriBuilder
+                        .pathSegment(user, repository, "commits")
+                        .build())
+                    .retrieve()
+                    .toEntityList(CommitDTO.class)
+                    .retryWhen(retry)
+                    .block())
+                .getBody())
             .stream()
             .findFirst();
     }

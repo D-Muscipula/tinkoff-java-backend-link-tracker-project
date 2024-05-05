@@ -49,7 +49,7 @@ public class JooqAccessConfiguration {
 
     @Bean
     public TgUserService tgUserService() {
-        return new JooqTgUserService(userRepository());
+        return new JooqTgUserService(userRepository(), linkRepository(), userLinkRepository());
     }
 
     @Bean

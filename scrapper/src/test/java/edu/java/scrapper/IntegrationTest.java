@@ -11,11 +11,14 @@ import liquibase.resource.DirectoryResourceAccessor;
 import lombok.SneakyThrows;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
+@TestPropertySource(properties = {
+    "spring.cache.type=none"})
 public abstract class IntegrationTest {
     public static PostgreSQLContainer<?> POSTGRES;
 

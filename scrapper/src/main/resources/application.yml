@@ -9,6 +9,22 @@ app:
   baseBotClientUrl: http://localhost:8090
   database-access-type: jpa
 
+retry:
+  github:
+    type: fixed
+    max-attempt: 3
+    delay: 10
+    codes: [500, 501, 503]
+  stackoverflow:
+      type: linear
+      max-attempt: 3
+      delay: 10
+      codes: [500, 501, 503]
+  bot:
+    type: linear
+    max-attempt: 3
+    delay: 10
+    codes: [500, 501, 503]
 spring:
   application:
     name: scrapper
@@ -20,6 +36,25 @@ spring:
     username: ${USERNAME}
     password: ${PASSWORD}
     driverClassName: org.postgresql.Driver
+  cache:
+    cache-names:
+      - rate-limit-buckets
+    caffeine:
+      spec: maximumSize=100000,expireAfterAccess=3600s
+
+bucket4j:
+  enabled: true
+  filters:
+    - cache-name: rate-limit-buckets
+      url: .*
+      http-status-code: TOO_MANY_REQUESTS
+      http-response-body: "{ \"status\": 429, \"error\": \"Too Many Requests\" }"
+      rate-limits:
+        - cache-key: getRemoteAddr()
+          bandwidths:
+            - capacity: 100000
+              time: 1
+              unit: hours
 
 springdoc:
   swagger-ui:

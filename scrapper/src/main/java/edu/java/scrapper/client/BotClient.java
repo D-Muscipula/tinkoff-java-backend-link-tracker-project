@@ -3,15 +3,18 @@ package edu.java.scrapper.client;
 import dto.request.LinkUpdate;
 import edu.java.scrapper.configuration.ApplicationConfig;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.util.retry.Retry;
 
 public class BotClient {
     private WebClient webClient;
     private final ApplicationConfig applicationConfig;
+    private final Retry retry;
 
     private static final String BOT_CLIENT_URL = "http://localhost:8090";
 
-    public BotClient(ApplicationConfig applicationConfig) {
+    public BotClient(ApplicationConfig applicationConfig, Retry retry) {
         this.applicationConfig = applicationConfig;
+        this.retry = retry;
         setUpWebClient();
     }
 
@@ -24,6 +27,7 @@ public class BotClient {
             .bodyValue(linkUpdate)
             .retrieve()
             .bodyToMono(Void.class)
+            .retryWhen(retry)
             .block();
     }
 
