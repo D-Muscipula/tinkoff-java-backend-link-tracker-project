@@ -8,6 +8,8 @@ app:
   baseStackOverflowUrl: https://api.stackexchange.com/
   baseBotClientUrl: http://localhost:8090
   database-access-type: jpa
+  kafka-topic-name: updates
+  use-queue: false
 
 retry:
   github:
@@ -41,6 +43,14 @@ spring:
       - rate-limit-buckets
     caffeine:
       spec: maximumSize=100000,expireAfterAccess=3600s
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+      bootstrap-servers: localhost:29092
+    bootstrap-servers: localhost:29092
 
 bucket4j:
   enabled: true

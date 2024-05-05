@@ -1,7 +1,6 @@
 package edu.java.scrapper.domain.service.updater;
 
 import dto.request.LinkUpdate;
-import edu.java.scrapper.client.BotClient;
 import edu.java.scrapper.client.StackOverflowClient;
 import edu.java.scrapper.domain.service.LinkService;
 import edu.java.scrapper.domain.service.LinkUpdater;
@@ -17,17 +16,17 @@ import org.springframework.stereotype.Service;
 public class JdbcStackOverflowLinkUpdater implements LinkUpdater {
     private final LinkService linkService;
     private final StackOverflowClient stackOverflowClient;
-    private final BotClient botClient;
+    private final UpdateSender updateSender;
 
     @Autowired
     public JdbcStackOverflowLinkUpdater(
         LinkService linkService,
         StackOverflowClient stackOverflowClient,
-        BotClient botClient
+        UpdateSender updateSender
     ) {
         this.linkService = linkService;
         this.stackOverflowClient = stackOverflowClient;
-        this.botClient = botClient;
+        this.updateSender = updateSender;
     }
 
     @Override
@@ -59,7 +58,7 @@ public class JdbcStackOverflowLinkUpdater implements LinkUpdater {
             //база не обновлялась без включенного бота
             linkService.update(newtimeLink);
             List<TgUser> userList = linkService.listAllUsers(link.id());
-            botClient.sendUpdate(
+            updateSender.sendUpdate(
                 new LinkUpdate(
                     link.id(),
                     link.url(),
@@ -84,7 +83,7 @@ public class JdbcStackOverflowLinkUpdater implements LinkUpdater {
             linkService.update(newtimeLink);
             if (flag) {
                 List<TgUser> userList = linkService.listAllUsers(link.id());
-                botClient.sendUpdate(
+                updateSender.sendUpdate(
                     new LinkUpdate(
                         link.id(),
                         link.url(),

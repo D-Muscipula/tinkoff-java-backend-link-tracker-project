@@ -13,7 +13,10 @@ import org.springframework.validation.annotation.Validated;
 public record ApplicationConfig(
     @NotEmpty
     String telegramToken,
-    String baseScrapperClientUrl
-) {
+    String baseScrapperClientUrl,
 
+    ScrapperTopic scrapperTopic
+) {
+   public record ScrapperTopic(String name) {
+    }
 }

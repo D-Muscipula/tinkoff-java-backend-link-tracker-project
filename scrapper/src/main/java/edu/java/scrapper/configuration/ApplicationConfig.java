@@ -19,7 +19,10 @@ public record ApplicationConfig(
     String baseGitHubUrl,
     String baseStackOverflowUrl,
     String baseBotClientUrl,
-    AccessType databaseAccessType
+    AccessType databaseAccessType,
+
+    String kafkaTopicName,
+    boolean useQueue
 ) {
 
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay,
