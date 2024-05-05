@@ -19,6 +19,8 @@ import edu.java.bot.repository.UserRepositoryImpl;
 import edu.java.bot.repository.UserState;
 import edu.java.bot.service.UserService;
 import edu.java.bot.service.UserServiceImpl;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +41,10 @@ class MessageHandlerTest {
     private Message message;
     @Mock
     private Chat chat;
+    @Mock
+    MeterRegistry meterRegistry;
+    @Mock
+    Counter counter;
 
     private UserRepositoryImpl userRepository;
 
@@ -59,7 +65,8 @@ class MessageHandlerTest {
         MessageAfterTrackUntrackHandler messageAfterTrackUntrackHandler = new MessageAfterTrackUntrackHandler(
             userService);
         CommandMessageHandler commandMessageHandler = new CommandMessageHandler(userService, commandList);
-        messageHandler = new UserMessageHandler(messageAfterTrackUntrackHandler, commandMessageHandler, userService);
+        Mockito.when(meterRegistry.counter("number_of_processed_messages")).thenReturn(counter);
+        messageHandler = new UserMessageHandler(messageAfterTrackUntrackHandler, commandMessageHandler, userService, meterRegistry);
     }
 
     @Test
